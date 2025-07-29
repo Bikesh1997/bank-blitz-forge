@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -51,6 +52,25 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))'
+				},
+				banking: {
+					gold: 'hsl(var(--banking-gold))',
+					silver: 'hsl(var(--banking-silver))',
+					premium: 'hsl(var(--banking-premium))'
+				},
+				xp: {
+					bronze: 'hsl(var(--xp-bronze))',
+					silver: 'hsl(var(--xp-silver))',
+					gold: 'hsl(var(--xp-gold))',
+					platinum: 'hsl(var(--xp-platinum))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
