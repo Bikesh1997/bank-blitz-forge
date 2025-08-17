@@ -117,7 +117,7 @@ const GrowthAdvisorDetails: React.FC = () => {
                 <img
                   src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
                   alt="Muneem Ji"
-                  className={`h-32 w-32 rounded-2xl shadow-2xl transition-all duration-500 ${
+                  className={`h-32 w-24  transition-all duration-500 ${
                     isTyping ? 'scale-105 shadow-primary/20' : 'scale-100'
                   }`}
                   style={{

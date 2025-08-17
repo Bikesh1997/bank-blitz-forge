@@ -334,6 +334,8 @@ const FinancialHealthDetails: React.FC = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [showDots, setShowDots] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(true);
+    const [isTyping, setIsTyping] = useState(true);
+  
   
   const fullText = "Let me help you understand your business's financial health and a detailed report of your business.";
 
@@ -357,27 +359,25 @@ const FinancialHealthDetails: React.FC = () => {
   // Talking animation effect
   useEffect(() => {
     // Show typing dots for 2 seconds
-    const dotsTimer = setTimeout(() => {
+    setTimeout(() => {
       setShowDots(false);
+      setIsTyping(true);
       
-      // Then start typing effect
+      // Type out the text character by character
       let currentIndex = 0;
       const typingInterval = setInterval(() => {
-        if (currentIndex < fullText.length) {
-          setDisplayedText(fullText.substring(0, currentIndex + 1));
+        if (currentIndex <= fullText.length) {
+          setDisplayedText(fullText.slice(0, currentIndex));
           currentIndex++;
         } else {
+          setIsTyping(false);
           clearInterval(typingInterval);
-          setIsSpeaking(false);
         }
       }, 50);
-      
+
       return () => clearInterval(typingInterval);
     }, 2000);
-    
-    return () => clearTimeout(dotsTimer);
-  }, [fullText]);
-
+  }, []);
   // Simulate AI run during loading
   useEffect(() => {
     if (step === 3) {
@@ -447,60 +447,75 @@ const FinancialHealthDetails: React.FC = () => {
     return (
       <div className="max-w-4xl mx-auto space-y-8 p-4">
         {/* Header with Muneem Ji Talking */}
+        
         <div className="text-center space-y-6">
           {/* Muneem Ji Avatar with Talking Animation */}
-          <div className="flex flex-col items-center space-y-4">
-            <div className="relative">
-              <img
-                src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                alt="Muneem Ji"
-                className={`h-32 w-32 rounded-full shadow-2xl border-4 border-primary/30 transition-all duration-300 ${
-                  isSpeaking ? 'animate-bounce shadow-primary/40' : 'shadow-lg'
-                }`}
-              />
-              {/* Sound waves animation */}
-              {isSpeaking && (
-                <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
-                  <div className="flex space-x-1">
-                    <div className="w-1 bg-primary rounded-full animate-pulse" style={{ height: '20px', animationDelay: '0s' }}></div>
-                    <div className="w-1 bg-primary rounded-full animate-pulse" style={{ height: '30px', animationDelay: '0.1s' }}></div>
-                    <div className="w-1 bg-primary rounded-full animate-pulse" style={{ height: '25px', animationDelay: '0.2s' }}></div>
-                    <div className="w-1 bg-primary rounded-full animate-pulse" style={{ height: '35px', animationDelay: '0.3s' }}></div>
-                  </div>
-                </div>
-              )}
-              {/* Glowing ring for speaking */}
-              {isSpeaking && (
-                <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-ping"></div>
-              )}
-            </div>
-            
-            {/* Speech Text */}
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-white border-2 border-primary/20 rounded-2xl p-6 shadow-lg relative">
-                {/* Speech bubble pointer */}
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-white border-l-2 border-t-2 border-primary/20 rotate-45"></div>
-                
-                <div className="text-lg text-gray-800 min-h-[50px] flex items-center">
-                  {showDots ? (
-                    <div className="flex items-center space-x-2">
-                      <span>Analyzing your financial data</span>
-                      <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex items-center">
-                      <span className="animate-fade-in">{displayedText}</span>
-                      {isSpeaking && <span className="ml-1 animate-ping text-primary">|</span>}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+         <div className="relative">
+               <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+                 <CardContent className="p-8">
+                   <div className="flex items-center gap-8">
+                     <div className="relative flex-shrink-0">
+                       <img
+                         src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                         alt="Muneem Ji"
+                         className={`h-32 w-24  transition-all duration-500 ${
+                           isTyping ? 'scale-105 shadow-primary/20' : 'scale-100'
+                         }`}
+                         style={{
+                           animation: isTyping 
+                             ? 'bounce 0.8s infinite alternate, pulse 1.5s infinite' 
+                             : 'pulse 3s infinite'
+                         }}
+                       />
+                       <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
+                         isTyping ? 'bg-orange-500 animate-ping scale-110' : 'bg-green-500 animate-pulse'
+                       }`}></div>
+                       
+                       {/* Sound waves animation */}
+                       {isTyping && (
+                         <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
+                           <div className="flex gap-1">
+                             <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '0ms' }}></div>
+                             <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '100ms' }}></div>
+                             <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '200ms' }}></div>
+                             <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '20px', animationDelay: '300ms' }}></div>
+                             <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '400ms' }}></div>
+                           </div>
+                         </div>
+                       )}
+                     </div>
+                     
+                     <div className="flex-1 space-y-4">
+                       <div className="flex items-center gap-3">
+                         <h1 className="text-3xl font-bold text-foreground">Analyzing your financial data</h1>
+                         {isTyping && <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>}
+                       </div>
+                       
+                       {showDots && (
+                         <div className="flex items-center gap-2 py-4">
+                           <div className="flex gap-1">
+                             <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                             <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                             <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                           </div>
+                           <span className="text-lg text-muted-foreground ml-3 animate-pulse">Analyzing market data...</span>
+                         </div>
+                       )}
+                       
+                       {!showDots && (
+                         <div className="min-h-[80px]">
+                           <p className="text-lg text-foreground leading-relaxed">
+                             {displayedText}
+                             {isTyping && <span className="inline-block w-1 h-6 bg-primary ml-1 animate-ping"></span>}
+                           </p>
+                         </div>
+                       )}
+                     </div>
+                   </div>
+                 </CardContent>
+               </Card>
+             </div>
+       
           
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-bold">Financial Health Assessment</h2>
