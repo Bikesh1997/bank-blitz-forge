@@ -33,7 +33,6 @@ import {
   Star,
   TrendingDown,
   Shield,
-  MessageCircle,
 } from "lucide-react";
 import {
   LineChart,
@@ -57,9 +56,8 @@ import {
  */
 
 const docSteps = [
-  { id: "gst", icon: FileText }, // GST - already completed
-  { id: "cibil", icon: CreditCard }, // CIBIL - already completed  
-  { id: "itr", icon: FileText }, // ITR - already completed
+  { id: "cibil", icon: CreditCard },
+  { id: "itr", icon: FileText },
   { id: "bankStatement", icon: Building },
 ] as const;
 
@@ -294,13 +292,12 @@ const RiskBadge: React.FC<{ severity: "low" | "medium" | "high" }> = ({ severity
 };
 
 const FinancialHealthDetails: React.FC = () => {
-  const [step, setStep] = useState(2); // Start directly at document step
-  const [docStep, setDocStep] = useState(2); // Start at bank statement (3rd step, 0-indexed)
-  const [selectedSoftware, setSelectedSoftware] = useState<string>("tally"); // Pre-selected
+  const [step, setStep] = useState(1); // 1=software, 2=docs, 3=loading, 4=report
+  const [docStep, setDocStep] = useState(0);
+  const [selectedSoftware, setSelectedSoftware] = useState<string>("");
   const [checked, setChecked] = useState<Record<DocStepId, boolean>>({
-    gst: true,     // Already completed
-    cibil: true,   // Already completed
-    itr: false,    // Current step - ITR upload
+    cibil: false,
+    itr: false,
     bankStatement: false,
   });
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
@@ -390,48 +387,13 @@ const FinancialHealthDetails: React.FC = () => {
 
     return (
       <div className="max-w-2xl mx-auto space-y-8 p-4">
-        {/* Muneem Ji Talking Animation */}
-        <div className="relative animate-fade-in">
-          <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-            <CardContent className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="relative">
-                  <img
-                    src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                    alt="Muneem Ji"
-                    className="h-16 w-16 rounded-full border-4 border-white shadow-lg animate-pulse"
-                  />
-                  <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-green-500 rounded-full border-2 border-white animate-bounce"></div>
-                </div>
-                <div className="flex-1">
-                  <div className="bg-white rounded-2xl rounded-tl-sm p-4 shadow-md relative animate-scale-in">
-                    <div className="absolute -left-2 top-4 w-0 h-0 border-t-8 border-t-white border-r-8 border-r-transparent"></div>
-                    <div className="flex items-start gap-2 mb-2">
-                      <MessageCircle className="h-4 w-4 text-primary mt-1 animate-pulse" />
-                      <p className="font-semibold text-primary">Muneem Ji says:</p>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-foreground animate-fade-in">
-                        "Let me help you understand your business's financial health and provide a detailed report of your business."
-                      </p>
-                      <p className="text-foreground text-sm animate-fade-in" style={{animationDelay: '0.5s'}}>
-                        "Great! I can see your GST and CIBIL information is already connected. Let's proceed with the ITR upload."
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
         <Stepper current={current} />
 
         <Card className="border-2 border-dashed border-primary/20">
           <CardHeader className="text-center">
             <CardTitle className="flex items-center justify-center gap-3 text-xl">
               <currentDoc.icon className="w-6 h-6 text-primary" /> 
-              Provide {currentDoc.id === 'itr' ? 'ITR' : currentDoc.id.replace(/([A-Z])/g, " $1").toUpperCase()}
+              Provide {currentDoc.id.replace(/([A-Z])/g, " $1").toUpperCase()}
             </CardTitle>
             <CardDescription className="text-base">Tick once the document is connected or uploaded.</CardDescription>
           </CardHeader>
