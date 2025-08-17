@@ -462,10 +462,10 @@ const FinancialHealthDetails: React.FC = () => {
                            isTyping ? 'scale-105 shadow-primary/20' : 'scale-100'
                          }`}
                          style={{
-                           animation: isTyping 
-                             ? 'bounce 0.8s infinite alternate, pulse 1.5s infinite' 
-                             : 'pulse 3s infinite'
-                         }}
+                          animation: isTyping
+                            ? 'bounce 0.8s 1.5 forwards, 1.5s infinite'
+                            : ''
+                        }}
                        />
                        <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
                          isTyping ? 'bg-orange-500 animate-ping scale-110' : 'bg-green-500 animate-pulse'

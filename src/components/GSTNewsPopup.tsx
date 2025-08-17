@@ -19,7 +19,7 @@ const GSTNewsPopup: React.FC<GSTNewsPopupProps> = ({ onClose }) => {
       // Show popup after 2 seconds
       const timer = setTimeout(() => {
         setIsVisible(true);
-      }, 2000);
+      }, 10000);
       
       return () => clearTimeout(timer);
     }
@@ -27,7 +27,7 @@ const GSTNewsPopup: React.FC<GSTNewsPopupProps> = ({ onClose }) => {
 
   const handleClose = () => {
     setIsVisible(false);
-    sessionStorage.setItem('gst-news-popup-shown', 'true');
+    // sessionStorage.setItem('gst-news-popup-shown', 'true');
     onClose();
   };
 
@@ -44,7 +44,7 @@ const GSTNewsPopup: React.FC<GSTNewsPopupProps> = ({ onClose }) => {
       <DialogContent className="max-w-md mx-4 rounded-xl border-0 p-0 overflow-hidden">
         <div className="relative bg-gradient-to-br from-primary/5 to-primary/10">
           {/* Header with close button */}
-          <div className="absolute top-4 right-4 z-10">
+          {/* <div className="absolute top-4 right-4 z-10">
             <Button
               variant="ghost"
               size="sm"
@@ -53,7 +53,7 @@ const GSTNewsPopup: React.FC<GSTNewsPopupProps> = ({ onClose }) => {
             >
               <X className="h-4 w-4" />
             </Button>
-          </div>
+          </div> */}
 
           <div className="p-6 pt-12">
             {/* News Icon */}

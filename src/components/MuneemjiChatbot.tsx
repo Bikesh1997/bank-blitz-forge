@@ -55,26 +55,31 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
     const fullText = "Namaste! Main hoon Muneem Ji – aapke business ka digital saathi.";
   
     useEffect(() => {
-      // Show typing dots for 2 seconds
-      setTimeout(() => {
-        setShowDots(false);
+      if (isOpen) {
+        setDisplayedText('');
+        setShowDots(true);
         setIsTyping(true);
-        
-        // Type out the text character by character
-        let currentIndex = 0;
-        const typingInterval = setInterval(() => {
-          if (currentIndex <= fullText.length) {
-            setDisplayedText(fullText.slice(0, currentIndex));
-            currentIndex++;
-          } else {
-            setIsTyping(false);
-            clearInterval(typingInterval);
-          }
-        }, 50);
-  
-        return () => clearInterval(typingInterval);
-      }, 2000);
-    }, []);
+    
+        const dotsTimeout = setTimeout(() => {
+          setShowDots(false);
+          let currentIndex = 0;
+          const typingInterval = setInterval(() => {
+            if (currentIndex <= fullText.length) {
+              setDisplayedText(fullText.slice(0, currentIndex));
+              currentIndex++;
+            } else {
+              setIsTyping(false);
+              clearInterval(typingInterval);
+            }
+          }, 50);
+    
+          return () => clearInterval(typingInterval);
+        }, 100);
+    
+        return () => clearTimeout(dotsTimeout);
+      }
+    }, [isOpen]);
+    
 
   useEffect(() => {
     scrollToBottom();
@@ -226,12 +231,12 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
                 <Button variant="ghost" size="sm" onClick={() => {
                   setIsOpen(false);
                   // Reset chat when closed
-                  setTimeout(() => {
-                    setMessages([]);
-                    setShowOptions(true);
-                    setIsTyping(false);
-                    setSelectedOption(null);
-                  }, 300);
+                  // setTimeout(() => {
+                  //   setMessages([]);
+                  //   setShowOptions(true);
+                  //   setIsTyping(true);
+                  //   setSelectedOption(null);
+                  // }, 300);
                 }} className="text-white hover:bg-white/20 h-8 w-8 p-0">
                   <X className="h-4 w-4" />
                 </Button>
@@ -251,9 +256,9 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
                     isTyping ? 'scale-105 shadow-primary/20' : 'scale-100'
                   }`}
                   style={{
-                    animation: isTyping 
-                      ? 'bounce 0.8s infinite alternate, pulse 1.5s infinite' 
-                      : 'pulse 3s infinite'
+                    animation: isTyping
+                      ? 'bounce 0.8s 1.5 forwards, 1.5s infinite'
+                      : ''
                   }}
                 />
                 <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
