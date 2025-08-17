@@ -108,55 +108,67 @@ const GrowthAdvisorDetails: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Muneemji Speech Bubble */}
+      {/* Muneem Ji Speaking Header */}
       <div className="relative">
-        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-          <CardContent className="p-6">
-            <div className="flex items-start gap-4">
-              <div className="relative">
+        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+          <CardContent className="p-8">
+            <div className="flex items-center gap-8">
+              <div className="relative flex-shrink-0">
                 <img
                   src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
                   alt="Muneem Ji"
-                  className={`h-16 w-16 rounded-full border-4 border-white shadow-lg transition-all duration-300 ${
-                    isTyping ? 'animate-bounce' : 'animate-pulse'
-                  } ${isTyping ? 'scale-105' : 'scale-100'}`}
+                  className={`h-32 w-32 rounded-2xl shadow-2xl transition-all duration-500 ${
+                    isTyping ? 'scale-105 shadow-primary/20' : 'scale-100'
+                  }`}
                   style={{
                     animation: isTyping 
-                      ? 'bounce 0.6s infinite alternate, pulse 1s infinite' 
-                      : 'pulse 2s infinite'
+                      ? 'bounce 0.8s infinite alternate, pulse 1.5s infinite' 
+                      : 'pulse 3s infinite'
                   }}
                 />
-                <div className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-white transition-colors duration-300 ${
-                  isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500'
+                <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
+                  isTyping ? 'bg-orange-500 animate-ping scale-110' : 'bg-green-500 animate-pulse'
                 }`}></div>
+                
+                {/* Sound waves animation */}
+                {isTyping && (
+                  <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
+                    <div className="flex gap-1">
+                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '0ms' }}></div>
+                      <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '100ms' }}></div>
+                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '200ms' }}></div>
+                      <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '20px', animationDelay: '300ms' }}></div>
+                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '400ms' }}></div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="flex-1">
-                <div className="bg-white rounded-2xl rounded-tl-sm p-4 shadow-md relative animate-scale-in">
-                  <div className="absolute -left-2 top-4 w-0 h-0 border-t-8 border-t-white border-r-8 border-r-transparent"></div>
-                  
-                  {showDots && (
-                    <div className="flex items-center gap-1 py-2">
-                      <div className="flex gap-1">
-                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                      </div>
-                      <span className="text-xs text-muted-foreground ml-2">Muneem Ji is typing...</span>
-                    </div>
-                  )}
-                  
-                  {!showDots && (
-                    <div className="min-h-[60px]">
-                      <div className="flex items-start gap-2 mb-2">
-                        <MessageCircle className={`h-4 w-4 text-primary mt-1 ${isTyping ? 'animate-pulse' : ''}`} />
-                      </div>
-                      <p className="text-foreground leading-relaxed">
-                        "{displayedText}"
-                        {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
-                      </p>
-                    </div>
-                  )}
+              
+              <div className="flex-1 space-y-4">
+                <div className="flex items-center gap-3">
+                  <h1 className="text-3xl font-bold text-foreground">Growth Advisor Analysis</h1>
+                  {isTyping && <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>}
                 </div>
+                
+                {showDots && (
+                  <div className="flex items-center gap-2 py-4">
+                    <div className="flex gap-1">
+                      <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
+                    <span className="text-lg text-muted-foreground ml-3 animate-pulse">Analyzing market data...</span>
+                  </div>
+                )}
+                
+                {!showDots && (
+                  <div className="min-h-[80px]">
+                    <p className="text-lg text-foreground leading-relaxed">
+                      {displayedText}
+                      {isTyping && <span className="inline-block w-1 h-6 bg-primary ml-1 animate-ping"></span>}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </CardContent>

@@ -173,23 +173,50 @@ const mockRunAI = (seed = 1): Analysis => {
   return analysis;
 };
 
-const Stepper: React.FC<{ current: number }> = ({ current }) => {
+const Stepper: React.FC<{ current: number; gstComplete: boolean }> = ({ current, gstComplete }) => {
+  const steps = [
+    { id: "gst", label: "GST Details", icon: FileText, status: gstComplete ? "completed" : "current" },
+    ...docSteps.map((step, index) => ({
+      ...step,
+      label: step.id.replace(/([A-Z])/g, " $1").toUpperCase(),
+      status: index < current ? "completed" : index === current ? "current" : "pending"
+    }))
+  ];
+
   return (
-    <div className="flex justify-center items-center gap-4">
-      {docSteps.map((s, i) => (
+    <div className="flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
+      {steps.map((s, i) => (
         <React.Fragment key={s.id}>
-          <div
-            className={`flex items-center justify-center rounded-full w-12 h-12 text-white text-lg font-bold transition-all duration-300 shadow ${
-              i < current ? "bg-green-500" : i === current ? "bg-primary" : "bg-gray-300"
-            }`}
-            aria-label={`Step ${i + 1}`}
-          >
-            {i < current ? <Check className="w-6 h-6" /> : i + 1}
-          </div>
-          {i < docSteps.length - 1 && (
+          <div className="flex flex-col items-center gap-2">
             <div
-              className={`w-16 sm:w-20 h-1 rounded-full transition-colors duration-300 ${
-                i < current ? "bg-green-500" : "bg-gray-300"
+              className={`flex items-center justify-center rounded-full w-14 h-14 text-white text-lg font-bold transition-all duration-500 shadow-lg relative ${
+                s.status === "completed" 
+                  ? "bg-green-500 scale-105 shadow-green-500/30" 
+                  : s.status === "current" 
+                  ? "bg-primary animate-pulse shadow-primary/30" 
+                  : "bg-gray-300"
+              }`}
+              aria-label={`Step ${i + 1}: ${s.label}`}
+            >
+              {s.status === "completed" ? (
+                <Check className="w-6 h-6 animate-bounce" />
+              ) : (
+                <s.icon className="w-6 h-6" />
+              )}
+              {s.status === "current" && (
+                <div className="absolute inset-0 rounded-full border-4 border-primary/30 animate-ping"></div>
+              )}
+            </div>
+            <div className={`text-xs sm:text-sm font-medium transition-colors duration-300 text-center ${
+              s.status === "completed" ? "text-green-600" : s.status === "current" ? "text-primary" : "text-muted-foreground"
+            }`}>
+              {s.label}
+            </div>
+          </div>
+          {i < steps.length - 1 && (
+            <div
+              className={`w-8 sm:w-12 h-1 rounded-full transition-all duration-500 ${
+                s.status === "completed" ? "bg-green-500 shadow-lg shadow-green-500/30" : "bg-gray-300"
               }`}
             />
           )}
@@ -292,15 +319,16 @@ const RiskBadge: React.FC<{ severity: "low" | "medium" | "high" }> = ({ severity
 };
 
 const FinancialHealthDetails: React.FC = () => {
-  const [step, setStep] = useState(1); // 1=software, 2=docs, 3=loading, 4=report
+  const [step, setStep] = useState(2); // Start directly at stepper
   const [docStep, setDocStep] = useState(0);
-  const [selectedSoftware, setSelectedSoftware] = useState<string>("");
+  const [selectedSoftware, setSelectedSoftware] = useState<string>("gst-auto");
   const [checked, setChecked] = useState<Record<DocStepId, boolean>>({
     cibil: false,
     itr: false,
     bankStatement: false,
   });
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
+  const [gstAutoSelected, setGstAutoSelected] = useState(true);
 
   const handleSoftwareConnect = (software: string) => {
     setSelectedSoftware(software);
@@ -380,50 +408,96 @@ const FinancialHealthDetails: React.FC = () => {
     );
   }
 
-  // ---- STEP 2: Document Stepper ----
+  // ---- STEP 2: Document Stepper (Now the main view) ----
   if (step === 2) {
     const current = docStep;
     const currentDoc = docSteps[docStep];
 
     return (
-      <div className="max-w-2xl mx-auto space-y-8 p-4">
-        <Stepper current={current} />
-
-        <Card className="border-2 border-dashed border-primary/20">
-          <CardHeader className="text-center">
-            <CardTitle className="flex items-center justify-center gap-3 text-xl">
-              <currentDoc.icon className="w-6 h-6 text-primary" /> 
-              Provide {currentDoc.id.replace(/([A-Z])/g, " $1").toUpperCase()}
-            </CardTitle>
-            <CardDescription className="text-base">Tick once the document is connected or uploaded.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center space-y-6">
-            <div className="flex items-center justify-center gap-3 p-4 rounded-lg bg-muted/50 min-w-48">
-              <Checkbox
-                id={currentDoc.id}
-                checked={checked[currentDoc.id]}
-                onCheckedChange={(v) => handleCheckboxChange(currentDoc.id, Boolean(v))}
-                className="w-5 h-5"
-              />
-              <Label htmlFor={currentDoc.id} className="flex items-center gap-2 cursor-pointer text-base font-medium">
-                <ShieldCheck className="w-5 h-5 text-primary" /> Confirmed
-              </Label>
+      <div className="max-w-4xl mx-auto space-y-8 p-4">
+        {/* Header with Muneem Ji */}
+        <div className="text-center space-y-4">
+          <div className="flex items-center justify-center gap-4">
+            <img
+              src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+              alt="Muneem Ji"
+              className="h-16 w-16 rounded-full shadow-lg border-2 border-primary/20"
+            />
+            <div className="text-left">
+              <h2 className="text-2xl sm:text-3xl font-bold">Financial Health Assessment</h2>
+              <p className="text-muted-foreground text-sm sm:text-base">Complete the steps below for AI-powered insights</p>
             </div>
+          </div>
+        </div>
+
+        {/* Interactive Stepper */}
+        <Card className="border-2 border-primary/10 shadow-xl">
+          <CardHeader className="pb-6">
+            <Stepper current={current} gstComplete={gstAutoSelected} />
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* GST Auto-Selected Message */}
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <div className="flex items-center gap-3">
+                <Check className="w-5 h-5 text-green-600" />
+                <div>
+                  <p className="font-semibold text-green-800">GST Details Available</p>
+                  <p className="text-sm text-green-600">Your GST information has been automatically detected and verified.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Current Step */}
+            <Card className="border-2 border-dashed border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+              <CardHeader className="text-center pb-4">
+                <CardTitle className="flex items-center justify-center gap-3 text-xl">
+                  <currentDoc.icon className="w-6 h-6 text-primary animate-bounce" /> 
+                  Provide {currentDoc.id.replace(/([A-Z])/g, " $1").toUpperCase()}
+                </CardTitle>
+                <CardDescription className="text-base">
+                  {currentDoc.id === 'cibil' && 'Upload your CIBIL report or connect your credit bureau account'}
+                  {currentDoc.id === 'itr' && 'Share your Income Tax Returns for the last 2 years'}
+                  {currentDoc.id === 'bankStatement' && 'Connect your bank account or upload statements'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col items-center space-y-6">
+                <div className="flex items-center justify-center gap-3 p-6 rounded-lg bg-white border-2 border-dashed border-primary/30 hover:border-primary/50 transition-colors min-w-64 cursor-pointer hover:bg-primary/5">
+                  <Checkbox
+                    id={currentDoc.id}
+                    checked={checked[currentDoc.id]}
+                    onCheckedChange={(v) => handleCheckboxChange(currentDoc.id, Boolean(v))}
+                    className="w-6 h-6 border-2"
+                  />
+                  <Label htmlFor={currentDoc.id} className="flex items-center gap-3 cursor-pointer text-lg font-medium">
+                    <ShieldCheck className="w-6 h-6 text-primary" /> 
+                    Document Confirmed
+                  </Label>
+                </div>
+
+                <div className="text-center space-y-2">
+                  <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                    <Shield className="w-4 h-4" />
+                    <span>All data is encrypted and secure</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
 
+        {/* Action Button */}
         <Button
-          className="w-full h-12 text-base font-semibold"
+          className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
           disabled={!checked[currentDoc.id]}
           onClick={handleNextDocStep}
         >
           {docStep < docSteps.length - 1 ? (
-            <span className="flex items-center gap-2">
-              Next <ArrowRight className="w-5 h-5" />
+            <span className="flex items-center gap-3">
+              Continue to Next Step <ArrowRight className="w-5 h-5" />
             </span>
           ) : (
-            <span className="flex items-center gap-2">
-              Run AI Assessment <Activity className="w-5 h-5" />
+            <span className="flex items-center gap-3">
+              Generate AI Assessment <Activity className="w-6 h-6 animate-pulse" />
             </span>
           )}
         </Button>
