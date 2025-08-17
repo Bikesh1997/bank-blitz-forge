@@ -56,7 +56,7 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
       setTimeout(() => {
         setMessages([{
           id: '1',
-          text: "Namaste! Main hoon Muneem Ji – aapke business ka digital saathi. Bataiye, aaj main aapki kaise madad kar sakta hoon?",
+          text: "Namaste! Main hoon Muneem Ji – aapke business ka digital saathi.",
           isBot: true,
           timestamp: new Date()
         }]);
@@ -65,7 +65,7 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
   }, [isOpen]);
 
   const getMuneemjiImage = () => {
-    return '/lovable-uploads/c7ef736c-7271-43d1-9fdf-7106dc697ab2.png';
+    return 'generated-image.png';
   };
 
   const handleOptionClick = (option: typeof chatOptions[0]) => {
@@ -247,7 +247,7 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
 
               {showOptions && !isTyping && (
                 <div className="space-y-2">
-                  <p className="text-sm text-muted-foreground text-center">Namaste! Choose an option:</p>
+                  <p className="text-sm text-muted-foreground text-center">Let’s Understand This Business</p>
                   <div className="grid grid-cols-2 gap-3">
   {chatOptions.map((option, index) => (
     <Button

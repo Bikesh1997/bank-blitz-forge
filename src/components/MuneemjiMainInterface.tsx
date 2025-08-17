@@ -69,7 +69,7 @@ const MuneemjiMainInterface: React.FC<MuneemjiMainInterfaceProps> = ({ onNavigat
           className="h-20 w-20 rounded-full bg-white shadow-xl border-4 border-white hover:shadow-2xl transition-all duration-300 hover:scale-105"
         >
           <img
-             src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}lovable-uploads/c7ef736c-7271-43d1-9fdf-7106dc697ab2.png`}
+             src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
             alt="Muneem Ji"
             className="h-full w-full object-contain rounded-full"
           />
@@ -88,7 +88,7 @@ const MuneemjiMainInterface: React.FC<MuneemjiMainInterfaceProps> = ({ onNavigat
                 </Button>
               )}
               <img 
-            src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}lovable-uploads/c7ef736c-7271-43d1-9fdf-7106dc697ab2.png`}
+            src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
             alt="Muneem Ji"
                 className="h-10 w-10 object-contain bg-muted/20 rounded-full p-1"
               />
@@ -107,8 +107,8 @@ const MuneemjiMainInterface: React.FC<MuneemjiMainInterfaceProps> = ({ onNavigat
               <div className="space-y-4">
                 <div className="text-center">
                   <h3 className="text-lg font-semibold text-foreground mb-2">
-                    Namaste! Choose an option:
-                  </h3>
+                  Let’s Understand This Business
+                                    </h3>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
