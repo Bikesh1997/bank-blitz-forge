@@ -442,152 +442,136 @@ const FinancialHealthDetails: React.FC = () => {
     const currentDoc = docSteps[docStep];
 
     return (
-      <div className="max-w-4xl mx-auto space-y-8 p-4">
-        {/* Header with Muneem Ji Talking */}
-        
-        <div className="text-center space-y-6">
-          {/* Muneem Ji Avatar with Talking Animation */}
-         <div className="relative">
-               <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
-                 <CardContent className="p-8">
-                   <div className="flex items-center gap-8">
-                     <div className="relative flex-shrink-0">
-                       <img
-                         src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                         alt="Muneem Ji"
-                         className={`h-32 w-24  transition-all duration-500 ${
-                           isTyping ? 'scale-105 shadow-primary/20' : 'scale-100'
-                         }`}
-                         style={{
-                          animation: isTyping
-                            ? 'bounce 0.8s 1.5 forwards, 1.5s infinite'
-                            : ''
-                        }}
-                       />
-                       <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
-                         isTyping ? 'bg-orange-500 animate-ping scale-110' : 'bg-green-500 animate-pulse'
-                       }`}></div>
-                       
-                       {/* Sound waves animation */}
-                       {isTyping && (
-                         <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
-                           <div className="flex gap-1">
-                             <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '0ms' }}></div>
-                             <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '100ms' }}></div>
-                             <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '200ms' }}></div>
-                             <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '20px', animationDelay: '300ms' }}></div>
-                             <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '400ms' }}></div>
-                           </div>
-                         </div>
-                       )}
-                     </div>
-                     
-                     <div className="flex-1 space-y-4">
-                       <div className="flex items-center gap-3">
-                         <h1 className="text-3xl font-bold text-foreground">Analyzing your financial data</h1>
-                         {isTyping && <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>}
-                       </div>
-                       
-                       {showDots && (
-                         <div className="flex items-center gap-2 py-4">
-                           <div className="flex gap-1">
-                             <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                             <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                             <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                           </div>
-                           <span className="text-lg text-muted-foreground ml-3 animate-pulse">Analyzing market data...</span>
-                         </div>
-                       )}
-                       
-                       {!showDots && (
-                         <div className="min-h-[80px]">
-                           <p className="text-lg text-foreground leading-relaxed">
-                             {displayedText}
-                             {isTyping && <span className="inline-block w-1 h-6 bg-primary ml-1 animate-ping"></span>}
-                           </p>
-                         </div>
-                       )}
-                     </div>
-                   </div>
-                 </CardContent>
-               </Card>
-             </div>
-       
-          
-          <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold">Financial Health Assessment</h2>
-            <p className="text-muted-foreground text-sm sm:text-base">Complete the steps below for AI-powered insights</p>
-          </div>
-        </div>
+      <div className="max-w-5xl mx-auto space-y-4 p-2">
+        {/* Compact Header with Muneem Ji */}
+        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="relative flex-shrink-0">
+                <img
+                  src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                  alt="Muneem Ji"
+                  className={`h-16 w-12 transition-all duration-500 ${
+                    isTyping ? 'scale-105' : 'scale-100'
+                  }`}
+                />
+                <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
+                  isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
+                }`}></div>
+                
+                {isTyping && (
+                  <div className="absolute -right-2 top-1/2 transform -translate-y-1/2">
+                    <div className="flex gap-0.5">
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '6px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '10px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '200ms' }}></div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <h1 className="text-xl font-bold">Financial Health Assessment</h1>
+                  {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
+                </div>
+                
+                {showDots && (
+                  <div className="flex items-center gap-2">
+                    <div className="flex gap-1">
+                      <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
+                    <span className="text-sm text-muted-foreground animate-pulse">Preparing assessment...</span>
+                  </div>
+                )}
+                
+                {!showDots && (
+                  <p className="text-sm text-foreground">
+                    {displayedText}
+                    {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                  </p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-        {/* Interactive Stepper */}
-        <Card className="border-2 border-primary/10 shadow-xl">
-          <CardHeader className="pb-6">
-            <Stepper current={current} gstComplete={gstAutoSelected} />
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* GST Auto-Selected Message */}
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-              <div className="flex items-center gap-3">
-                <Check className="w-5 h-5 text-green-600" />
+        {/* Compact Stepper */}
+        <div className="grid grid-cols-12 gap-4">
+          {/* Stepper Progress */}
+          <div className="col-span-12">
+            <Card className="border border-primary/10">
+              <CardHeader className="pb-3">
+                <Stepper current={current} gstComplete={gstAutoSelected} />
+              </CardHeader>
+            </Card>
+          </div>
+
+          {/* GST Status */}
+          <div className="col-span-12 lg:col-span-4">
+            <div className="bg-green-50 border border-green-200 p-3 rounded-lg h-full">
+              <div className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-green-600 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-green-800">GST Details Available</p>
-                  <p className="text-sm text-green-600">Your GST information has been automatically detected and verified.</p>
+                  <p className="font-semibold text-green-800 text-sm">GST Verified</p>
+                  <p className="text-xs text-green-600">Auto-detected and ready</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Current Step */}
-            <Card className="border-2 border-dashed border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="flex items-center justify-center gap-3 text-xl">
-                  <currentDoc.icon className="w-6 h-6 text-primary animate-bounce" /> 
-                  Provide {currentDoc.id.replace(/([A-Z])/g, " $1").toUpperCase()}
-                </CardTitle>
-                <CardDescription className="text-base">
-                  {currentDoc.id === 'cibil' && 'Upload your CIBIL report or connect your credit bureau account'}
-                  {currentDoc.id === 'itr' && 'Share your Income Tax Returns for the last 2 years'}
-                  {currentDoc.id === 'bankStatement' && 'Connect your bank account or upload statements'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col items-center space-y-6">
-                <div className="flex items-center justify-center gap-3 p-6 rounded-lg bg-white border-2 border-dashed border-primary/30 hover:border-primary/50 transition-colors min-w-64 cursor-pointer hover:bg-primary/5">
+          {/* Current Step */}
+          <div className="col-span-12 lg:col-span-8">
+            <Card className="border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 h-full">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <currentDoc.icon className="w-5 h-5 text-primary animate-bounce" /> 
+                    <h3 className="font-bold text-lg">
+                      {currentDoc.id.replace(/([A-Z])/g, " $1").toUpperCase()}
+                    </h3>
+                  </div>
+                  <Badge variant="outline" className="text-xs">Required</Badge>
+                </div>
+                
+                <p className="text-sm text-muted-foreground mb-4">
+                  {currentDoc.id === 'cibil' && 'Upload CIBIL report or connect credit bureau'}
+                  {currentDoc.id === 'itr' && 'Share ITR for last 2 years'}
+                  {currentDoc.id === 'bankStatement' && 'Connect bank or upload statements'}
+                </p>
+
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-white border border-primary/30 hover:border-primary/50 transition-colors cursor-pointer hover:bg-primary/5">
                   <Checkbox
                     id={currentDoc.id}
                     checked={checked[currentDoc.id]}
                     onCheckedChange={(v) => handleCheckboxChange(currentDoc.id, Boolean(v))}
-                    className="w-6 h-6 border-2"
+                    className="w-5 h-5"
                   />
-                  <Label htmlFor={currentDoc.id} className="flex items-center gap-3 cursor-pointer text-lg font-medium">
-                    <ShieldCheck className="w-6 h-6 text-primary" /> 
+                  <Label htmlFor={currentDoc.id} className="flex items-center gap-2 cursor-pointer font-medium text-sm">
+                    <ShieldCheck className="w-4 h-4 text-primary" /> 
                     Document Confirmed
                   </Label>
                 </div>
-
-                <div className="text-center space-y-2">
-                  <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                    <Shield className="w-4 h-4" />
-                    <span>All data is encrypted and secure</span>
-                  </div>
-                </div>
               </CardContent>
             </Card>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Action Button */}
         <Button
-          className="w-full h-14 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
+          className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
           disabled={!checked[currentDoc.id]}
           onClick={handleNextDocStep}
         >
           {docStep < docSteps.length - 1 ? (
-            <span className="flex items-center gap-3">
-              Continue to Next Step <ArrowRight className="w-5 h-5" />
+            <span className="flex items-center gap-2">
+              Continue <ArrowRight className="w-4 h-4" />
             </span>
           ) : (
-            <span className="flex items-center gap-3">
-              Generate AI Assessment <Activity className="w-6 h-6 animate-pulse" />
+            <span className="flex items-center gap-2">
+              Generate AI Assessment <Activity className="w-5 h-5 animate-pulse" />
             </span>
           )}
         </Button>
