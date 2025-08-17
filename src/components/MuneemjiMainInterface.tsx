@@ -87,11 +87,11 @@ const MuneemjiMainInterface: React.FC<MuneemjiMainInterfaceProps> = ({ onNavigat
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
               )}
-              {/* <img 
+              <img 
             src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
             alt="Muneem Ji"
                 className="h-10 w-10 object-contain bg-muted/20 rounded-full p-1"
-              /> */}
+              />
               <div>
                 <DialogTitle className="text-xl font-bold text-foreground">
                   {selectedOption ? menuOptions.find(opt => opt.id === selectedOption)?.label : 'Muneem Ji'}
@@ -107,7 +107,7 @@ const MuneemjiMainInterface: React.FC<MuneemjiMainInterfaceProps> = ({ onNavigat
               <div className="space-y-4">
                 <div className="text-center">
                   <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Let’s Understand This Business
+                    Namaste! Choose an option:
                   </h3>
                 </div>
                 
