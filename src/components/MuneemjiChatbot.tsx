@@ -65,7 +65,7 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
   }, [isOpen]);
 
   const getMuneemjiImage = () => {
-    return 'generated-image.png';
+    return '/lovable-uploads/c7ef736c-7271-43d1-9fdf-7106dc697ab2.png';
   };
 
   const handleOptionClick = (option: typeof chatOptions[0]) => {
