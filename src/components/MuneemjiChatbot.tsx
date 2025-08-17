@@ -85,6 +85,7 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
       setTimeout(() => {
         setMessages([{
           id: '1',
+          text: fullText,
           isBot: true,
           timestamp: new Date()
         }]);
