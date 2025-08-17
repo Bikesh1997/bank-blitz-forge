@@ -8,6 +8,7 @@ import RegulatoryUpdatesDetails from '@/components/muneem-details/RegulatoryUpda
 import GrowthAdvisorDetails from '@/components/muneem-details/GrowthAdvisorDetails';
 import MSMEUpdatesDetails from '@/components/muneem-details/MSMEUpdatesDetails';
 import FinancialTipsDetails from '@/components/muneem-details/FinancialTipsDetails';
+import InteractiveMuneemGrowthAdvisor from '@/components/InteractiveMuneemGrowthAdvisor';
 
 interface MuneemjiMainInterfaceProps {
   onNavigate?: (section: string) => void;
@@ -49,7 +50,7 @@ const MuneemjiMainInterface: React.FC<MuneemjiMainInterfaceProps> = ({ onNavigat
       case 'regulatory':
         return <RegulatoryUpdatesDetails />;
       case 'growth':
-        return <GrowthAdvisorDetails />;
+        return <InteractiveMuneemGrowthAdvisor onClose={() => setSelectedOption(null)} />;
       case 'msme':
         return <MSMEUpdatesDetails />;
       case 'financial':
@@ -79,7 +80,7 @@ const MuneemjiMainInterface: React.FC<MuneemjiMainInterfaceProps> = ({ onNavigat
 
       {/* Main Interface Dialog */}
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
           <DialogHeader className="flex flex-row items-center justify-between pb-4">
             <div className="flex items-center gap-3">
               {selectedOption && (
