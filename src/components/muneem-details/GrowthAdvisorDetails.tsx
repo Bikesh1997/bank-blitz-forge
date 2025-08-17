@@ -42,7 +42,7 @@ const GrowthAdvisorDetails: React.FC = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [showDots, setShowDots] = useState(true);
   
-  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets. This will help you understand your position and find new growth opportunities! 📈";
+  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets.";
 
   useEffect(() => {
     // Show typing dots for 2 seconds
