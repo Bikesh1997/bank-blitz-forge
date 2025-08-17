@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -38,6 +38,33 @@ import {
 
 const GrowthAdvisorDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState('global');
+  const [isTyping, setIsTyping] = useState(true);
+  const [displayedText, setDisplayedText] = useState('');
+  const [showDots, setShowDots] = useState(true);
+  
+  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets. This will help you understand your position and find new growth opportunities! 📈";
+
+  useEffect(() => {
+    // Show typing dots for 2 seconds
+    setTimeout(() => {
+      setShowDots(false);
+      setIsTyping(true);
+      
+      // Type out the text character by character
+      let currentIndex = 0;
+      const typingInterval = setInterval(() => {
+        if (currentIndex <= fullText.length) {
+          setDisplayedText(fullText.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          setIsTyping(false);
+          clearInterval(typingInterval);
+        }
+      }, 50);
+
+      return () => clearInterval(typingInterval);
+    }, 2000);
+  }, []);
 
   // Chart data
   const globalMarketData = [
@@ -90,20 +117,45 @@ const GrowthAdvisorDetails: React.FC = () => {
                 <img
                   src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
                   alt="Muneem Ji"
-                  className="h-16 w-16 rounded-full border-4 border-white shadow-lg animate-pulse hover:animate-bounce transition-all duration-300"
+                  className={`h-16 w-16 rounded-full border-4 border-white shadow-lg transition-all duration-300 ${
+                    isTyping ? 'animate-bounce' : 'animate-pulse'
+                  } ${isTyping ? 'scale-105' : 'scale-100'}`}
+                  style={{
+                    animation: isTyping 
+                      ? 'bounce 0.6s infinite alternate, pulse 1s infinite' 
+                      : 'pulse 2s infinite'
+                  }}
                 />
-                <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-green-500 rounded-full border-2 border-white animate-ping"></div>
+                <div className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-white transition-colors duration-300 ${
+                  isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500'
+                }`}></div>
               </div>
               <div className="flex-1">
-                <div className="bg-white rounded-2xl rounded-tl-sm p-4 shadow-md relative animate-fade-in">
+                <div className="bg-white rounded-2xl rounded-tl-sm p-4 shadow-md relative animate-scale-in">
                   <div className="absolute -left-2 top-4 w-0 h-0 border-t-8 border-t-white border-r-8 border-r-transparent"></div>
-                  <div className="flex items-start gap-2 mb-2">
-                    <MessageCircle className="h-4 w-4 text-primary mt-1 animate-pulse" />
-                  </div>
-                  <p className="text-foreground animate-scale-in">
-                    "Let me help you with some competition analysis of the garment business in global and domestic markets. 
-                    This will help you understand your position and find new growth opportunities! 📈"
-                  </p>
+                  
+                  {showDots && (
+                    <div className="flex items-center gap-1 py-2">
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                      </div>
+                      <span className="text-xs text-muted-foreground ml-2">Muneem Ji is typing...</span>
+                    </div>
+                  )}
+                  
+                  {!showDots && (
+                    <div className="min-h-[60px]">
+                      <div className="flex items-start gap-2 mb-2">
+                        <MessageCircle className={`h-4 w-4 text-primary mt-1 ${isTyping ? 'animate-pulse' : ''}`} />
+                      </div>
+                      <p className="text-foreground leading-relaxed">
+                        "{displayedText}"
+                        {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
