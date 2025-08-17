@@ -90,18 +90,17 @@ const GrowthAdvisorDetails: React.FC = () => {
                 <img
                   src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
                   alt="Muneem Ji"
-                  className="h-16 w-16 rounded-full border-4 border-white shadow-lg"
+                  className="h-16 w-16 rounded-full border-4 border-white shadow-lg animate-pulse hover:animate-bounce transition-all duration-300"
                 />
-                <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-green-500 rounded-full border-2 border-white"></div>
+                <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-green-500 rounded-full border-2 border-white animate-ping"></div>
               </div>
               <div className="flex-1">
-                <div className="bg-white rounded-2xl rounded-tl-sm p-4 shadow-md relative">
+                <div className="bg-white rounded-2xl rounded-tl-sm p-4 shadow-md relative animate-fade-in">
                   <div className="absolute -left-2 top-4 w-0 h-0 border-t-8 border-t-white border-r-8 border-r-transparent"></div>
                   <div className="flex items-start gap-2 mb-2">
-                    <MessageCircle className="h-4 w-4 text-primary mt-1" />
-                    <p className="font-semibold text-primary">Muneem Ji says:</p>
+                    <MessageCircle className="h-4 w-4 text-primary mt-1 animate-pulse" />
                   </div>
-                  <p className="text-foreground">
+                  <p className="text-foreground animate-scale-in">
                     "Let me help you with some competition analysis of the garment business in global and domestic markets. 
                     This will help you understand your position and find new growth opportunities! 📈"
                   </p>
