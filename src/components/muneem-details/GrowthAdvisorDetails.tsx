@@ -141,9 +141,18 @@ const GrowthAdvisorDetails: React.FC = () => {
                   alt="Muneem Ji"
                   className={`transition-all duration-1000 ${
                     muneemSize === 'large' 
-                      ? 'h-32 w-24 md:h-40 md:w-30 scale-105' 
-                      : 'h-16 w-12 scale-100'
+                      ? 'h-32 w-24 md:h-40 md:w-30' 
+                      : 'h-16 w-12'
+                  } ${
+                    !showContent 
+                      ? 'animate-pulse scale-105 hover:scale-110' 
+                      : 'scale-100'
                   }`}
+                  style={{
+                    filter: !showContent ? 'drop-shadow(0 0 10px rgba(var(--primary-rgb), 0.3))' : 'none',
+                    transform: !showContent ? 'translateY(-2px)' : 'translateY(0)',
+                    animation: !showContent ? 'bounce 2s infinite' : 'none'
+                  }}
                 />
                 
                 {/* Status Indicator */}
