@@ -38,32 +38,53 @@ import {
 
 const GrowthAdvisorDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState('local');
-  const [isTyping, setIsTyping] = useState(true);
+  const [analysisPhase, setAnalysisPhase] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
-  const [showDots, setShowDots] = useState(true);
+  const [showContent, setShowContent] = useState(false);
+  const [muneemSize, setMuneemSize] = useState('large');
   
-  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets.";
+  const conversationPhases = [
+    {
+      text: "नमस्ते! आज मैं आपको Growth Advisory में help करूंगा। Let me analyze your business growth opportunities...",
+      duration: 3000
+    },
+    {
+      text: "First, मैं आपके local competition को देख रहा हूं Ludhiana में। Your competitors ka analysis कर रहा हूं...",
+      duration: 3500
+    },
+    {
+      text: "अब global market trends भी check कर रहा हूं। Export opportunities और international competition देखते हैं...",
+      duration: 4000
+    },
+    {
+      text: "Perfect! आपका complete growth analysis तैयार है। अब मैं आपको detailed insights show करूंगा।",
+      duration: 3000
+    }
+  ];
 
   useEffect(() => {
-    // Show typing dots for 2 seconds
-    setTimeout(() => {
-      setShowDots(false);
-      setIsTyping(true);
-      
-      // Type out the text character by character
-      let currentIndex = 0;
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= fullText.length) {
-          setDisplayedText(fullText.slice(0, currentIndex));
-          currentIndex++;
-        } else {
-          setIsTyping(false);
-          clearInterval(typingInterval);
+    const runConversation = async () => {
+      for (let i = 0; i < conversationPhases.length; i++) {
+        setAnalysisPhase(i);
+        setDisplayedText('');
+        
+        // Type out current phase text
+        const currentText = conversationPhases[i].text;
+        for (let j = 0; j <= currentText.length; j++) {
+          setDisplayedText(currentText.slice(0, j));
+          await new Promise(resolve => setTimeout(resolve, 50));
         }
-      }, 50);
-
-      return () => clearInterval(typingInterval);
-    }, 2000);
+        
+        // Wait for phase duration
+        await new Promise(resolve => setTimeout(resolve, conversationPhases[i].duration));
+      }
+      
+      // Analysis complete - show content and shrink Muneem Ji
+      setShowContent(true);
+      setMuneemSize('small');
+    };
+    
+    runConversation();
   }, []);
 
   // Chart data
@@ -108,70 +129,99 @@ const GrowthAdvisorDetails: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Muneem Ji Speaking Header */}
+      {/* Conversational Muneem Ji Header */}
       <div className="relative">
-       <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
-               <CardContent className="p-4">
-                 <div className="flex items-center gap-8">
-                   <div className="relative flex-shrink-0">
-                     <img
-                       src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                       alt="Muneem Ji"
-                       className={`h-20 w-15 transition-all duration-500 ${
-                         isTyping ? 'scale-105' : 'scale-100'
-                       }`}
-                     />
-                     <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
-                       isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
-                     }`}></div>
-                     
+        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+          <CardContent className={`transition-all duration-700 ${muneemSize === 'large' ? 'p-8' : 'p-4'}`}>
+            <div className="flex items-center gap-6">
+              {/* Muneem Ji Character - starts large, then shrinks */}
+              <div className="relative flex-shrink-0">
+                <img
+                  src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                  alt="Muneem Ji"
+                  className={`transition-all duration-1000 ${
+                    muneemSize === 'large' 
+                      ? 'h-32 w-24 md:h-40 md:w-30 scale-105' 
+                      : 'h-16 w-12 scale-100'
+                  }`}
+                />
                 
-                   </div>
+                {/* Status Indicator */}
+                <div className={`absolute -top-1 -right-1 rounded-full border-2 border-white transition-all duration-300 ${
+                  muneemSize === 'large' ? 'h-6 w-6' : 'h-3 w-3'
+                } ${
+                  showContent ? 'bg-green-500 animate-pulse' : 'bg-orange-500 animate-ping'
+                }`}></div>
 
-                   {isTyping && (
-                  <div className="">
+                {/* Speech Animation Bubbles */}
+                {!showContent && (
+                  <div className="absolute -top-2 -left-2">
                     <div className="flex gap-1">
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
-                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
-                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
+                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '0ms' }}></div>
+                      <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '20px', animationDelay: '150ms' }}></div>
+                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '300ms' }}></div>
                     </div>
                   </div>
                 )}
-                   
-                   <div className="flex-1">
-                     <div className="flex items-center gap-2 mb-2">
-                       <h1 className="text-xl font-bold">Growth Advisor Analysis</h1>
-                       {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
-                     </div>
-                     
-                     {showDots && (
-                       <div className="flex items-center gap-2">
-                         <div className="flex gap-1">
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                         </div>
-                         <span className="text-sm text-muted-foreground animate-pulse">Analyzing market data...</span>
-                       </div>
-                     )}
-                     
-                     {!showDots && (
-                       <p className="text-sm text-foreground">
-                         {displayedText}
-                         {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
-                       </p>
-                     )}
-                   </div>
-                 </div>
-               </CardContent>
-             </Card>
+              </div>
+
+              {/* Conversation Content */}
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-3">
+                  <h1 className={`font-bold transition-all duration-700 ${
+                    muneemSize === 'large' ? 'text-2xl md:text-3xl' : 'text-xl'
+                  }`}>
+                    {showContent ? 'Growth Advisor Analysis - Complete!' : 'Growth Advisor Analysis'}
+                  </h1>
+                  
+                  {!showContent && (
+                    <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>
+                  )}
+                </div>
+                
+                {/* Conversation Text */}
+                <div className={`transition-all duration-700 ${
+                  muneemSize === 'large' ? 'text-base md:text-lg' : 'text-sm'
+                }`}>
+                  <p className="text-foreground leading-relaxed">
+                    {displayedText}
+                    {!showContent && <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>}
+                  </p>
+                  
+                  {showContent && (
+                    <p className="text-muted-foreground text-sm mt-2">
+                      🎯 Analysis complete! Explore the tabs below for detailed insights.
+                    </p>
+                  )}
+                </div>
+
+                {/* Progress Indicators */}
+                {!showContent && (
+                  <div className="mt-4 flex items-center gap-2">
+                    <div className="flex gap-1">
+                      {conversationPhases.map((_, index) => (
+                        <div
+                          key={index}
+                          className={`h-2 w-8 rounded-full transition-all duration-300 ${
+                            index <= analysisPhase ? 'bg-primary' : 'bg-muted'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      Step {analysisPhase + 1} of {conversationPhases.length}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Tabs Navigation */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      {/* Tabs Navigation - Only show after conversation is complete */}
+      {showContent && (
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 animate-fade-in">
         <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
           <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
             <MapPin className="h-4 w-4" />
@@ -888,9 +938,10 @@ const GrowthAdvisorDetails: React.FC = () => {
             </Card>
           </div>
         </TabsContent>
-      </Tabs>
+        </Tabs>
+      )}
 
-      {/* Export Report Button */}
+      {/* Export Report Button - Always visible */}
       <Button 
         onClick={handleExportReport}
         className="w-full btn-primary"
