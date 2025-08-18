@@ -16,7 +16,7 @@ const PreApprovedLoanPopup: React.FC<PreApprovedLoanPopupProps> = ({ onClose }) 
     // Show popup after 20 seconds
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 20000);
+    }, 30000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -53,14 +53,14 @@ const PreApprovedLoanPopup: React.FC<PreApprovedLoanPopupProps> = ({ onClose }) 
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
         <div className="relative bg-gradient-to-br from-primary/5 via-white to-secondary/5">
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             className="absolute right-4 top-4 z-10"
             onClick={handleClose}
           >
             <X className="h-4 w-4" />
-          </Button>
+          </Button> */}
           
           <DialogHeader className="text-center p-8 pb-4">
             <div className="flex justify-center mb-4">

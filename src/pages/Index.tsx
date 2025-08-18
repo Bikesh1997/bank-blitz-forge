@@ -149,9 +149,9 @@ alt="Aditya Birla Group"
                     <span className="hover:text-primary cursor-pointer transition-colors">Cookie Policy</span>
                   </div>
                 </div>
-                <p className="text-center bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent font-bold text-base">
+                {/* <p className="text-center bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent font-bold text-base">
                   Powered by AI-driven insights for smarter financial decisions
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
