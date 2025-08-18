@@ -37,7 +37,7 @@ import {
 } from 'recharts';
 
 const GrowthAdvisorDetails: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('global');
+  const [activeTab, setActiveTab] = useState('local');
   const [isTyping, setIsTyping] = useState(true);
   const [displayedText, setDisplayedText] = useState('');
   const [showDots, setShowDots] = useState(true);
@@ -172,7 +172,12 @@ const GrowthAdvisorDetails: React.FC = () => {
 
       {/* Tabs Navigation */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 gap-1 bg-muted/50 p-1">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
+          <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
+            <MapPin className="h-4 w-4" />
+            <span className="hidden sm:inline">📍 Local</span>
+            <span className="sm:hidden">Local</span>
+          </TabsTrigger>
           <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm">
             <Globe className="h-4 w-4" />
             <span className="hidden sm:inline">🌍 Global</span>
@@ -199,6 +204,125 @@ const GrowthAdvisorDetails: React.FC = () => {
             <span className="sm:hidden">Analysis</span>
           </TabsTrigger>
         </TabsList>
+
+        {/* Local Competition Tab */}
+        <TabsContent value="local" className="space-y-4">
+          <div className="grid gap-4">
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <MapPin className="h-6 w-6 text-primary" />
+                  Local Competition Analysis - Ludhiana Textile Hub
+                </CardTitle>
+                <CardDescription>
+                  Your competitive landscape in Punjab's textile manufacturing sector
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-lg">Major Local Competitors</h4>
+                    
+                    <div className="space-y-3">
+                      <Card className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="font-semibold text-blue-800">Vardhman Textiles</h5>
+                          <Badge className="bg-blue-100 text-blue-800">Market Leader</Badge>
+                        </div>
+                        <ul className="text-sm text-blue-700 space-y-1">
+                          <li>• Integrated spinning & weaving</li>
+                          <li>• Export-focused operations</li>
+                          <li>• 40+ years experience</li>
+                        </ul>
+                      </Card>
+
+                      <Card className="p-3 bg-gradient-to-r from-green-50 to-green-100 border-green-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="font-semibold text-green-800">Trident Group</h5>
+                          <Badge className="bg-green-100 text-green-800">Diversified</Badge>
+                        </div>
+                        <ul className="text-sm text-green-700 space-y-1">
+                          <li>• Home textiles specialist</li>
+                          <li>• Global retail presence</li>
+                          <li>• Sustainability focus</li>
+                        </ul>
+                      </Card>
+
+                      <Card className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <h5 className="font-semibold text-purple-800">Nahar Industrial</h5>
+                          <Badge className="bg-purple-100 text-purple-800">Tech-Forward</Badge>
+                        </div>
+                        <ul className="text-sm text-purple-700 space-y-1">
+                          <li>• Advanced machinery</li>
+                          <li>• Quality certifications</li>
+                          <li>• Premium positioning</li>
+                        </ul>
+                      </Card>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-lg">Market Dynamics</h4>
+                    
+                    <div className="space-y-3">
+                      <div className="p-3 bg-gradient-to-r from-yellow-50 to-orange-100 border-orange-200 rounded-lg">
+                        <h5 className="font-semibold text-orange-800 mb-2">Market Size</h5>
+                        <div className="text-sm text-orange-700 space-y-1">
+                          <p>• Local market: ₹8,500 Cr annually</p>
+                          <p>• 2,500+ textile units in Punjab</p>
+                          <p>• 15% annual growth rate</p>
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-teal-50 to-teal-100 border-teal-200 rounded-lg">
+                        <h5 className="font-semibold text-teal-800 mb-2">Key Trends</h5>
+                        <div className="text-sm text-teal-700 space-y-1">
+                          <p>• Shift to sustainable practices</p>
+                          <p>• Digital integration adoption</p>
+                          <p>• Export market expansion</p>
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-rose-50 to-rose-100 border-rose-200 rounded-lg">
+                        <h5 className="font-semibold text-rose-800 mb-2">Opportunities</h5>
+                        <div className="text-sm text-rose-700 space-y-1">
+                          <p>• Niche product segments</p>
+                          <p>• Direct-to-consumer channels</p>
+                          <p>• Contract manufacturing</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Competitive Positioning Chart */}
+                <div className="mt-6">
+                  <h4 className="font-semibold text-lg mb-4">Your Competitive Position</h4>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart data={[
+                        { metric: 'Price Competitiveness', value: 75, competitor: 65 },
+                        { metric: 'Product Quality', value: 80, competitor: 70 },
+                        { metric: 'Delivery Speed', value: 70, competitor: 75 },
+                        { metric: 'Customer Service', value: 85, competitor: 60 },
+                        { metric: 'Market Reach', value: 60, competitor: 80 },
+                        { metric: 'Innovation', value: 65, competitor: 55 }
+                      ]}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="metric" className="text-xs" />
+                        <PolarRadiusAxis domain={[0, 100]} className="text-xs" />
+                        <Radar name="Your Business" dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} />
+                        <Radar name="Local Average" dataKey="competitor" stroke="#8884d8" fill="#8884d8" fillOpacity={0.1} />
+                        <Legend />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
 
         {/* Global Competitors Tab */}
         <TabsContent value="global" className="space-y-4">

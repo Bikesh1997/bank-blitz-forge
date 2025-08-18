@@ -56,7 +56,7 @@ import {
  */
 
 const docSteps = [
-  { id: "cibil", icon: CreditCard },
+  { id: "creditScore", icon: CreditCard },
   { id: "itr", icon: FileText },
   { id: "bankStatement", icon: Building },
 ] as const;
@@ -320,7 +320,7 @@ const FinancialHealthDetails: React.FC = () => {
   const [docStep, setDocStep] = useState(0);
   const [selectedSoftware, setSelectedSoftware] = useState<string>("gst-auto");
   const [checked, setChecked] = useState<Record<DocStepId, boolean>>({
-    cibil: false,
+    creditScore: false,
     itr: false,
     bankStatement: false,
   });
@@ -540,10 +540,10 @@ const FinancialHealthDetails: React.FC = () => {
                 </div>
                 
                 <p className="text-sm text-muted-foreground mb-4">
-                  {currentDoc.id === 'cibil' && 'Upload CIBIL report or connect credit bureau'}
-                  {currentDoc.id === 'itr' && 'Share ITR for last 2 years'}
-                  {currentDoc.id === 'bankStatement' && 'Connect bank or upload statements'}
-                </p>
+                   {currentDoc.id === 'creditScore' && 'Check your credit score'}
+                   {currentDoc.id === 'itr' && 'Share ITR for last 2 years'}
+                   {currentDoc.id === 'bankStatement' && 'Upload your bank statement'}
+                 </p>
 
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-white border border-primary/30 hover:border-primary/50 transition-colors cursor-pointer hover:bg-primary/5">
                   <Checkbox
