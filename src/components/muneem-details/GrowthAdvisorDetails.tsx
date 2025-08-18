@@ -38,33 +38,101 @@ import {
 
 const GrowthAdvisorDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState('local');
-  const [isTyping, setIsTyping] = useState(true);
+  const [isTyping, setIsTyping] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
   const [showDots, setShowDots] = useState(true);
+  const [currentPhase, setCurrentPhase] = useState(0);
+  const [availableTabs, setAvailableTabs] = useState<string[]>([]);
+  const [muneemSize, setMuneemSize] = useState('large');
   
-  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets.";
+  const conversationPhases = [
+    {
+      text: "Namaste! Main aapka Growth Advisor hun. Aaj main aapke garment business ka detailed analysis karunga.",
+      duration: 3000,
+      action: () => {}
+    },
+    {
+      text: "Pehle local competition dekhte hain - Ludhiana mein aapke competitors kaun hain aur kaise perform kar rahe hain.",
+      duration: 4000,
+      action: () => {
+        setAvailableTabs(prev => [...prev, 'local']);
+        setActiveTab('local');
+      }
+    },
+    {
+      text: "Ab global market analysis - duniya bhar mein garment industry ka trend kya chal raha hai.",
+      duration: 4000,
+      action: () => setAvailableTabs(prev => [...prev, 'global'])
+    },
+    {
+      text: "Domestic market bhi important hai - India mein textile export ka growth pattern samjhate hain.",
+      duration: 4000,
+      action: () => setAvailableTabs(prev => [...prev, 'domestic'])
+    },
+    {
+      text: "Aapke business ki strengths kya hain - yeh jaanna zaroori hai future planning ke liye.",
+      duration: 4000,
+      action: () => setAvailableTabs(prev => [...prev, 'strengths'])
+    },
+    {
+      text: "Growth opportunities identify karte hain - kahan pe aap expand kar sakte hain.",
+      duration: 4000,
+      action: () => setAvailableTabs(prev => [...prev, 'growth'])
+    },
+    {
+      text: "Finally, complete analysis aur recommendations - business ko next level pe le jane ke liye.",
+      duration: 4000,
+      action: () => {
+        setAvailableTabs(prev => [...prev, 'analysis']);
+        setMuneemSize('small');
+      }
+    }
+  ];
 
   useEffect(() => {
-    // Show typing dots for 2 seconds
-    setTimeout(() => {
+    let timeouts: NodeJS.Timeout[] = [];
+    
+    // Start conversation sequence
+    const runConversation = () => {
       setShowDots(false);
-      setIsTyping(true);
       
-      // Type out the text character by character
-      let currentIndex = 0;
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= fullText.length) {
-          setDisplayedText(fullText.slice(0, currentIndex));
-          currentIndex++;
-        } else {
-          setIsTyping(false);
-          clearInterval(typingInterval);
-        }
-      }, 50);
+      conversationPhases.forEach((phase, index) => {
+        const phaseTimeout = setTimeout(() => {
+          setCurrentPhase(index);
+          setIsTyping(true);
+          setDisplayedText('');
+          
+          // Type out the phase text
+          let textIndex = 0;
+          const typingInterval = setInterval(() => {
+            if (textIndex <= phase.text.length) {
+              setDisplayedText(phase.text.slice(0, textIndex));
+              textIndex++;
+            } else {
+              clearInterval(typingInterval);
+              
+              // Execute phase action after typing completes
+              setTimeout(() => {
+                phase.action();
+                setIsTyping(false);
+              }, 500);
+            }
+          }, 40);
+          
+        }, index * (phase.duration + 1000)); // Wait for previous phase + 1s gap
+        
+        timeouts.push(phaseTimeout);
+      });
+    };
 
-      return () => clearInterval(typingInterval);
-    }, 2000);
-  }, []);
+    // Start with initial dots, then begin conversation
+    const initialTimeout = setTimeout(runConversation, 1500);
+    timeouts.push(initialTimeout);
+    
+    return () => {
+      timeouts.forEach(timeout => clearTimeout(timeout));
+    };
+  }, [conversationPhases]);
 
   // Chart data
   const globalMarketData = [
@@ -113,20 +181,38 @@ const GrowthAdvisorDetails: React.FC = () => {
        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
                <CardContent className="p-4">
                  <div className="flex items-center gap-8">
-                   <div className="relative flex-shrink-0">
-                     <img
-                       src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                       alt="Muneem Ji"
-                       className={`h-20 w-15 transition-all duration-500 ${
-                         isTyping ? 'scale-105' : 'scale-100'
-                       }`}
-                     />
-                     <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
-                       isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
-                     }`}></div>
-                     
-                
-                   </div>
+                    <div className="relative flex-shrink-0">
+                      <img
+                        src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                        alt="Muneem Ji"
+                        className={`transition-all duration-700 ${
+                          muneemSize === 'large' 
+                            ? 'h-32 w-24 scale-110' 
+                            : muneemSize === 'small' 
+                            ? 'h-16 w-12 scale-90'
+                            : 'h-20 w-15'
+                        } ${
+                          isTyping ? 'animate-pulse scale-105 drop-shadow-lg' : 'scale-100'
+                        }`}
+                        style={{
+                          filter: isTyping ? 'brightness(1.1) drop-shadow(0 0 15px rgba(255, 165, 0, 0.5))' : 'brightness(1)'
+                        }}
+                      />
+                      <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
+                        isTyping ? 'bg-orange-500 animate-ping' : muneemSize === 'small' ? 'bg-blue-500 animate-pulse' : 'bg-green-500 animate-pulse'
+                      }`}></div>
+                      
+                      {/* Speaking animation waves */}
+                      {isTyping && (
+                        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                          <div className="flex gap-1">
+                            <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '0ms' }}></div>
+                            <div className="w-1 bg-primary/80 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '100ms' }}></div>
+                            <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '200ms' }}></div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
 
                    {isTyping && (
                   <div className="">
@@ -172,37 +258,64 @@ const GrowthAdvisorDetails: React.FC = () => {
 
       {/* Tabs Navigation */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
-          <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
-            <MapPin className="h-4 w-4" />
-            <span className="hidden sm:inline">📍 Local</span>
-            <span className="sm:hidden">Local</span>
-          </TabsTrigger>
-          <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm">
-            <Globe className="h-4 w-4" />
-            <span className="hidden sm:inline">🌍 Global</span>
-            <span className="sm:hidden">Global</span>
-          </TabsTrigger>
-          <TabsTrigger value="domestic" className="flex items-center gap-2 text-xs md:text-sm">
-            <MapPin className="h-4 w-4" />
-            <span className="hidden sm:inline">🇮🇳 Domestic</span>
-            <span className="sm:hidden">Domestic</span>
-          </TabsTrigger>
-          <TabsTrigger value="strengths" className="flex items-center gap-2 text-xs md:text-sm">
-            <Zap className="h-4 w-4" />
-            <span className="hidden sm:inline">💪 Strengths</span>
-            <span className="sm:hidden">Strengths</span>
-          </TabsTrigger>
-          <TabsTrigger value="growth" className="flex items-center gap-2 text-xs md:text-sm">
-            <TrendingUp className="h-4 w-4" />
-            <span className="hidden sm:inline">🚀 Growth</span>
-            <span className="sm:hidden">Growth</span>
-          </TabsTrigger>
-          <TabsTrigger value="analysis" className="flex items-center gap-2 text-xs md:text-sm">
-            <BarChart3 className="h-4 w-4" />
-            <span className="hidden sm:inline">📊 Analysis</span>
-            <span className="sm:hidden">Analysis</span>
-          </TabsTrigger>
+        <TabsList className={`grid w-full gap-1 bg-muted/50 p-1 transition-all duration-500`} 
+                  style={{ 
+                    gridTemplateColumns: `repeat(${availableTabs.length || 1}, minmax(0, 1fr))` 
+                  }}>
+          {availableTabs.includes('local') && (
+            <TabsTrigger value="local" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
+              activeTab === 'local' ? 'ring-2 ring-primary/50' : ''
+            }`}>
+              <MapPin className="h-4 w-4" />
+              <span className="hidden sm:inline">📍 Local</span>
+              <span className="sm:hidden">Local</span>
+            </TabsTrigger>
+          )}
+          {availableTabs.includes('global') && (
+            <TabsTrigger value="global" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
+              activeTab === 'global' ? 'ring-2 ring-primary/50' : ''
+            }`}>
+              <Globe className="h-4 w-4" />
+              <span className="hidden sm:inline">🌍 Global</span>
+              <span className="sm:hidden">Global</span>
+            </TabsTrigger>
+          )}
+          {availableTabs.includes('domestic') && (
+            <TabsTrigger value="domestic" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
+              activeTab === 'domestic' ? 'ring-2 ring-primary/50' : ''
+            }`}>
+              <MapPin className="h-4 w-4" />
+              <span className="hidden sm:inline">🇮🇳 Domestic</span>
+              <span className="sm:hidden">Domestic</span>
+            </TabsTrigger>
+          )}
+          {availableTabs.includes('strengths') && (
+            <TabsTrigger value="strengths" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
+              activeTab === 'strengths' ? 'ring-2 ring-primary/50' : ''
+            }`}>
+              <Zap className="h-4 w-4" />
+              <span className="hidden sm:inline">💪 Strengths</span>
+              <span className="sm:hidden">Strengths</span>
+            </TabsTrigger>
+          )}
+          {availableTabs.includes('growth') && (
+            <TabsTrigger value="growth" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
+              activeTab === 'growth' ? 'ring-2 ring-primary/50' : ''
+            }`}>
+              <TrendingUp className="h-4 w-4" />
+              <span className="hidden sm:inline">🚀 Growth</span>
+              <span className="sm:hidden">Growth</span>
+            </TabsTrigger>
+          )}
+          {availableTabs.includes('analysis') && (
+            <TabsTrigger value="analysis" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
+              activeTab === 'analysis' ? 'ring-2 ring-primary/50' : ''
+            }`}>
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">📊 Analysis</span>
+              <span className="sm:hidden">Analysis</span>
+            </TabsTrigger>
+          )}
         </TabsList>
 
         {/* Local Competition Tab */}
