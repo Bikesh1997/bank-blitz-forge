@@ -38,32 +38,36 @@ import {
 
 const GrowthAdvisorDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState('local');
-  const [isTyping, setIsTyping] = useState(true);
-  const [displayedText, setDisplayedText] = useState('');
-  const [showDots, setShowDots] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [showTabContent, setShowTabContent] = useState(false);
   
-  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets.";
+  const conversationSteps = [
+    {
+      message: "Namaste ji! Main aapko aapke business ki growth ke liye kuch powerful insights deta hoon! 🚀",
+      delay: 1000,
+      action: () => setCurrentStep(1)
+    },
+    {
+      message: "Pehle main aapko local competition analysis dikhata hoon - dekhiye aapke competitors kaun hain aur kaise aap unse aage badh sakte hain!",
+      delay: 2500,
+      action: () => {
+        setShowTabContent(true);
+        setCurrentStep(2);
+      }
+    },
+    {
+      message: "Yahan aapki complete market positioning hai - aapka Punjab Sportswear ₹5 crore turnover ke saath kaafi acchi position mein hai!",
+      delay: 1500,
+      action: () => setCurrentStep(3)
+    }
+  ];
 
   useEffect(() => {
-    // Show typing dots for 2 seconds
-    setTimeout(() => {
-      setShowDots(false);
-      setIsTyping(true);
-      
-      // Type out the text character by character
-      let currentIndex = 0;
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= fullText.length) {
-          setDisplayedText(fullText.slice(0, currentIndex));
-          currentIndex++;
-        } else {
-          setIsTyping(false);
-          clearInterval(typingInterval);
-        }
-      }, 50);
-
-      return () => clearInterval(typingInterval);
-    }, 2000);
+    conversationSteps.forEach((step, index) => {
+      setTimeout(() => {
+        step.action();
+      }, step.delay + (index * 3000));
+    });
   }, []);
 
   // Chart data
@@ -108,102 +112,80 @@ const GrowthAdvisorDetails: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Muneem Ji Speaking Header */}
+      {/* Muneem Ji Conversation Interface */}
       <div className="relative">
-       <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
-               <CardContent className="p-4">
-                 <div className="flex items-center gap-8">
-                   <div className="relative flex-shrink-0">
-                     <img
-                       src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                       alt="Muneem Ji"
-                       className={`h-20 w-15 transition-all duration-500 ${
-                         isTyping ? 'scale-105' : 'scale-100'
-                       }`}
-                     />
-                     <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
-                       isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
-                     }`}></div>
-                     
-                
-                   </div>
-
-                   {isTyping && (
-                  <div className="">
-                    <div className="flex gap-1">
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
-                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
-                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
-                    </div>
-                  </div>
-                )}
-                   
-                   <div className="flex-1">
-                     <div className="flex items-center gap-2 mb-2">
-                       <h1 className="text-xl font-bold">Growth Advisor Analysis</h1>
-                       {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
-                     </div>
-                     
-                     {showDots && (
-                       <div className="flex items-center gap-2">
-                         <div className="flex gap-1">
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                         </div>
-                         <span className="text-sm text-muted-foreground animate-pulse">Analyzing market data...</span>
-                       </div>
-                     )}
-                     
-                     {!showDots && (
-                       <p className="text-sm text-foreground">
-                         {displayedText}
-                         {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
-                       </p>
-                     )}
-                   </div>
-                 </div>
-               </CardContent>
-             </Card>
+        <div className="flex items-start gap-4 mb-6">
+          <div className="relative flex-shrink-0">
+            <img
+              src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+              alt="Muneem Ji"
+              className="h-16 w-16 rounded-full border-4 border-primary/20 animate-pulse"
+            />
+            <div className="absolute -bottom-1 -right-1 h-4 w-4 bg-green-500 rounded-full border-2 border-white animate-bounce"></div>
+          </div>
+          
+          <div className="flex-1 space-y-3">
+            {conversationSteps.slice(0, currentStep).map((step, index) => (
+              <div
+                key={index}
+                className="bg-primary/10 border border-primary/20 rounded-2xl rounded-tl-md p-4 animate-fade-in"
+                style={{ animationDelay: `${index * 0.5}s` }}
+              >
+                <p className="text-foreground font-medium">{step.message}</p>
+                <div className="text-xs text-muted-foreground mt-2">Muneem Ji</div>
+              </div>
+            ))}
+            
+            {currentStep > 0 && currentStep <= conversationSteps.length && (
+              <div className="flex items-center gap-2 bg-primary/5 rounded-2xl rounded-tl-md p-4">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                </div>
+                <span className="text-sm text-muted-foreground">Muneem Ji is typing...</span>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* Tabs Navigation */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
-          <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
-            <MapPin className="h-4 w-4" />
-            <span className="hidden sm:inline">📍 Local</span>
-            <span className="sm:hidden">Local</span>
-          </TabsTrigger>
-          <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm">
-            <Globe className="h-4 w-4" />
-            <span className="hidden sm:inline">🌍 Global</span>
-            <span className="sm:hidden">Global</span>
-          </TabsTrigger>
-          <TabsTrigger value="domestic" className="flex items-center gap-2 text-xs md:text-sm">
-            <MapPin className="h-4 w-4" />
-            <span className="hidden sm:inline">🇮🇳 Domestic</span>
-            <span className="sm:hidden">Domestic</span>
-          </TabsTrigger>
-          <TabsTrigger value="strengths" className="flex items-center gap-2 text-xs md:text-sm">
-            <Zap className="h-4 w-4" />
-            <span className="hidden sm:inline">💪 Strengths</span>
-            <span className="sm:hidden">Strengths</span>
-          </TabsTrigger>
-          <TabsTrigger value="growth" className="flex items-center gap-2 text-xs md:text-sm">
-            <TrendingUp className="h-4 w-4" />
-            <span className="hidden sm:inline">🚀 Growth</span>
-            <span className="sm:hidden">Growth</span>
-          </TabsTrigger>
-          <TabsTrigger value="analysis" className="flex items-center gap-2 text-xs md:text-sm">
-            <BarChart3 className="h-4 w-4" />
-            <span className="hidden sm:inline">📊 Analysis</span>
-            <span className="sm:hidden">Analysis</span>
-          </TabsTrigger>
-        </TabsList>
+      {/* Data Panel - Shows after Muneem Ji's conversation */}
+      {showTabContent && (
+        <div className="animate-slide-in-right">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
+              <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
+                <MapPin className="h-4 w-4" />
+                <span className="hidden sm:inline">📍 Local</span>
+                <span className="sm:hidden">Local</span>
+              </TabsTrigger>
+              <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm">
+                <Globe className="h-4 w-4" />
+                <span className="hidden sm:inline">🌍 Global</span>
+                <span className="sm:hidden">Global</span>
+              </TabsTrigger>
+              <TabsTrigger value="domestic" className="flex items-center gap-2 text-xs md:text-sm">
+                <MapPin className="h-4 w-4" />
+                <span className="hidden sm:inline">🇮🇳 Domestic</span>
+                <span className="sm:hidden">Domestic</span>
+              </TabsTrigger>
+              <TabsTrigger value="strengths" className="flex items-center gap-2 text-xs md:text-sm">
+                <Zap className="h-4 w-4" />
+                <span className="hidden sm:inline">💪 Strengths</span>
+                <span className="sm:hidden">Strengths</span>
+              </TabsTrigger>
+              <TabsTrigger value="growth" className="flex items-center gap-2 text-xs md:text-sm">
+                <TrendingUp className="h-4 w-4" />
+                <span className="hidden sm:inline">🚀 Growth</span>
+                <span className="sm:hidden">Growth</span>
+              </TabsTrigger>
+              <TabsTrigger value="analysis" className="flex items-center gap-2 text-xs md:text-sm">
+                <BarChart3 className="h-4 w-4" />
+                <span className="hidden sm:inline">📊 Analysis</span>
+                <span className="sm:hidden">Analysis</span>
+              </TabsTrigger>
+            </TabsList>
 
         {/* Local Competition Tab */}
         <TabsContent value="local" className="space-y-4">
@@ -888,17 +870,19 @@ const GrowthAdvisorDetails: React.FC = () => {
             </Card>
           </div>
         </TabsContent>
-      </Tabs>
+          </Tabs>
+        )}
 
-      {/* Export Report Button */}
-      <Button 
-        onClick={handleExportReport}
-        className="w-full btn-primary"
-        size="lg"
-      >
-        <Download className="h-4 w-4 mr-2" />
-        Export Growth Advisor Report
-      </Button>
+        {/* Export Report Button */}
+        <Button 
+          onClick={handleExportReport}
+          className="w-full btn-primary"
+          size="lg"
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Export Growth Advisor Report
+        </Button>
+      </div>
     </div>
   );
 };

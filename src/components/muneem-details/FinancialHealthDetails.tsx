@@ -327,14 +327,30 @@ const FinancialHealthDetails: React.FC = () => {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [gstAutoSelected, setGstAutoSelected] = useState(true);
   
-  // Talking animation states
-  const [displayedText, setDisplayedText] = useState('');
-  const [showDots, setShowDots] = useState(true);
-  const [isSpeaking, setIsSpeaking] = useState(true);
-    const [isTyping, setIsTyping] = useState(true);
+  // Conversation states
+  const [currentConversationStep, setCurrentConversationStep] = useState(0);
+  const [showStepperContent, setShowStepperContent] = useState(false);
   
-  
-  const fullText = "Let me help you understand your business's financial health and a detailed report of your business.";
+  const conversationSteps = [
+    {
+      message: "Chaliye ji, main aapko aapke business ki financial sehat aur detailed report samjhata hoon! 💰",
+      delay: 1000,
+      action: () => setCurrentConversationStep(1)
+    },
+    {
+      message: "Sabse pehle main aapko document upload karne ke liye guide karunga - ye process bilkul simple hai!",
+      delay: 2000,
+      action: () => {
+        setShowStepperContent(true);
+        setCurrentConversationStep(2);
+      }
+    },
+    {
+      message: "Aapko sirf ye 3 documents chaiye: Credit Score check, ITR, aur Bank Statement. Main step-by-step batata hoon!",
+      delay: 1500,
+      action: () => setCurrentConversationStep(3)
+    }
+  ];
 
   const handleSoftwareConnect = (software: string) => {
     setSelectedSoftware(software);
@@ -353,27 +369,13 @@ const FinancialHealthDetails: React.FC = () => {
     }
   };
 
-  // Talking animation effect
+  // Conversation flow effect
   useEffect(() => {
-    // Show typing dots for 2 seconds
-    setTimeout(() => {
-      setShowDots(false);
-      setIsTyping(true);
-      
-      // Type out the text character by character
-      let currentIndex = 0;
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= fullText.length) {
-          setDisplayedText(fullText.slice(0, currentIndex));
-          currentIndex++;
-        } else {
-          setIsTyping(false);
-          clearInterval(typingInterval);
-        }
-      }, 50);
-
-      return () => clearInterval(typingInterval);
-    }, 2000);
+    conversationSteps.forEach((step, index) => {
+      setTimeout(() => {
+        step.action();
+      }, step.delay + (index * 3000));
+    });
   }, []);
   // Simulate AI run during loading
   useEffect(() => {
@@ -442,6 +444,16 @@ const FinancialHealthDetails: React.FC = () => {
     const currentDoc = docSteps[docStep];
 
     return (
+      </div>
+    );
+  }
+
+  // ---- STEP 2: Document Stepper (Now the main view) ----
+  if (step === 2) {
+    const current = docStep;
+    const currentDoc = docSteps[docStep];
+
+    return (
       <div className="max-w-5xl mx-auto space-y-4 p-2">
         {/* Compact Header with Muneem Ji */}
         <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
@@ -495,22 +507,20 @@ const FinancialHealthDetails: React.FC = () => {
                     {displayedText}
                     {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
                   </p>
-                )}
-              </div>
+          )}
+        </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Compact Stepper */}
-        <div className="grid grid-cols-12 gap-4">
-          {/* Stepper Progress */}
-          <div className="col-span-12">
-            <Card className="border border-primary/10">
-              <CardHeader className="pb-3">
-                <Stepper current={current} gstComplete={gstAutoSelected} />
-              </CardHeader>
-            </Card>
-          </div>
+              {/* Stepper Progress */}
+              <div className="col-span-12">
+                <Card className="border border-primary/10">
+                  <CardHeader className="pb-3">
+                    <Stepper current={current} gstComplete={gstAutoSelected} />
+                  </CardHeader>
+                </Card>
+              </div>
 
           {/* GST Status */}
           <div className="col-span-12 lg:col-span-4">
@@ -1043,7 +1053,6 @@ const FinancialHealthDetails: React.FC = () => {
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
