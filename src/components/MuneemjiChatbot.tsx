@@ -349,7 +349,7 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
           setSelectedOption(null);
         }
       }}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-5xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {/* <img 
@@ -357,7 +357,7 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
                 alt="Muneem Ji"
                 className="h-8 w-8 object-contain"
               /> */}
-              {selectedOption && chatOptions.find(opt => opt.id === selectedOption)?.label}
+              {/* {selectedOption && chatOptions.find(opt => opt.id === selectedOption)?.label} */}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">

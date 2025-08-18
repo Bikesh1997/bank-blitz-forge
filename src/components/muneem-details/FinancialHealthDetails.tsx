@@ -446,12 +446,12 @@ const FinancialHealthDetails: React.FC = () => {
         {/* Compact Header with Muneem Ji */}
         <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
           <CardContent className="p-4">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-8">
               <div className="relative flex-shrink-0">
                 <img
                   src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
                   alt="Muneem Ji"
-                  className={`h-16 w-12 transition-all duration-500 ${
+                  className={`h-20 w-15 transition-all duration-500 ${
                     isTyping ? 'scale-105' : 'scale-100'
                   }`}
                 />
@@ -459,17 +459,20 @@ const FinancialHealthDetails: React.FC = () => {
                   isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
                 }`}></div>
                 
-                {isTyping && (
-                  <div className="absolute -right-2 top-1/2 transform -translate-y-1/2">
-                    <div className="flex gap-0.5">
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '6px', animationDelay: '0ms' }}></div>
-                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '10px', animationDelay: '100ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '200ms' }}></div>
+              
+              </div>
+              {isTyping && (
+                  <div className="">
+                    <div className="flex gap-1">
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
                     </div>
                   </div>
                 )}
-              </div>
-              
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <h1 className="text-xl font-bold">Financial Health Assessment</h1>
