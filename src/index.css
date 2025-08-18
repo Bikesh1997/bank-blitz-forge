@@ -353,6 +353,10 @@ All colors MUST be HSL.
     transform: translateY(-1px);
   }
 
+  .animate-wave {
+    animation: mj-wave 1.5s ease-in-out infinite;
+  }
+
   /* Reduced motion support */
   @media (prefers-reduced-motion: reduce) {
     .muneemji-launcher,
