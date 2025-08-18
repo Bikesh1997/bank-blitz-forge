@@ -91,13 +91,16 @@ const GrowthAdvisorDetails: React.FC = () => {
 
   useEffect(() => {
     let timeouts: NodeJS.Timeout[] = [];
+    let intervals: NodeJS.Timeout[] = [];
     
     // Start conversation sequence
     const runConversation = () => {
       setShowDots(false);
+      console.log('Starting conversation phases...');
       
       conversationPhases.forEach((phase, index) => {
         const phaseTimeout = setTimeout(() => {
+          console.log(`Starting phase ${index}: ${phase.text.substring(0, 30)}...`);
           setCurrentPhase(index);
           setIsTyping(true);
           setDisplayedText('');
@@ -113,12 +116,14 @@ const GrowthAdvisorDetails: React.FC = () => {
               
               // Execute phase action after typing completes
               setTimeout(() => {
+                console.log(`Executing action for phase ${index}`);
                 phase.action();
                 setIsTyping(false);
               }, 500);
             }
           }, 40);
           
+          intervals.push(typingInterval);
         }, index * (phase.duration + 1000)); // Wait for previous phase + 1s gap
         
         timeouts.push(phaseTimeout);
@@ -131,8 +136,9 @@ const GrowthAdvisorDetails: React.FC = () => {
     
     return () => {
       timeouts.forEach(timeout => clearTimeout(timeout));
+      intervals.forEach(interval => clearInterval(interval));
     };
-  }, [conversationPhases]);
+  }, []); // Remove conversationPhases dependency to prevent infinite re-renders
 
   // Chart data
   const globalMarketData = [
@@ -256,67 +262,65 @@ const GrowthAdvisorDetails: React.FC = () => {
              </Card>
       </div>
 
-      {/* Tabs Navigation */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className={`grid w-full gap-1 bg-muted/50 p-1 transition-all duration-500`} 
-                  style={{ 
-                    gridTemplateColumns: `repeat(${availableTabs.length || 1}, minmax(0, 1fr))` 
-                  }}>
-          {availableTabs.includes('local') && (
-            <TabsTrigger value="local" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
-              activeTab === 'local' ? 'ring-2 ring-primary/50' : ''
-            }`}>
-              <MapPin className="h-4 w-4" />
-              <span className="hidden sm:inline">📍 Local</span>
-              <span className="sm:hidden">Local</span>
-            </TabsTrigger>
-          )}
-          {availableTabs.includes('global') && (
-            <TabsTrigger value="global" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
-              activeTab === 'global' ? 'ring-2 ring-primary/50' : ''
-            }`}>
-              <Globe className="h-4 w-4" />
-              <span className="hidden sm:inline">🌍 Global</span>
-              <span className="sm:hidden">Global</span>
-            </TabsTrigger>
-          )}
-          {availableTabs.includes('domestic') && (
-            <TabsTrigger value="domestic" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
-              activeTab === 'domestic' ? 'ring-2 ring-primary/50' : ''
-            }`}>
-              <MapPin className="h-4 w-4" />
-              <span className="hidden sm:inline">🇮🇳 Domestic</span>
-              <span className="sm:hidden">Domestic</span>
-            </TabsTrigger>
-          )}
-          {availableTabs.includes('strengths') && (
-            <TabsTrigger value="strengths" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
-              activeTab === 'strengths' ? 'ring-2 ring-primary/50' : ''
-            }`}>
-              <Zap className="h-4 w-4" />
-              <span className="hidden sm:inline">💪 Strengths</span>
-              <span className="sm:hidden">Strengths</span>
-            </TabsTrigger>
-          )}
-          {availableTabs.includes('growth') && (
-            <TabsTrigger value="growth" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
-              activeTab === 'growth' ? 'ring-2 ring-primary/50' : ''
-            }`}>
-              <TrendingUp className="h-4 w-4" />
-              <span className="hidden sm:inline">🚀 Growth</span>
-              <span className="sm:hidden">Growth</span>
-            </TabsTrigger>
-          )}
-          {availableTabs.includes('analysis') && (
-            <TabsTrigger value="analysis" className={`flex items-center gap-2 text-xs md:text-sm transition-all duration-500 animate-fade-in ${
-              activeTab === 'analysis' ? 'ring-2 ring-primary/50' : ''
-            }`}>
-              <BarChart3 className="h-4 w-4" />
-              <span className="hidden sm:inline">📊 Analysis</span>
-              <span className="sm:hidden">Analysis</span>
-            </TabsTrigger>
-          )}
-        </TabsList>
+      {/* Debug Info */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="text-xs text-muted-foreground bg-muted p-2 rounded">
+          Debug: Available tabs: [{availableTabs.join(', ')}] | Active: {activeTab} | Phase: {currentPhase}
+        </div>
+      )}
+
+      {/* Tabs Navigation - Only show if we have tabs */}
+      {availableTabs.length > 0 ? (
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="flex w-full bg-background border rounded-lg p-1 shadow-sm">
+            <div className={`grid w-full gap-1 transition-all duration-500`} 
+                      style={{ 
+                        gridTemplateColumns: `repeat(${availableTabs.length}, minmax(0, 1fr))` 
+                      }}>
+              {availableTabs.includes('local') && (
+                <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm bg-background hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 animate-fade-in">
+                  <MapPin className="h-4 w-4" />
+                  <span className="hidden sm:inline">📍 Local</span>
+                  <span className="sm:hidden">Local</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes('global') && (
+                <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm bg-background hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 animate-fade-in">
+                  <Globe className="h-4 w-4" />
+                  <span className="hidden sm:inline">🌍 Global</span>
+                  <span className="sm:hidden">Global</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes('domestic') && (
+                <TabsTrigger value="domestic" className="flex items-center gap-2 text-xs md:text-sm bg-background hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 animate-fade-in">
+                  <MapPin className="h-4 w-4" />
+                  <span className="hidden sm:inline">🇮🇳 Domestic</span>
+                  <span className="sm:hidden">Domestic</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes('strengths') && (
+                <TabsTrigger value="strengths" className="flex items-center gap-2 text-xs md:text-sm bg-background hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 animate-fade-in">
+                  <Zap className="h-4 w-4" />
+                  <span className="hidden sm:inline">💪 Strengths</span>
+                  <span className="sm:hidden">Strengths</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes('growth') && (
+                <TabsTrigger value="growth" className="flex items-center gap-2 text-xs md:text-sm bg-background hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 animate-fade-in">
+                  <TrendingUp className="h-4 w-4" />
+                  <span className="hidden sm:inline">🚀 Growth</span>
+                  <span className="sm:hidden">Growth</span>
+                </TabsTrigger>
+              )}
+              {availableTabs.includes('analysis') && (
+                <TabsTrigger value="analysis" className="flex items-center gap-2 text-xs md:text-sm bg-background hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 animate-fade-in">
+                  <BarChart3 className="h-4 w-4" />
+                  <span className="hidden sm:inline">📊 Analysis</span>
+                  <span className="sm:hidden">Analysis</span>
+                </TabsTrigger>
+              )}
+            </div>
+          </TabsList>
 
         {/* Local Competition Tab */}
         <TabsContent value="local" className="space-y-4">
@@ -1001,17 +1005,33 @@ const GrowthAdvisorDetails: React.FC = () => {
             </Card>
           </div>
         </TabsContent>
-      </Tabs>
+        </Tabs>
+      ) : (
+        <Card className="p-8 text-center">
+          <CardContent>
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <div className="flex gap-1">
+                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              </div>
+              <span className="text-lg">Muneem Ji is preparing your analysis...</span>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
-      {/* Export Report Button */}
-      <Button 
-        onClick={handleExportReport}
-        className="w-full btn-primary"
-        size="lg"
-      >
-        <Download className="h-4 w-4 mr-2" />
-        Export Growth Advisor Report
-      </Button>
+      {/* Export Report Button - Only show when analysis is complete */}
+      {availableTabs.includes('analysis') && (
+        <Button 
+          onClick={handleExportReport}
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          size="lg"
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Export Growth Advisor Report
+        </Button>
+      )}
     </div>
   );
 };
