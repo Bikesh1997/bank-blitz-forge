@@ -870,7 +870,7 @@ const GrowthAdvisorDetails: React.FC = () => {
             </Card>
           </div>
         </TabsContent>
-          </Tabs>
+        </Tabs>
         )}
 
         {/* Export Report Button */}
