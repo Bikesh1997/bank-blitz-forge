@@ -37,7 +37,7 @@ import {
 } from 'recharts';
 
 const GrowthAdvisorDetails: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('global');
+  const [activeTab, setActiveTab] = useState('local');
   const [isTyping, setIsTyping] = useState(true);
   const [displayedText, setDisplayedText] = useState('');
   const [showDots, setShowDots] = useState(true);
@@ -110,73 +110,74 @@ const GrowthAdvisorDetails: React.FC = () => {
     <div className="space-y-6">
       {/* Muneem Ji Speaking Header */}
       <div className="relative">
-        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
-          <CardContent className="p-8">
-            <div className="flex items-center gap-8">
-              <div className="relative ">
-                <img
-                  src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                  alt="Muneem Ji"
-                  className={`h-32 w-24 `  }
-                  style={{
-                    animation: isTyping
-                      ? 'bounce 0.8s 1.5 forwards, 1.5s infinite'
-                      : ''
-                  }}
-                  
-                />
-                <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
-                  isTyping ? 'bg-orange-500 animate-ping scale-110' : 'bg-green-500 animate-pulse'
-                }`}></div>
+       <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+               <CardContent className="p-4">
+                 <div className="flex items-center gap-8">
+                   <div className="relative flex-shrink-0">
+                     <img
+                       src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                       alt="Muneem Ji"
+                       className={`h-20 w-15 transition-all duration-500 ${
+                         isTyping ? 'scale-105' : 'scale-100'
+                       }`}
+                     />
+                     <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
+                       isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
+                     }`}></div>
+                     
                 
-                {/* Sound waves animation */}
-                {isTyping && (
-                  <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
+                   </div>
+
+                   {isTyping && (
+                  <div className="">
                     <div className="flex gap-1">
-                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '0ms' }}></div>
-                      <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '100ms' }}></div>
-                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '200ms' }}></div>
-                      <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '20px', animationDelay: '300ms' }}></div>
-                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '400ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
                     </div>
                   </div>
                 )}
-              </div>
-              
-              <div className="flex-1 space-y-4">
-                <div className="flex items-center gap-3">
-                  <h1 className="text-3xl font-bold text-foreground">Growth Advisor Analysis</h1>
-                  {isTyping && <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>}
-                </div>
-                
-                {showDots && (
-                  <div className="flex items-center gap-2 py-4">
-                    <div className="flex gap-1">
-                      <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                    </div>
-                    <span className="text-lg text-muted-foreground ml-3 animate-pulse">Analyzing market data...</span>
-                  </div>
-                )}
-                
-                {!showDots && (
-                  <div className="min-h-[80px]">
-                    <p className="text-lg text-foreground leading-relaxed">
-                      {displayedText}
-                      {isTyping && <span className="inline-block w-1 h-6 bg-primary ml-1 animate-ping"></span>}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+                   
+                   <div className="flex-1">
+                     <div className="flex items-center gap-2 mb-2">
+                       <h1 className="text-xl font-bold">Growth Advisor Analysis</h1>
+                       {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
+                     </div>
+                     
+                     {showDots && (
+                       <div className="flex items-center gap-2">
+                         <div className="flex gap-1">
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                         </div>
+                         <span className="text-sm text-muted-foreground animate-pulse">Analyzing market data...</span>
+                       </div>
+                     )}
+                     
+                     {!showDots && (
+                       <p className="text-sm text-foreground">
+                         {displayedText}
+                         {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                       </p>
+                     )}
+                   </div>
+                 </div>
+               </CardContent>
+             </Card>
       </div>
 
       {/* Tabs Navigation */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 gap-1 bg-muted/50 p-1">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
+          <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
+            <MapPin className="h-4 w-4" />
+            <span className="hidden sm:inline">📍 Local</span>
+            <span className="sm:hidden">Local</span>
+          </TabsTrigger>
           <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm">
             <Globe className="h-4 w-4" />
             <span className="hidden sm:inline">🌍 Global</span>
@@ -203,6 +204,216 @@ const GrowthAdvisorDetails: React.FC = () => {
             <span className="sm:hidden">Analysis</span>
           </TabsTrigger>
         </TabsList>
+
+        {/* Local Competition Tab */}
+        <TabsContent value="local" className="space-y-4">
+          <div className="grid gap-4">
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <MapPin className="h-6 w-6 text-primary" />
+                  Local Competition Analysis - Punjab Sportswear Pvt. Ltd.
+                </CardTitle>
+                <CardDescription>
+                  Your competitive landscape in Ludhiana's sports garment manufacturing sector
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Business Overview */}
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-lg">Your Business Profile</h4>
+                    
+                    <Card className="p-4 bg-gradient-to-r from-primary/10 to-primary/20 border-primary/20">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h5 className="font-semibold text-primary">Punjab Sportswear Pvt. Ltd.</h5>
+                          <Badge className="bg-primary text-primary-foreground">Your Business</Badge>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <p className="text-muted-foreground">Annual Turnover</p>
+                            <p className="font-semibold">₹5 Crore</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Profit Margin</p>
+                            <p className="font-semibold">~12%</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Monthly Orders</p>
+                            <p className="font-semibold">2,200 units</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Market Share</p>
+                            <p className="font-semibold">~1.9%</p>
+                          </div>
+                        </div>
+                        <div className="pt-2 border-t">
+                          <p className="text-sm text-muted-foreground mb-1">Products:</p>
+                          <p className="text-sm">Cricket jerseys, football kits, running vests, training shorts</p>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-lg">Market Overview</h4>
+                    
+                    <div className="space-y-3">
+                      <div className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 rounded-lg">
+                        <h5 className="font-semibold text-blue-800 mb-2">Market Size</h5>
+                        <div className="text-sm text-blue-700 space-y-1">
+                          <p>• Ludhiana Sports Garment: ₹260 Crore</p>
+                          <p>• Your market share: 1.9%</p>
+                          <p>• Growth potential: High</p>
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 border-green-200 rounded-lg">
+                        <h5 className="font-semibold text-green-800 mb-2">Peak Season</h5>
+                        <div className="text-sm text-green-700 space-y-1">
+                          <p>• Feb-Apr: Pre-summer demand</p>
+                          <p>• School/college sports events</p>
+                          <p>• Custom jersey orders peak</p>
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 rounded-lg">
+                        <h5 className="font-semibold text-purple-800 mb-2">Trends</h5>
+                        <div className="text-sm text-purple-700 space-y-1">
+                          <p>• Branded, digitally-printed sportswear</p>
+                          <p>• Moisture-wicking materials</p>
+                          <p>• Athleisure wear demand rising</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Direct Competitors */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg">Direct Competitors in Ludhiana</h4>
+                  
+                  <div className="grid gap-3 md:grid-cols-3">
+                    <Card className="p-3 bg-gradient-to-r from-red-50 to-red-100 border-red-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-red-800">SuperFit Sports Garments</h5>
+                        <Badge className="bg-red-100 text-red-800">Market Leader</Badge>
+                      </div>
+                      <div className="text-sm text-red-700 space-y-1">
+                        <p>• Annual TO: ₹7 Crore</p>
+                        <p>• 40% larger than you</p>
+                        <p>• Award: "Best Small Exporter" 2024</p>
+                      </div>
+                    </Card>
+
+                    <Card className="p-3 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-orange-800">ActiveWear Ludhiana</h5>
+                        <Badge className="bg-orange-100 text-orange-800">Strong Player</Badge>
+                      </div>
+                      <div className="text-sm text-orange-700 space-y-1">
+                        <p>• Annual TO: ₹6 Crore</p>
+                        <p>• 20% larger than you</p>
+                        <p>• Focus: Retail partnerships</p>
+                      </div>
+                    </Card>
+
+                    <Card className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-yellow-800">EastX Sports</h5>
+                        <Badge className="bg-yellow-100 text-yellow-800">Similar Size</Badge>
+                      </div>
+                      <div className="text-sm text-yellow-700 space-y-1">
+                        <p>• Annual TO: ₹4 Crore</p>
+                        <p>• 20% smaller than you</p>
+                        <p>• Focus: Institutional sales</p>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
+
+                {/* Competitive Position Chart */}
+                <div className="mt-6">
+                  <h4 className="font-semibold text-lg mb-4">Revenue Comparison</h4>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={[
+                        { company: 'SuperFit Sports', revenue: 7, color: '#ef4444' },
+                        { company: 'ActiveWear Ludhiana', revenue: 6, color: '#f97316' },
+                        { company: 'Punjab Sportswear (You)', revenue: 5, color: 'hsl(var(--primary))' },
+                        { company: 'EastX Sports', revenue: 4, color: '#eab308' }
+                      ]}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="company" className="text-xs" />
+                        <YAxis label={{ value: 'Revenue (₹ Crore)', angle: -90, position: 'insideLeft' }} />
+                        <Tooltip />
+                        <Bar dataKey="revenue" fill="hsl(var(--primary))" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Opportunities & Risks */}
+                <div className="grid gap-4 md:grid-cols-2 mt-6">
+                  <div>
+                    <h4 className="font-semibold text-lg mb-3 text-green-700">Growth Opportunities</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <TrendingUp className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Online B2B Sales</p>
+                          <p className="text-muted-foreground">Expand reach beyond Ludhiana</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <Users className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Digital Custom Design Services</p>
+                          <p className="text-muted-foreground">Premium pricing opportunity</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <MapPin className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Nearby Districts Expansion</p>
+                          <p className="text-muted-foreground">Chandigarh, Jalandhar markets</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-lg mb-3 text-red-700">Key Risks</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <Target className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Intense Local Competition</p>
+                          <p className="text-muted-foreground">SuperFit's market leadership</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <TrendingUp className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Rapid Trend Changes</p>
+                          <p className="text-muted-foreground">Fashion cycles getting shorter</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <BarChart3 className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Working Capital Management</p>
+                          <p className="text-muted-foreground">40-day receivables cycle</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
 
         {/* Global Competitors Tab */}
         <TabsContent value="global" className="space-y-4">
