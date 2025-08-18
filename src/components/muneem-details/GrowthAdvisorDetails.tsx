@@ -38,57 +38,33 @@ import {
 
 const GrowthAdvisorDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState('local');
-  const [isAnalyzing, setIsAnalyzing] = useState(true);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
   const [displayedText, setDisplayedText] = useState('');
-  const [showResults, setShowResults] = useState(false);
+  const [showDots, setShowDots] = useState(true);
   
-  const analysisSteps = [
-    "Namaste ji! Main aapke liye growth analysis kar raha hun...",
-    "Pehle main local competition dekh raha hun Ludhiana mein...",
-    "Ab global markets ka data analyze kar raha hun...",
-    "Domestic opportunities identify kar raha hun...", 
-    "Competitive benchmarking complete kar raha hun...",
-    "Growth recommendations tayyar kar raha hun...",
-    "Analysis complete! Dekho kya opportunities hai aapke liye!"
-  ];
+  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets.";
 
   useEffect(() => {
-    if (currentStep < analysisSteps.length) {
-      const timer = setTimeout(() => {
-        setIsTyping(true);
-        setDisplayedText('');
-        
-        // Type out the current step text
-        let currentIndex = 0;
-        const currentText = analysisSteps[currentStep];
-        const typingInterval = setInterval(() => {
-          if (currentIndex <= currentText.length) {
-            setDisplayedText(currentText.slice(0, currentIndex));
-            currentIndex++;
-          } else {
-            setIsTyping(false);
-            clearInterval(typingInterval);
-            
-            // Move to next step after a pause
-            setTimeout(() => {
-              if (currentStep === analysisSteps.length - 1) {
-                setIsAnalyzing(false);
-                setShowResults(true);
-              } else {
-                setCurrentStep(prev => prev + 1);
-              }
-            }, 1500);
-          }
-        }, 50);
+    // Show typing dots for 2 seconds
+    setTimeout(() => {
+      setShowDots(false);
+      setIsTyping(true);
+      
+      // Type out the text character by character
+      let currentIndex = 0;
+      const typingInterval = setInterval(() => {
+        if (currentIndex <= fullText.length) {
+          setDisplayedText(fullText.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          setIsTyping(false);
+          clearInterval(typingInterval);
+        }
+      }, 50);
 
-        return () => clearInterval(typingInterval);
-      }, currentStep === 0 ? 1000 : 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [currentStep]);
+      return () => clearInterval(typingInterval);
+    }, 2000);
+  }, []);
 
   // Chart data
   const globalMarketData = [
@@ -132,865 +108,797 @@ const GrowthAdvisorDetails: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Muneem Ji Analysis Section */}
-      {isAnalyzing && (
-        <div className="fixed inset-0 bg-background/95 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-4xl mx-auto bg-white/90 border-2 border-primary/20 shadow-2xl">
-            <CardContent className="p-8">
-              <div className="flex items-center justify-center gap-12">
-                {/* Large Muneem Ji Character */}
-                <div className="relative flex-shrink-0">
-                  <div className={`relative transition-all duration-700 ${
-                    isTyping ? 'animate-pulse scale-105' : 'scale-100'
-                  }`}>
-                    <img
-                      src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                      alt="Muneem Ji"
-                      className="h-64 w-48 object-contain filter drop-shadow-lg"
-                    />
-                    {/* Speaking indicator */}
-                    <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
-                      isTyping ? 'bg-green-500 animate-pulse' : 'bg-blue-500'
-                    }`}>
-                      <div className={`absolute inset-1 rounded-full ${
-                        isTyping ? 'bg-green-400 animate-ping' : 'bg-blue-400'
-                      }`}></div>
+      {/* Muneem Ji Speaking Header */}
+      <div className="relative">
+       <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+               <CardContent className="p-4">
+                 <div className="flex items-center gap-8">
+                   <div className="relative flex-shrink-0">
+                     <img
+                       src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                       alt="Muneem Ji"
+                       className={`h-20 w-15 transition-all duration-500 ${
+                         isTyping ? 'scale-105' : 'scale-100'
+                       }`}
+                     />
+                     <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
+                       isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
+                     }`}></div>
+                     
+                
+                   </div>
+
+                   {isTyping && (
+                  <div className="">
+                    <div className="flex gap-1">
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
                     </div>
                   </div>
+                )}
+                   
+                   <div className="flex-1">
+                     <div className="flex items-center gap-2 mb-2">
+                       <h1 className="text-xl font-bold">Growth Advisor Analysis</h1>
+                       {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
+                     </div>
+                     
+                     {showDots && (
+                       <div className="flex items-center gap-2">
+                         <div className="flex gap-1">
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                         </div>
+                         <span className="text-sm text-muted-foreground animate-pulse">Analyzing market data...</span>
+                       </div>
+                     )}
+                     
+                     {!showDots && (
+                       <p className="text-sm text-foreground">
+                         {displayedText}
+                         {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                       </p>
+                     )}
+                   </div>
+                 </div>
+               </CardContent>
+             </Card>
+      </div>
 
-                  {/* Voice waves animation */}
-                  {isTyping && (
-                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4">
-                      <div className="flex items-center gap-1">
-                        <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '0ms' }}></div>
-                        <div className="w-1 bg-primary/80 rounded-full animate-bounce" style={{ height: '24px', animationDelay: '100ms' }}></div>
-                        <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '200ms' }}></div>
-                        <div className="w-1 bg-primary/80 rounded-full animate-bounce" style={{ height: '20px', animationDelay: '300ms' }}></div>
-                        <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '14px', animationDelay: '400ms' }}></div>
+      {/* Tabs Navigation */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
+          <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
+            <MapPin className="h-4 w-4" />
+            <span className="hidden sm:inline">📍 Local</span>
+            <span className="sm:hidden">Local</span>
+          </TabsTrigger>
+          <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm">
+            <Globe className="h-4 w-4" />
+            <span className="hidden sm:inline">🌍 Global</span>
+            <span className="sm:hidden">Global</span>
+          </TabsTrigger>
+          <TabsTrigger value="domestic" className="flex items-center gap-2 text-xs md:text-sm">
+            <MapPin className="h-4 w-4" />
+            <span className="hidden sm:inline">🇮🇳 Domestic</span>
+            <span className="sm:hidden">Domestic</span>
+          </TabsTrigger>
+          <TabsTrigger value="strengths" className="flex items-center gap-2 text-xs md:text-sm">
+            <Zap className="h-4 w-4" />
+            <span className="hidden sm:inline">💪 Strengths</span>
+            <span className="sm:hidden">Strengths</span>
+          </TabsTrigger>
+          <TabsTrigger value="growth" className="flex items-center gap-2 text-xs md:text-sm">
+            <TrendingUp className="h-4 w-4" />
+            <span className="hidden sm:inline">🚀 Growth</span>
+            <span className="sm:hidden">Growth</span>
+          </TabsTrigger>
+          <TabsTrigger value="analysis" className="flex items-center gap-2 text-xs md:text-sm">
+            <BarChart3 className="h-4 w-4" />
+            <span className="hidden sm:inline">📊 Analysis</span>
+            <span className="sm:hidden">Analysis</span>
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Local Competition Tab */}
+        <TabsContent value="local" className="space-y-4">
+          <div className="grid gap-4">
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <MapPin className="h-6 w-6 text-primary" />
+                  Local Competition Analysis - Punjab Sportswear Pvt. Ltd.
+                </CardTitle>
+                <CardDescription>
+                  Your competitive landscape in Ludhiana's sports garment manufacturing sector
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Business Overview */}
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-lg">Your Business Profile</h4>
+                    
+                    <Card className="p-4 bg-gradient-to-r from-primary/10 to-primary/20 border-primary/20">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h5 className="font-semibold text-primary">Punjab Sportswear Pvt. Ltd.</h5>
+                          <Badge className="bg-primary text-primary-foreground">Your Business</Badge>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <p className="text-muted-foreground">Annual Turnover</p>
+                            <p className="font-semibold">₹5 Crore</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Profit Margin</p>
+                            <p className="font-semibold">~12%</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Monthly Orders</p>
+                            <p className="font-semibold">2,200 units</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Market Share</p>
+                            <p className="font-semibold">~1.9%</p>
+                          </div>
+                        </div>
+                        <div className="pt-2 border-t">
+                          <p className="text-sm text-muted-foreground mb-1">Products:</p>
+                          <p className="text-sm">Cricket jerseys, football kits, running vests, training shorts</p>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-lg">Market Overview</h4>
+                    
+                    <div className="space-y-3">
+                      <div className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 rounded-lg">
+                        <h5 className="font-semibold text-blue-800 mb-2">Market Size</h5>
+                        <div className="text-sm text-blue-700 space-y-1">
+                          <p>• Ludhiana Sports Garment: ₹260 Crore</p>
+                          <p>• Your market share: 1.9%</p>
+                          <p>• Growth potential: High</p>
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 border-green-200 rounded-lg">
+                        <h5 className="font-semibold text-green-800 mb-2">Peak Season</h5>
+                        <div className="text-sm text-green-700 space-y-1">
+                          <p>• Feb-Apr: Pre-summer demand</p>
+                          <p>• School/college sports events</p>
+                          <p>• Custom jersey orders peak</p>
+                        </div>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 rounded-lg">
+                        <h5 className="font-semibold text-purple-800 mb-2">Trends</h5>
+                        <div className="text-sm text-purple-700 space-y-1">
+                          <p>• Branded, digitally-printed sportswear</p>
+                          <p>• Moisture-wicking materials</p>
+                          <p>• Athleisure wear demand rising</p>
+                        </div>
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
 
-                {/* Speech Bubble */}
-                <div className="flex-1 max-w-2xl">
-                  <div className="relative">
-                    {/* Speech bubble arrow */}
-                    <div className="absolute left-0 top-6 w-0 h-0 border-t-[15px] border-t-transparent border-b-[15px] border-b-transparent border-r-[20px] border-r-white transform -translate-x-5"></div>
-                    
-                    <Card className="bg-white shadow-lg border-2 border-primary/10">
-                      <CardContent className="p-6">
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-3">
-                            <h2 className="text-2xl font-bold text-foreground">Muneem Ji</h2>
-                            <Badge className="bg-primary/10 text-primary border-primary/20">
-                              Growth Advisor Expert
-                            </Badge>
-                          </div>
-                          
-                          {/* Progress indicator */}
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 bg-muted/30 rounded-full h-2">
-                              <div 
-                                className="bg-primary rounded-full h-2 transition-all duration-500" 
-                                style={{ width: `${((currentStep + 1) / analysisSteps.length) * 100}%` }}
-                              ></div>
-                            </div>
-                            <span className="text-sm text-muted-foreground">
-                              {currentStep + 1}/{analysisSteps.length}
-                            </span>
-                          </div>
+                {/* Direct Competitors */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg">Direct Competitors in Ludhiana</h4>
+                  
+                  <div className="grid gap-3 md:grid-cols-3">
+                    <Card className="p-3 bg-gradient-to-r from-red-50 to-red-100 border-red-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-red-800">SuperFit Sports Garments</h5>
+                        <Badge className="bg-red-100 text-red-800">Market Leader</Badge>
+                      </div>
+                      <div className="text-sm text-red-700 space-y-1">
+                        <p>• Annual TO: ₹7 Crore</p>
+                        <p>• 40% larger than you</p>
+                        <p>• Award: "Best Small Exporter" 2024</p>
+                      </div>
+                    </Card>
 
-                          {/* Speaking text */}
-                          <div className="min-h-[60px] flex items-center">
-                            <p className="text-lg text-foreground leading-relaxed">
-                              {displayedText}
-                              {isTyping && <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>}
-                            </p>
-                          </div>
+                    <Card className="p-3 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-orange-800">ActiveWear Ludhiana</h5>
+                        <Badge className="bg-orange-100 text-orange-800">Strong Player</Badge>
+                      </div>
+                      <div className="text-sm text-orange-700 space-y-1">
+                        <p>• Annual TO: ₹6 Crore</p>
+                        <p>• 20% larger than you</p>
+                        <p>• Focus: Retail partnerships</p>
+                      </div>
+                    </Card>
 
-                          {/* Typing dots when not speaking */}
-                          {!isTyping && currentStep < analysisSteps.length - 1 && (
-                            <div className="flex items-center gap-2 text-muted-foreground">
-                              <div className="flex gap-1">
-                                <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                                <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                                <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                              </div>
-                              <span className="text-sm">Analyzing...</span>
-                            </div>
-                          )}
-                        </div>
-                      </CardContent>
+                    <Card className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-yellow-800">EastX Sports</h5>
+                        <Badge className="bg-yellow-100 text-yellow-800">Similar Size</Badge>
+                      </div>
+                      <div className="text-sm text-yellow-700 space-y-1">
+                        <p>• Annual TO: ₹4 Crore</p>
+                        <p>• 20% smaller than you</p>
+                        <p>• Focus: Institutional sales</p>
+                      </div>
                     </Card>
                   </div>
                 </div>
+
+                {/* Competitive Position Chart */}
+                <div className="mt-6">
+                  <h4 className="font-semibold text-lg mb-4">Revenue Comparison</h4>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={[
+                        { company: 'SuperFit Sports', revenue: 7, color: '#ef4444' },
+                        { company: 'ActiveWear Ludhiana', revenue: 6, color: '#f97316' },
+                        { company: 'Punjab Sportswear (You)', revenue: 5, color: 'hsl(var(--primary))' },
+                        { company: 'EastX Sports', revenue: 4, color: '#eab308' }
+                      ]}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="company" className="text-xs" />
+                        <YAxis label={{ value: 'Revenue (₹ Crore)', angle: -90, position: 'insideLeft' }} />
+                        <Tooltip />
+                        <Bar dataKey="revenue" fill="hsl(var(--primary))" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Opportunities & Risks */}
+                <div className="grid gap-4 md:grid-cols-2 mt-6">
+                  <div>
+                    <h4 className="font-semibold text-lg mb-3 text-green-700">Growth Opportunities</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <TrendingUp className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Online B2B Sales</p>
+                          <p className="text-muted-foreground">Expand reach beyond Ludhiana</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <Users className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Digital Custom Design Services</p>
+                          <p className="text-muted-foreground">Premium pricing opportunity</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <MapPin className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Nearby Districts Expansion</p>
+                          <p className="text-muted-foreground">Chandigarh, Jalandhar markets</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-lg mb-3 text-red-700">Key Risks</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <Target className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Intense Local Competition</p>
+                          <p className="text-muted-foreground">SuperFit's market leadership</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <TrendingUp className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Rapid Trend Changes</p>
+                          <p className="text-muted-foreground">Fashion cycles getting shorter</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <BarChart3 className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Working Capital Management</p>
+                          <p className="text-muted-foreground">40-day receivables cycle</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        {/* Global Competitors Tab */}
+        <TabsContent value="global" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  Bangladesh
+                  <Badge className="bg-yellow-100 text-yellow-800">Low Cost Leader</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Low-cost labor advantage</li>
+                  <li>• Duty-free EU access</li>
+                  <li>• Strong in RMG (T-shirts, trousers)</li>
+                  <li>• 12% global market share</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  Vietnam
+                  <Badge className="bg-blue-100 text-blue-800">Quality Focus</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• High quality production</li>
+                  <li>• FTAs with EU & US</li>
+                  <li>• Efficient supply chains</li>
+                  <li>• 8% global market share</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  China
+                  <Badge className="bg-red-100 text-red-800">Tech Leader</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Tech-driven automation</li>
+                  <li>• Massive scale operations</li>
+                  <li>• Advanced textiles leader</li>
+                  <li>• 32% global market share</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-primary" />
+                  Turkey
+                  <Badge className="bg-green-100 text-green-800">Premium & Speed</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Close to European markets</li>
+                  <li>• Premium cotton quality</li>
+                  <li>• Fast delivery capabilities</li>
+                  <li>• 4% global market share</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        {/* Domestic Competitors Tab */}
+        <TabsContent value="domestic" className="space-y-4">
+          <div className="grid gap-4">
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-primary" />
+                  Tamil Nadu (Tirupur)
+                  <Badge className="bg-orange-100 text-orange-800">Knitwear Capital</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="font-semibold mb-2">Strengths:</p>
+                    <ul className="space-y-1 text-sm text-muted-foreground">
+                      <li>• Knitwear manufacturing hub</li>
+                      <li>• Strong cotton supply chain</li>
+                      <li>• Export-oriented infrastructure</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-2">Key Metrics:</p>
+                    <ul className="space-y-1 text-sm text-muted-foreground">
+                      <li>• ₹26,000 Cr exports (FY24)</li>
+                      <li>• 50% of India's knitwear</li>
+                      <li>• 600+ garment units</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="card-elevated">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-primary" />
+                  Gujarat (Surat)
+                  <Badge className="bg-purple-100 text-purple-800">Synthetic Hub</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="font-semibold mb-2">Strengths:</p>
+                    <ul className="space-y-1 text-sm text-muted-foreground">
+                      <li>• Leader in synthetics & MMF</li>
+                      <li>• Highly automated processes</li>
+                      <li>• Strong chemical fiber base</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-2">Key Metrics:</p>
+                    <ul className="space-y-1 text-sm text-muted-foreground">
+                      <li>• 40% of India's MMF textiles</li>
+                      <li>• 200+ integrated units</li>
+                      <li>• High automation levels</li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <Card className="card-elevated">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <MapPin className="h-5 w-5 text-primary" />
+                    Maharashtra
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li>• Broad textile ecosystem</li>
+                    <li>• Strong export infrastructure</li>
+                    <li>• Diverse product range</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="card-elevated">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <MapPin className="h-5 w-5 text-primary" />
+                    Karnataka
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li>• Silk & premium fabrics</li>
+                    <li>• Tech-enabled production</li>
+                    <li>• Growing export base</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
+        {/* Our Strengths Tab */}
+        <TabsContent value="strengths" className="space-y-4">
+          <Card className="card-elevated">
+            <CardHeader>
+              <CardTitle className="text-xl flex items-center gap-2">
+                <Zap className="h-6 w-6 text-primary" />
+                Punjab/Ludhiana Advantages
+              </CardTitle>
+              <CardDescription>
+                Your competitive positioning in the textile industry
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Target className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Wool & Winter Wear Leader</h4>
+                      <p className="text-sm text-muted-foreground">Dominant position in wool processing and winter garments manufacturing</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="h-8 w-8 rounded-full bg-secondary/10 flex items-center justify-center">
+                      <Users className="h-4 w-4 text-secondary" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Skilled Labor Force</h4>
+                      <p className="text-sm text-muted-foreground">Generations of textile expertise and craftsmanship</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
+                      <BookOpen className="h-4 w-4 text-green-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Raw Material Base</h4>
+                      <p className="text-sm text-muted-foreground">Strong cotton and natural fiber supply chains</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                      <TrendingUp className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-foreground">Mid-Price Positioning</h4>
+                      <p className="text-sm text-muted-foreground">Perfect balance between cost and quality</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-muted/30 rounded-lg p-4">
+                <h5 className="font-semibold text-foreground mb-2">Market Position Summary</h5>
+                <p className="text-sm text-muted-foreground">
+                  Punjab/Ludhiana holds a unique position in the Indian textile ecosystem with specialized 
+                  expertise in wool processing and winter wear. Your region combines traditional craftsmanship 
+                  with modern capabilities, making it well-positioned for premium and mid-market segments.
+                </p>
               </div>
             </CardContent>
           </Card>
-        </div>
-      )}
+        </TabsContent>
 
-      {/* Small Muneem Ji Header (shown after analysis) */}
-      {showResults && (
-        <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20 animate-fade-in">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-4">
-              <div className="relative flex-shrink-0">
-                <img
-                  src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                  alt="Muneem Ji"
-                  className="h-16 w-12 object-contain"
-                />
-                <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-white"></div>
-              </div>
-              
-              <div className="flex-1">
-                <h1 className="text-xl font-bold text-foreground">Growth Advisor Analysis Complete</h1>
-                <p className="text-sm text-muted-foreground">
-                  Analysis ready! Browse through the different sections to see opportunities.
-                </p>
-              </div>
-              
-              <MessageCircle className="h-5 w-5 text-primary animate-pulse" />
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Results Tabs */}
-      {showResults && (
-        <div className="animate-fade-in" style={{ animationDelay: '500ms' }}>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
-              <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
-                <MapPin className="h-4 w-4" />
-                <span className="hidden sm:inline">📍 Local</span>
-                <span className="sm:hidden">Local</span>
-              </TabsTrigger>
-              <TabsTrigger value="global" className="flex items-center gap-2 text-xs md:text-sm">
-                <Globe className="h-4 w-4" />
-                <span className="hidden sm:inline">🌍 Global</span>
-                <span className="sm:hidden">Global</span>
-              </TabsTrigger>
-              <TabsTrigger value="domestic" className="flex items-center gap-2 text-xs md:text-sm">
-                <MapPin className="h-4 w-4" />
-                <span className="hidden sm:inline">🇮🇳 Domestic</span>
-                <span className="sm:hidden">Domestic</span>
-              </TabsTrigger>
-              <TabsTrigger value="strengths" className="flex items-center gap-2 text-xs md:text-sm">
-                <Zap className="h-4 w-4" />
-                <span className="hidden sm:inline">💪 Strengths</span>
-                <span className="sm:hidden">Strengths</span>
-              </TabsTrigger>
-              <TabsTrigger value="growth" className="flex items-center gap-2 text-xs md:text-sm">
-                <TrendingUp className="h-4 w-4" />
-                <span className="hidden sm:inline">🚀 Growth</span>
-                <span className="sm:hidden">Growth</span>
-              </TabsTrigger>
-              <TabsTrigger value="analysis" className="flex items-center gap-2 text-xs md:text-sm">
-                <BarChart3 className="h-4 w-4" />
-                <span className="hidden sm:inline">📊 Analysis</span>
-                <span className="sm:hidden">Analysis</span>
-              </TabsTrigger>
-            </TabsList>
-
-            {/* Local Competition Tab */}
-            <TabsContent value="local" className="space-y-4">
-              <div className="grid gap-4">
-                <Card className="card-elevated">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-xl flex items-center gap-2">
-                      <MapPin className="h-6 w-6 text-primary" />
-                      Local Competition Analysis - Punjab Sportswear Pvt. Ltd.
-                    </CardTitle>
-                    <CardDescription>
-                      Your competitive landscape in Ludhiana's sports garment manufacturing sector
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {/* Business Overview */}
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="space-y-4">
-                        <h4 className="font-semibold text-lg">Your Business Profile</h4>
-                        
-                        <Card className="p-4 bg-gradient-to-r from-primary/10 to-primary/20 border-primary/20">
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <h5 className="font-semibold text-primary">Punjab Sportswear Pvt. Ltd.</h5>
-                              <Badge className="bg-primary text-primary-foreground">Your Business</Badge>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4 text-sm">
-                              <div>
-                                <p className="text-muted-foreground">Annual Turnover</p>
-                                <p className="font-semibold">₹5 Crore</p>
-                              </div>
-                              <div>
-                                <p className="text-muted-foreground">Profit Margin</p>
-                                <p className="font-semibold">~12%</p>
-                              </div>
-                              <div>
-                                <p className="text-muted-foreground">Monthly Orders</p>
-                                <p className="font-semibold">2,200 units</p>
-                              </div>
-                              <div>
-                                <p className="text-muted-foreground">Market Share</p>
-                                <p className="font-semibold">~1.9%</p>
-                              </div>
-                            </div>
-                            <div className="pt-2 border-t">
-                              <p className="text-sm text-muted-foreground mb-1">Products:</p>
-                              <p className="text-sm">Cricket jerseys, football kits, running vests, training shorts</p>
-                            </div>
-                          </div>
-                        </Card>
-                      </div>
-
-                      <div className="space-y-4">
-                        <h4 className="font-semibold text-lg">Market Overview</h4>
-                        
-                        <div className="space-y-3">
-                          <div className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 rounded-lg">
-                            <h5 className="font-semibold text-blue-800 mb-2">Market Size</h5>
-                            <div className="text-sm text-blue-700 space-y-1">
-                              <p>• Ludhiana Sports Garment: ₹260 Crore</p>
-                              <p>• Your market share: 1.9%</p>
-                              <p>• Growth potential: High</p>
-                            </div>
-                          </div>
-
-                          <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 border-green-200 rounded-lg">
-                            <h5 className="font-semibold text-green-800 mb-2">Peak Season</h5>
-                            <div className="text-sm text-green-700 space-y-1">
-                              <p>• Feb-Apr: Pre-summer demand</p>
-                              <p>• School/college sports events</p>
-                              <p>• Custom jersey orders peak</p>
-                            </div>
-                          </div>
-
-                          <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 rounded-lg">
-                            <h5 className="font-semibold text-purple-800 mb-2">Trends</h5>
-                            <div className="text-sm text-purple-700 space-y-1">
-                              <p>• Branded, digitally-printed sportswear</p>
-                              <p>• Moisture-wicking materials</p>
-                              <p>• Athleisure wear demand rising</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Direct Competitors */}
-                    <div className="space-y-4">
-                      <h4 className="font-semibold text-lg">Direct Competitors in Ludhiana</h4>
-                      
-                      <div className="grid gap-3 md:grid-cols-3">
-                        <Card className="p-3 bg-gradient-to-r from-red-50 to-red-100 border-red-200">
-                          <div className="flex items-center justify-between mb-2">
-                            <h5 className="font-semibold text-red-800">SuperFit Sports Garments</h5>
-                            <Badge className="bg-red-100 text-red-800">Market Leader</Badge>
-                          </div>
-                          <div className="text-sm text-red-700 space-y-1">
-                            <p>• Annual TO: ₹7 Crore</p>
-                            <p>• 40% larger than you</p>
-                            <p>• Award: "Best Small Exporter" 2024</p>
-                          </div>
-                        </Card>
-
-                        <Card className="p-3 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200">
-                          <div className="flex items-center justify-between mb-2">
-                            <h5 className="font-semibold text-orange-800">ActiveWear Ludhiana</h5>
-                            <Badge className="bg-orange-100 text-orange-800">Strong Player</Badge>
-                          </div>
-                          <div className="text-sm text-orange-700 space-y-1">
-                            <p>• Annual TO: ₹6 Crore</p>
-                            <p>• 20% larger than you</p>
-                            <p>• Focus: Retail partnerships</p>
-                          </div>
-                        </Card>
-
-                        <Card className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200">
-                          <div className="flex items-center justify-between mb-2">
-                            <h5 className="font-semibold text-yellow-800">EastX Sports</h5>
-                            <Badge className="bg-yellow-100 text-yellow-800">Similar Size</Badge>
-                          </div>
-                          <div className="text-sm text-yellow-700 space-y-1">
-                            <p>• Annual TO: ₹4 Crore</p>
-                            <p>• 20% smaller than you</p>
-                            <p>• Focus: Institutional sales</p>
-                          </div>
-                        </Card>
-                      </div>
-                    </div>
-
-                    {/* Competitive Position Chart */}
-                    <div className="mt-6">
-                      <h4 className="font-semibold text-lg mb-4">Revenue Comparison</h4>
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={[
-                            { company: 'SuperFit Sports', revenue: 7, color: '#ef4444' },
-                            { company: 'ActiveWear Ludhiana', revenue: 6, color: '#f97316' },
-                            { company: 'Punjab Sportswear (You)', revenue: 5, color: 'hsl(var(--primary))' },
-                            { company: 'EastX Sports', revenue: 4, color: '#eab308' }
-                          ]}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="company" className="text-xs" />
-                            <YAxis label={{ value: 'Revenue (₹ Crore)', angle: -90, position: 'insideLeft' }} />
-                            <Tooltip />
-                            <Bar dataKey="revenue" fill="hsl(var(--primary))" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </div>
-
-                    {/* Opportunities & Risks */}
-                    <div className="grid gap-4 md:grid-cols-2 mt-6">
-                      <div>
-                        <h4 className="font-semibold text-lg mb-3 text-green-700">Growth Opportunities</h4>
-                        <div className="space-y-2">
-                          <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
-                            <TrendingUp className="h-4 w-4 mt-0.5 text-green-600" />
-                            <div className="text-sm">
-                              <p className="font-medium">Online B2B Sales</p>
-                              <p className="text-muted-foreground">Expand reach beyond Ludhiana</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
-                            <Users className="h-4 w-4 mt-0.5 text-green-600" />
-                            <div className="text-sm">
-                              <p className="font-medium">Digital Custom Design Services</p>
-                              <p className="text-muted-foreground">Premium pricing opportunity</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
-                            <MapPin className="h-4 w-4 mt-0.5 text-green-600" />
-                            <div className="text-sm">
-                              <p className="font-medium">Nearby Districts Expansion</p>
-                              <p className="text-muted-foreground">Chandigarh, Jalandhar markets</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <h4 className="font-semibold text-lg mb-3 text-red-700">Key Risks</h4>
-                        <div className="space-y-2">
-                          <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
-                            <Target className="h-4 w-4 mt-0.5 text-red-600" />
-                            <div className="text-sm">
-                              <p className="font-medium">Intense Local Competition</p>
-                              <p className="text-muted-foreground">SuperFit's market leadership</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
-                            <TrendingUp className="h-4 w-4 mt-0.5 text-red-600" />
-                            <div className="text-sm">
-                              <p className="font-medium">Rapid Trend Changes</p>
-                              <p className="text-muted-foreground">Fashion cycles getting shorter</p>
-                            </div>
-                          </div>
-                          <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
-                            <BarChart3 className="h-4 w-4 mt-0.5 text-red-600" />
-                            <div className="text-sm">
-                              <p className="font-medium">Working Capital Management</p>
-                              <p className="text-muted-foreground">40-day receivables cycle</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-
-            {/* Global Competitors Tab */}
-            <TabsContent value="global" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <Card className="card-elevated">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Globe className="h-5 w-5 text-primary" />
-                      Bangladesh
-                      <Badge className="bg-yellow-100 text-yellow-800">Low Cost Leader</Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>• Low-cost labor advantage</li>
-                      <li>• Duty-free EU access</li>
-                      <li>• Strong in RMG (T-shirts, trousers)</li>
-                      <li>• 12% global market share</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-
-                <Card className="card-elevated">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Globe className="h-5 w-5 text-primary" />
-                      Vietnam
-                      <Badge className="bg-blue-100 text-blue-800">Quality Focus</Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>• High quality production</li>
-                      <li>• FTAs with EU & US</li>
-                      <li>• Efficient supply chains</li>
-                      <li>• 8% global market share</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-
-                <Card className="card-elevated">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Globe className="h-5 w-5 text-primary" />
-                      China
-                      <Badge className="bg-red-100 text-red-800">Tech Leader</Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>• Tech-driven automation</li>
-                      <li>• Massive scale operations</li>
-                      <li>• Advanced textiles leader</li>
-                      <li>• 32% global market share</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-
-                <Card className="card-elevated">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Globe className="h-5 w-5 text-primary" />
-                      Turkey
-                      <Badge className="bg-green-100 text-green-800">Premium & Speed</Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
-                      <li>• Close to European markets</li>
-                      <li>• Premium cotton quality</li>
-                      <li>• Fast delivery capabilities</li>
-                      <li>• 4% global market share</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-
-            {/* Domestic Competitors Tab */}
-            <TabsContent value="domestic" className="space-y-4">
-              <div className="grid gap-4">
-                <Card className="card-elevated">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <MapPin className="h-5 w-5 text-primary" />
-                      Tamil Nadu (Tirupur)
-                      <Badge className="bg-orange-100 text-orange-800">Knitwear Capital</Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="font-semibold mb-2">Strengths:</p>
-                        <ul className="space-y-1 text-sm text-muted-foreground">
-                          <li>• Knitwear manufacturing hub</li>
-                          <li>• Strong cotton supply chain</li>
-                          <li>• Export-oriented infrastructure</li>
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="font-semibold mb-2">Key Metrics:</p>
-                        <ul className="space-y-1 text-sm text-muted-foreground">
-                          <li>• ₹26,000 Cr exports (FY24)</li>
-                          <li>• 50% of India's knitwear</li>
-                          <li>• 600+ garment units</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="card-elevated">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <MapPin className="h-5 w-5 text-primary" />
-                      Gujarat (Surat)
-                      <Badge className="bg-purple-100 text-purple-800">Synthetic Hub</Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <p className="font-semibold mb-2">Strengths:</p>
-                        <ul className="space-y-1 text-sm text-muted-foreground">
-                          <li>• Leader in synthetics & MMF</li>
-                          <li>• Highly automated processes</li>
-                          <li>• Strong chemical fiber base</li>
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="font-semibold mb-2">Key Metrics:</p>
-                        <ul className="space-y-1 text-sm text-muted-foreground">
-                          <li>• 40% of India's MMF textiles</li>
-                          <li>• 200+ integrated units</li>
-                          <li>• High automation levels</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
+        {/* Growth Strategy Tab */}
+        <TabsContent value="growth" className="space-y-4">
+          <div className="grid gap-4">
+            <Card className="card-elevated">
+              <CardHeader>
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <TrendingUp className="h-6 w-6 text-primary" />
+                  Strategic Growth Opportunities
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
                 <div className="grid gap-4 md:grid-cols-2">
-                  <Card className="card-elevated">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <MapPin className="h-5 w-5 text-primary" />
-                        Maharashtra
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
-                        <li>• Broad textile ecosystem</li>
-                        <li>• Strong export infrastructure</li>
-                        <li>• Diverse product range</li>
-                      </ul>
-                    </CardContent>
-                  </Card>
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground flex items-center gap-2">
+                      <div className="h-2 w-2 rounded-full bg-primary"></div>
+                      Product Diversification
+                    </h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground ml-4">
+                      <li>• Sustainable fashion lines</li>
+                      <li>• Technical textiles for industrial use</li>
+                      <li>• Man-Made Fiber (MMF) products</li>
+                      <li>• Smart fabrics and performance wear</li>
+                    </ul>
+                  </div>
 
-                  <Card className="card-elevated">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <MapPin className="h-5 w-5 text-primary" />
-                        Karnataka
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
-                        <li>• Silk & premium fabrics</li>
-                        <li>• Tech-enabled production</li>
-                        <li>• Growing export base</li>
-                      </ul>
-                    </CardContent>
-                  </Card>
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground flex items-center gap-2">
+                      <div className="h-2 w-2 rounded-full bg-secondary"></div>
+                      Technology & Automation
+                    </h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground ml-4">
+                      <li>• Automated cutting and sewing</li>
+                      <li>• AI-powered quality control</li>
+                      <li>• Smart inventory management</li>
+                      <li>• Digital pattern making</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground flex items-center gap-2">
+                      <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                      Market Expansion
+                    </h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground ml-4">
+                      <li>• European Union markets</li>
+                      <li>• United Kingdom post-Brexit</li>
+                      <li>• Middle East & Africa</li>
+                      <li>• Southeast Asian countries</li>
+                    </ul>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-foreground flex items-center gap-2">
+                      <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                      Infrastructure & Policy
+                    </h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground ml-4">
+                      <li>• Better logistics infrastructure</li>
+                      <li>• Government policy support</li>
+                      <li>• Export promotion schemes</li>
+                      <li>• Skill development programs</li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </TabsContent>
 
-            {/* Our Strengths Tab */}
-            <TabsContent value="strengths" className="space-y-4">
-              <Card className="card-elevated">
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <Zap className="h-6 w-6 text-primary" />
-                    Punjab/Ludhiana Advantages
-                  </CardTitle>
-                  <CardDescription>
-                    Your competitive positioning in the textile industry
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid gap-6 md:grid-cols-2">
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                          <Target className="h-4 w-4 text-primary" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Wool & Winter Wear Leader</h4>
-                          <p className="text-sm text-muted-foreground">Dominant position in wool processing and winter garments manufacturing</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <div className="h-8 w-8 rounded-full bg-secondary/10 flex items-center justify-center">
-                          <Users className="h-4 w-4 text-secondary" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Skilled Labor Force</h4>
-                          <p className="text-sm text-muted-foreground">Generations of textile expertise and craftsmanship</p>
-                        </div>
-                      </div>
+                <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg p-4 border border-primary/10">
+                  <h5 className="font-semibold text-foreground mb-2">💡 Immediate Action Items</h5>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-primary">3-6 months</div>
+                      <div className="text-sm text-muted-foreground">Automation planning</div>
                     </div>
-
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
-                          <BookOpen className="h-4 w-4 text-green-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Raw Material Base</h4>
-                          <p className="text-sm text-muted-foreground">Strong cotton and natural fiber supply chains</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
-                          <TrendingUp className="h-4 w-4 text-blue-600" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">Mid-Price Positioning</h4>
-                          <p className="text-sm text-muted-foreground">Perfect balance between cost and quality</p>
-                        </div>
-                      </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-secondary">6-12 months</div>
+                      <div className="text-sm text-muted-foreground">New product lines</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-lg font-bold text-green-600">12+ months</div>
+                      <div className="text-sm text-muted-foreground">Market expansion</div>
                     </div>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
 
-                  <div className="bg-muted/30 rounded-lg p-4">
-                    <h5 className="font-semibold text-foreground mb-2">Market Position Summary</h5>
-                    <p className="text-sm text-muted-foreground">
-                      Punjab/Ludhiana holds a unique position in the Indian textile ecosystem with specialized 
-                      expertise in wool processing and winter wear. Your region combines traditional craftsmanship 
-                      with modern capabilities, making it well-positioned for premium and mid-market segments.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+        {/* Graph Analysis Tab */}
+        <TabsContent value="analysis" className="space-y-6">
+          {/* Global Market Share Chart */}
+          <Card className="card-elevated">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-primary" />
+                Global Garment Export Market Share
+              </CardTitle>
+              <CardDescription>Market share by country in billion USD</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={globalMarketData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="country" />
+                  <YAxis />
+                  <Tooltip 
+                    formatter={(value, name) => [`${value}%`, 'Market Share']}
+                    labelFormatter={(label) => `Country: ${label}`}
+                  />
+                  <Legend />
+                  <Bar dataKey="share" fill="hsl(var(--primary))" name="Market Share %" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
-            {/* Growth Strategy Tab */}
-            <TabsContent value="growth" className="space-y-4">
-              <div className="grid gap-4">
-                <Card className="card-elevated">
-                  <CardHeader>
-                    <CardTitle className="text-xl flex items-center gap-2">
-                      <TrendingUp className="h-6 w-6 text-primary" />
-                      Strategic Growth Opportunities
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-foreground flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full bg-primary"></div>
-                          Product Diversification
-                        </h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground ml-4">
-                          <li>• Sustainable fashion lines</li>
-                          <li>• Technical textiles for industrial use</li>
-                          <li>• Man-Made Fiber (MMF) products</li>
-                          <li>• Smart fabrics and performance wear</li>
-                        </ul>
-                      </div>
+          {/* Competitor Benchmarking Radar */}
+          <Card className="card-elevated">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="h-5 w-5 text-primary" />
+                Competitor Benchmarking Analysis
+              </CardTitle>
+              <CardDescription>Performance comparison across key metrics</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <RadarChart data={competitorBenchmark}>
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="metric" />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                  <Radar name="Punjab" dataKey="punjab" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.1} />
+                  <Radar name="Tirupur" dataKey="tirupur" stroke="hsl(var(--secondary))" fill="hsl(var(--secondary))" fillOpacity={0.1} />
+                  <Radar name="Bangladesh" dataKey="bangladesh" stroke="#8884d8" fill="#8884d8" fillOpacity={0.1} />
+                  <Radar name="Ideal" dataKey="ideal" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.1} />
+                  <Legend />
+                </RadarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
 
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-foreground flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full bg-secondary"></div>
-                          Technology & Automation
-                        </h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground ml-4">
-                          <li>• Automated cutting and sewing</li>
-                          <li>• AI-powered quality control</li>
-                          <li>• Smart inventory management</li>
-                          <li>• Digital pattern making</li>
-                        </ul>
-                      </div>
+          <div className="grid gap-6 lg:grid-cols-2">
+            {/* Punjab Export Trends */}
+            <Card className="card-elevated">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5 text-primary" />
+                  Punjab Export Trends
+                </CardTitle>
+                <CardDescription>Export growth over recent years</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={250}>
+                  <LineChart data={exportTrends}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip 
+                      formatter={(value, name) => [
+                        name === 'exports' ? `$${value}B` : `${value}%`,
+                        name === 'exports' ? 'Exports' : 'Growth'
+                      ]}
+                    />
+                    <Legend />
+                    <Line type="monotone" dataKey="exports" stroke="hsl(var(--primary))" name="Exports (USD Billion)" />
+                    <Line type="monotone" dataKey="growth" stroke="hsl(var(--secondary))" name="Growth %" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
 
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-foreground flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                          Market Expansion
-                        </h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground ml-4">
-                          <li>• European Union markets</li>
-                          <li>• United Kingdom post-Brexit</li>
-                          <li>• Middle East & Africa</li>
-                          <li>• Southeast Asian countries</li>
-                        </ul>
-                      </div>
+            {/* Opportunity Matrix */}
+            <Card className="card-elevated">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-primary" />
+                  Opportunity Matrix
+                </CardTitle>
+                <CardDescription>Impact vs Feasibility analysis</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={250}>
+                  <ScatterChart data={opportunityMatrix}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      type="number" 
+                      dataKey="feasibility" 
+                      name="Feasibility" 
+                      domain={[40, 90]}
+                      label={{ value: 'Feasibility', position: 'insideBottom', offset: -10 }}
+                    />
+                    <YAxis 
+                      type="number" 
+                      dataKey="impact" 
+                      name="Impact" 
+                      domain={[60, 90]}
+                      label={{ value: 'Impact', angle: -90, position: 'insideLeft' }}
+                    />
+                    <Tooltip 
+                      formatter={(value, name) => [`${value}`, name]}
+                      labelFormatter={() => ''}
+                      content={({ active, payload }) => {
+                        if (active && payload && payload[0]) {
+                          const data = payload[0].payload;
+                          return (
+                            <div className="bg-white p-3 border rounded shadow-lg">
+                              <p className="font-semibold">{data.opportunity}</p>
+                              <p>Impact: {data.impact}%</p>
+                              <p>Feasibility: {data.feasibility}%</p>
+                              <p>Market Size: ${data.size}M</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Scatter dataKey="size" fill="hsl(var(--primary))">
+                      {opportunityMatrix.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                      ))}
+                    </Scatter>
+                  </ScatterChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+      </Tabs>
 
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-foreground flex items-center gap-2">
-                          <div className="h-2 w-2 rounded-full bg-blue-500"></div>
-                          Infrastructure & Policy
-                        </h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground ml-4">
-                          <li>• Better logistics infrastructure</li>
-                          <li>• Government policy support</li>
-                          <li>• Export promotion schemes</li>
-                          <li>• Skill development programs</li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg p-4 border border-primary/10">
-                      <h5 className="font-semibold text-foreground mb-2">💡 Immediate Action Items</h5>
-                      <div className="grid gap-3 md:grid-cols-3">
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-primary">3-6 months</div>
-                          <div className="text-sm text-muted-foreground">Automation planning</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-secondary">6-12 months</div>
-                          <div className="text-sm text-muted-foreground">New product lines</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-green-600">12+ months</div>
-                          <div className="text-sm text-muted-foreground">Market expansion</div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-
-            {/* Graph Analysis Tab */}
-            <TabsContent value="analysis" className="space-y-6">
-              {/* Global Market Share Chart */}
-              <Card className="card-elevated">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <BarChart3 className="h-5 w-5 text-primary" />
-                    Global Garment Export Market Share
-                  </CardTitle>
-                  <CardDescription>Market share by country in billion USD</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={globalMarketData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="country" />
-                      <YAxis />
-                      <Tooltip 
-                        formatter={(value, name) => [`${value}%`, 'Market Share']}
-                        labelFormatter={(label) => `Country: ${label}`}
-                      />
-                      <Legend />
-                      <Bar dataKey="share" fill="hsl(var(--primary))" name="Market Share %" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
-
-              {/* Competitor Benchmarking Radar */}
-              <Card className="card-elevated">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Target className="h-5 w-5 text-primary" />
-                    Competitor Benchmarking Analysis
-                  </CardTitle>
-                  <CardDescription>Performance comparison across key metrics</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={400}>
-                    <RadarChart data={competitorBenchmark}>
-                      <PolarGrid />
-                      <PolarAngleAxis dataKey="metric" />
-                      <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                      <Radar name="Punjab" dataKey="punjab" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.1} />
-                      <Radar name="Tirupur" dataKey="tirupur" stroke="hsl(var(--secondary))" fill="hsl(var(--secondary))" fillOpacity={0.1} />
-                      <Radar name="Bangladesh" dataKey="bangladesh" stroke="#8884d8" fill="#8884d8" fillOpacity={0.1} />
-                      <Radar name="Ideal" dataKey="ideal" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.1} />
-                      <Legend />
-                    </RadarChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
-
-              <div className="grid gap-6 lg:grid-cols-2">
-                {/* Punjab Export Trends */}
-                <Card className="card-elevated">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <TrendingUp className="h-5 w-5 text-primary" />
-                      Punjab Export Trends
-                    </CardTitle>
-                    <CardDescription>Export growth over recent years</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={250}>
-                      <LineChart data={exportTrends}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="year" />
-                        <YAxis />
-                        <Tooltip 
-                          formatter={(value, name) => [
-                            name === 'exports' ? `$${value}B` : `${value}%`,
-                            name === 'exports' ? 'Exports' : 'Growth'
-                          ]}
-                        />
-                        <Legend />
-                        <Line type="monotone" dataKey="exports" stroke="hsl(var(--primary))" name="Exports (USD Billion)" />
-                        <Line type="monotone" dataKey="growth" stroke="hsl(var(--secondary))" name="Growth %" />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </CardContent>
-                </Card>
-
-                {/* Opportunity Matrix */}
-                <Card className="card-elevated">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Target className="h-5 w-5 text-primary" />
-                      Opportunity Matrix
-                    </CardTitle>
-                    <CardDescription>Impact vs Feasibility analysis</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={250}>
-                      <ScatterChart data={opportunityMatrix}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis 
-                          type="number" 
-                          dataKey="feasibility" 
-                          name="Feasibility" 
-                          domain={[40, 90]}
-                          label={{ value: 'Feasibility', position: 'insideBottom', offset: -10 }}
-                        />
-                        <YAxis 
-                          type="number" 
-                          dataKey="impact" 
-                          name="Impact" 
-                          domain={[60, 90]}
-                          label={{ value: 'Impact', angle: -90, position: 'insideLeft' }}
-                        />
-                        <Tooltip 
-                          formatter={(value, name) => [`${value}`, name]}
-                          labelFormatter={() => ''}
-                          content={({ active, payload }) => {
-                            if (active && payload && payload[0]) {
-                              const data = payload[0].payload;
-                              return (
-                                <div className="bg-white p-3 border rounded shadow-lg">
-                                  <p className="font-semibold">{data.opportunity}</p>
-                                  <p>Impact: {data.impact}%</p>
-                                  <p>Feasibility: {data.feasibility}%</p>
-                                  <p>Market Size: ${data.size}M</p>
-                                </div>
-                              );
-                            }
-                            return null;
-                          }}
-                        />
-                        <Scatter dataKey="size" fill="hsl(var(--primary))">
-                          {opportunityMatrix.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                          ))}
-                        </Scatter>
-                      </ScatterChart>
-                    </ResponsiveContainer>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
-
-          {/* Export Report Button */}
-          <Button 
-            onClick={handleExportReport}
-            className="w-full btn-primary"
-            size="lg"
-          >
-            <Download className="h-4 w-4 mr-2" />
-            Export Growth Advisor Report
-          </Button>
-        </div>
-      )}
+      {/* Export Report Button */}
+      <Button 
+        onClick={handleExportReport}
+        className="w-full btn-primary"
+        size="lg"
+      >
+        <Download className="h-4 w-4 mr-2" />
+        Export Growth Advisor Report
+      </Button>
     </div>
   );
 };
