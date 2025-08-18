@@ -38,33 +38,62 @@ import {
 
 const GrowthAdvisorDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState('local');
+  const [conversationStep, setConversationStep] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [displayedText, setDisplayedText] = useState('');
   const [showDots, setShowDots] = useState(true);
+  const [showData, setShowData] = useState(false);
   
-  const fullText = "Let me help you with some competition analysis of the garment business in global and domestic markets.";
+  const conversations = [
+    {
+      text: "Namaste ji! Let me guide you towards your business growth with some powerful insights!",
+      action: () => setShowData(true)
+    },
+    {
+      text: "Here's your detailed competition analysis that will help you stay ahead in the market...",
+      action: () => {}
+    }
+  ];
+  
+  const currentConversation = conversations[conversationStep] || conversations[0];
 
   useEffect(() => {
-    // Show typing dots for 2 seconds
-    setTimeout(() => {
-      setShowDots(false);
+    const typeConversation = () => {
+      setShowDots(true);
       setIsTyping(true);
+      setDisplayedText('');
       
-      // Type out the text character by character
-      let currentIndex = 0;
-      const typingInterval = setInterval(() => {
-        if (currentIndex <= fullText.length) {
-          setDisplayedText(fullText.slice(0, currentIndex));
-          currentIndex++;
-        } else {
-          setIsTyping(false);
-          clearInterval(typingInterval);
-        }
-      }, 50);
+      // Show typing dots for 2 seconds
+      setTimeout(() => {
+        setShowDots(false);
+        
+        // Type out the text character by character
+        let currentIndex = 0;
+        const typingInterval = setInterval(() => {
+          if (currentIndex <= currentConversation.text.length) {
+            setDisplayedText(currentConversation.text.slice(0, currentIndex));
+            currentIndex++;
+          } else {
+            setIsTyping(false);
+            clearInterval(typingInterval);
+            // Execute action after typing is complete
+            setTimeout(() => {
+              currentConversation.action();
+              if (conversationStep < conversations.length - 1) {
+                setTimeout(() => {
+                  setConversationStep(prev => prev + 1);
+                }, 2000);
+              }
+            }, 1000);
+          }
+        }, 50);
 
-      return () => clearInterval(typingInterval);
-    }, 2000);
-  }, []);
+        return () => clearInterval(typingInterval);
+      }, 1500);
+    };
+
+    typeConversation();
+  }, [conversationStep]);
 
   // Chart data
   const globalMarketData = [
@@ -108,70 +137,63 @@ const GrowthAdvisorDetails: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Muneem Ji Speaking Header */}
-      <div className="relative">
-       <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
-               <CardContent className="p-4">
-                 <div className="flex items-center gap-8">
-                   <div className="relative flex-shrink-0">
-                     <img
-                       src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                       alt="Muneem Ji"
-                       className={`h-20 w-15 transition-all duration-500 ${
-                         isTyping ? 'scale-105' : 'scale-100'
-                       }`}
-                     />
-                     <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
-                       isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
-                     }`}></div>
-                     
-                
-                   </div>
+      {/* Muneem Ji Conversation */}
+      <div className="space-y-4">
+        <div className="flex items-start gap-4">
+          <div className="relative flex-shrink-0">
+            <img
+              src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+              alt="Muneem Ji"
+              className={`h-16 w-16 rounded-full border-2 border-primary/20 transition-all duration-500 ${
+                isTyping ? 'scale-105 shadow-lg' : 'scale-100'
+              }`}
+            />
+            <div className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-white transition-all duration-300 ${
+              isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500'
+            }`}>
+              {isTyping && <MessageCircle className="h-3 w-3 text-white animate-pulse" />}
+            </div>
+          </div>
 
-                   {isTyping && (
-                  <div className="">
-                    <div className="flex gap-1">
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
-                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
-                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
-                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
-                    </div>
+          <div className="flex-1 max-w-2xl">
+            <div className="bg-primary/10 rounded-3xl rounded-tl-md p-4 border border-primary/20 shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="font-semibold text-primary">Muneem Ji</h3>
+                {isTyping && (
+                  <div className="flex gap-1">
+                    <div className="w-1 h-4 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-1 h-6 bg-primary/80 rounded-full animate-bounce" style={{ animationDelay: '100ms' }}></div>
+                    <div className="w-1 h-4 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '200ms' }}></div>
                   </div>
                 )}
-                   
-                   <div className="flex-1">
-                     <div className="flex items-center gap-2 mb-2">
-                       <h1 className="text-xl font-bold">Growth Advisor Analysis</h1>
-                       {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
-                     </div>
-                     
-                     {showDots && (
-                       <div className="flex items-center gap-2">
-                         <div className="flex gap-1">
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                         </div>
-                         <span className="text-sm text-muted-foreground animate-pulse">Analyzing market data...</span>
-                       </div>
-                     )}
-                     
-                     {!showDots && (
-                       <p className="text-sm text-foreground">
-                         {displayedText}
-                         {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
-                       </p>
-                     )}
-                   </div>
-                 </div>
-               </CardContent>
-             </Card>
+              </div>
+              
+              {showDots && (
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Preparing analysis...</span>
+                </div>
+              )}
+              
+              {!showDots && (
+                <p className="text-foreground">
+                  {displayedText}
+                  {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Tabs Navigation */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      {/* Data Panel - Appears with smooth transition */}
+      {showData && (
+        <div className="animate-fade-in">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 gap-1 bg-muted/50 p-1">
           <TabsTrigger value="local" className="flex items-center gap-2 text-xs md:text-sm">
             <MapPin className="h-4 w-4" />
@@ -888,7 +910,9 @@ const GrowthAdvisorDetails: React.FC = () => {
             </Card>
           </div>
         </TabsContent>
-      </Tabs>
+          </Tabs>
+        </div>
+      )}
 
       {/* Export Report Button */}
       <Button 
