@@ -187,7 +187,7 @@ const GrowthAdvisorDetails: React.FC = () => {
       <div className="relative overflow-hidden">
         {/* Stage 0-2: Large Muneem Ji in center */}
         {animationStage <= 2 && (
-          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-xl z-50 flex items-center justify-center">
             <Card className="bg-gradient-to-br from-primary/10 to-primary/20 border-primary/30 p-8 max-w-2xl w-full mx-4">
               <CardContent className="text-center space-y-6">
                 {/* Large Muneem Ji */}
