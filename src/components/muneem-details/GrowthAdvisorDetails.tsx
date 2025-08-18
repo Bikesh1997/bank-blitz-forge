@@ -185,79 +185,62 @@ const GrowthAdvisorDetails: React.FC = () => {
     <div className="space-y-6 relative min-h-[600px]">
       {/* Animated Muneem Ji Presentation */}
       <div className="relative overflow-hidden">
-        {/* Inline Welcome and Analysis */}
-        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
-          <CardContent className="p-6">
-            {/* Stage 0: Welcome Message */}
-            {animationStage === 0 && (
-              <div className="text-center space-y-6 animate-fade-in">
+        {/* Stage 0-2: Large Muneem Ji in center */}
+        {animationStage <= 2 && (
+          <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center">
+            <Card className="bg-gradient-to-br from-primary/10 to-primary/20 border-primary/30 p-8 max-w-2xl w-full mx-4">
+              <CardContent className="text-center space-y-6">
+                {/* Large Muneem Ji */}
                 <div className="relative inline-block">
                   <img
                     src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
                     alt="Muneem Ji"
-                    className="h-32 w-32 animate-pulse"
+                    className={`transition-all duration-1000 ${
+                      animationStage === 0 ? 'h-48 w-48 animate-pulse' : 'h-32 w-32'
+                    }`}
                   />
-                  <div className="absolute -right-4 top-8 text-4xl animate-bounce">👋</div>
+                  {/* Wave animation */}
+                  {animationStage === 0 && (
+                    <div className="absolute -right-4 top-8 text-4xl animate-bounce">👋</div>
+                  )}
+                  {/* Speaking indicator */}
+                  {animationStage === 1 && (
+                    <div className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-orange-500 animate-ping border-2 border-white"></div>
+                  )}
                 </div>
-                <div>
-                  <h2 className="text-3xl font-bold text-primary mb-2">Welcome to Growth Advisor! 🚀</h2>
-                  <p className="text-lg text-muted-foreground">Let me analyze your business and provide growth insights...</p>
-                </div>
-              </div>
-            )}
 
-            {/* Stage 1: Analysis Progress */}
-            {animationStage === 1 && (
-              <div className="animate-fade-in">
-                <div className="flex items-center gap-6">
-                  <div className="relative flex-shrink-0">
-                    <img
-                      src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                      alt="Muneem Ji"
-                      className="h-20 w-20"
-                    />
-                    <div className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-orange-500 animate-ping border-2 border-white"></div>
+                {/* Welcome Message */}
+                {animationStage === 0 && (
+                  <div className="animate-fade-in">
+                    <h2 className="text-2xl font-bold text-primary mb-2">Welcome to Growth Advisor! 🚀</h2>
+                    <p className="text-muted-foreground">Let me analyze your business...</p>
                   </div>
-                  
-                  <div className="flex-1 space-y-3">
+                )}
+
+                {/* Typing Text */}
+                {animationStage === 1 && (
+                  <div className="animate-fade-in space-y-4">
                     <h2 className="text-xl font-bold">Growth Advisor Analysis</h2>
                     <p className="text-lg">
                       {displayedText}
-                      {isTyping && <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>}
+                      <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>
                     </p>
                   </div>
-                </div>
-              </div>
-            )}
+                )}
 
-            {/* Stage 2+: Business Overview */}
-            {animationStage >= 2 && (
-              <div className="animate-fade-in space-y-6">
-                <div className="flex items-center gap-6">
-                  <div className="relative flex-shrink-0">
-                    <img
-                      src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                      alt="Muneem Ji"
-                      className="h-20 w-20"
-                    />
-                    <div className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-green-500 animate-pulse border-2 border-white"></div>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <h2 className="text-xl font-bold mb-2">Growth Advisor Analysis</h2>
-                    <p className="text-foreground">{fullText}</p>
-                  </div>
-                </div>
 
-                {/* Business Metrics */}
-                {showData && (
-                  <div className="mt-6">
-                    <h3 className="text-lg font-semibold mb-4">Your Business Overview</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+ 
+
+
+                {/* Business Metrics Animation */}
+                {animationStage === 2 && showData && (
+                  <div className="animate-fade-in space-y-4">
+                    <h2 className="text-xl font-bold mb-4">Your Business Overview</h2>
+                    <div className="grid grid-cols-2 gap-4">
                       {businessMetrics.map((metric, index) => (
                         <div
                           key={metric.label}
-                          className={`p-4 bg-background border border-border rounded-lg shadow-sm transition-all duration-500 transform ${
+                          className={`p-4 bg-white/80 rounded-lg shadow-md transition-all duration-500 transform ${
                             showData ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                           }`}
                           style={{ animationDelay: `${index * 200}ms` }}
@@ -269,11 +252,76 @@ const GrowthAdvisorDetails: React.FC = () => {
                     </div>
                   </div>
                 )}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
+        {/* Stage 3+: Small Muneem Ji at side with main content */}
+        {animationStage >= 3 && (
+          <>
+        
+
+            <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-8">
+                    <div className="relative flex-shrink-0">
+                      <img
+                       src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                       alt="Muneem Ji"
+                       className={`h-20 w-15 transition-all duration-500 ${
+                         isTyping ? 'scale-105' : 'scale-100'
+                       }`}
+                     />
+                     <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
+                       isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
+                     }`}></div>
+                     
+                
+                   </div>
+
+                   {isTyping && (
+                  <div className="">
+                    <div className="flex gap-1">
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
+                    </div>
+                  </div>
+                )}
+                   
+                   <div className="flex-1">
+                     <div className="flex items-center gap-2 mb-2">
+                       <h1 className="text-xl font-bold">Growth Advisor Analysis</h1>
+                       {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
+                     </div>
+                     
+                     {showDots && (
+                       <div className="flex items-center gap-2">
+                         <div className="flex gap-1">
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                           <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                         </div>
+                         <span className="text-sm text-muted-foreground animate-pulse">Analyzing market data...</span>
+                       </div>
+                     )}
+                     
+                     {!showDots && (
+                       <p className="text-sm text-foreground">
+                         {displayedText}
+                         {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                       </p>
+                     )}
+                   </div>
+                 </div>
+               </CardContent>
+             </Card>
+          </>
+        )}
       </div>
 
       {/* Tabs Navigation */}
