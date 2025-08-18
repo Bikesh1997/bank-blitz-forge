@@ -871,6 +871,7 @@ const GrowthAdvisorDetails: React.FC = () => {
           </div>
         </TabsContent>
         </Tabs>
+        </div>
         )}
 
         {/* Export Report Button */}
@@ -883,7 +884,6 @@ const GrowthAdvisorDetails: React.FC = () => {
           Export Growth Advisor Report
         </Button>
       </div>
-    </div>
   );
 };
 
