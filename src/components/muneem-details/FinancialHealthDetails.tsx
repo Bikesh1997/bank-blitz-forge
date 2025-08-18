@@ -318,7 +318,6 @@ const RiskBadge: React.FC<{ severity: "low" | "medium" | "high" }> = ({ severity
 const FinancialHealthDetails: React.FC = () => {
   const [step, setStep] = useState(2); // Start directly at stepper
   const [docStep, setDocStep] = useState(0);
-  const [conversationStep, setConversationStep] = useState(0);
   const [selectedSoftware, setSelectedSoftware] = useState<string>("gst-auto");
   const [checked, setChecked] = useState<Record<DocStepId, boolean>>({
     creditScore: false,
@@ -327,26 +326,15 @@ const FinancialHealthDetails: React.FC = () => {
   });
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [gstAutoSelected, setGstAutoSelected] = useState(true);
-  const [showDocumentStep, setShowDocumentStep] = useState(false);
   
   // Talking animation states
   const [displayedText, setDisplayedText] = useState('');
   const [showDots, setShowDots] = useState(true);
   const [isSpeaking, setIsSpeaking] = useState(true);
-  const [isTyping, setIsTyping] = useState(true);
+    const [isTyping, setIsTyping] = useState(true);
   
-  const conversations = [
-    {
-      text: "Chaliye ji, main aapko aapke business ki financial sehat aur detailed report samjhata hoon.",
-      action: () => setShowDocumentStep(true)
-    },
-    {
-      text: "Please provide these documents so I can give you the most accurate financial analysis...",
-      action: () => {}
-    }
-  ];
   
-  const currentConversation = conversations[conversationStep] || conversations[0];
+  const fullText = "Let me help you understand your business's financial health and a detailed report of your business.";
 
   const handleSoftwareConnect = (software: string) => {
     setSelectedSoftware(software);
@@ -365,41 +353,28 @@ const FinancialHealthDetails: React.FC = () => {
     }
   };
 
-  // Conversation effect
+  // Talking animation effect
   useEffect(() => {
-    const typeConversation = () => {
-      setShowDots(true);
+    // Show typing dots for 2 seconds
+    setTimeout(() => {
+      setShowDots(false);
       setIsTyping(true);
-      setDisplayedText('');
       
-      setTimeout(() => {
-        setShowDots(false);
-        
-        let currentIndex = 0;
-        const typingInterval = setInterval(() => {
-          if (currentIndex <= currentConversation.text.length) {
-            setDisplayedText(currentConversation.text.slice(0, currentIndex));
-            currentIndex++;
-          } else {
-            setIsTyping(false);
-            clearInterval(typingInterval);
-            setTimeout(() => {
-              currentConversation.action();
-              if (conversationStep < conversations.length - 1) {
-                setTimeout(() => {
-                  setConversationStep(prev => prev + 1);
-                }, 2000);
-              }
-            }, 1000);
-          }
-        }, 50);
+      // Type out the text character by character
+      let currentIndex = 0;
+      const typingInterval = setInterval(() => {
+        if (currentIndex <= fullText.length) {
+          setDisplayedText(fullText.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          setIsTyping(false);
+          clearInterval(typingInterval);
+        }
+      }, 50);
 
-        return () => clearInterval(typingInterval);
-      }, 1500);
-    };
-
-    typeConversation();
-  }, [conversationStep]);
+      return () => clearInterval(typingInterval);
+    }, 2000);
+  }, []);
   // Simulate AI run during loading
   useEffect(() => {
     if (step === 3) {
@@ -468,35 +443,40 @@ const FinancialHealthDetails: React.FC = () => {
 
     return (
       <div className="max-w-5xl mx-auto space-y-4 p-2">
-        {/* Muneem Ji Conversation */}
-        <div className="space-y-4">
-          <div className="flex items-start gap-4">
-            <div className="relative flex-shrink-0">
-              <img
-                src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                alt="Muneem Ji"
-                className={`h-16 w-16 rounded-full border-2 border-primary/20 transition-all duration-500 ${
-                  isTyping ? 'scale-105 shadow-lg' : 'scale-100'
-                }`}
-              />
-              <div className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-white transition-all duration-300 ${
-                isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500'
-              }`}>
-                {isTyping && <Activity className="h-3 w-3 text-white animate-pulse" />}
+        {/* Compact Header with Muneem Ji */}
+        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-8">
+              <div className="relative flex-shrink-0">
+                <img
+                  src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                  alt="Muneem Ji"
+                  className={`h-20 w-15 transition-all duration-500 ${
+                    isTyping ? 'scale-105' : 'scale-100'
+                  }`}
+                />
+                <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
+                  isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
+                }`}></div>
+                
+              
               </div>
-            </div>
-
-            <div className="flex-1 max-w-2xl">
-              <div className="bg-primary/10 rounded-3xl rounded-tl-md p-4 border border-primary/20 shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className="font-semibold text-primary">Muneem Ji</h3>
-                  {isTyping && (
+              {isTyping && (
+                  <div className="">
                     <div className="flex gap-1">
-                      <div className="w-1 h-4 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-1 h-6 bg-primary/80 rounded-full animate-bounce" style={{ animationDelay: '100ms' }}></div>
-                      <div className="w-1 h-4 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '200ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '0ms' }}></div>
+                      <div className="w-0.5 bg-primary/60 rounded-full animate-bounce" style={{ height: '30px', animationDelay: '100ms' }}></div>
+                      <div className="w-0.5 bg-primary/40 rounded-full animate-bounce" style={{ height: '18px', animationDelay: '200ms' }}></div>
                     </div>
-                  )}
+                  </div>
+                )}
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <h1 className="text-xl font-bold">Financial Health Assessment</h1>
+                  {isTyping && <div className="animate-spin h-4 w-4 border-2 border-primary border-t-transparent rounded-full"></div>}
                 </div>
                 
                 {showDots && (
@@ -506,31 +486,48 @@ const FinancialHealthDetails: React.FC = () => {
                       <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
                       <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
-                    <span className="text-sm text-muted-foreground">Analyzing your needs...</span>
+                    <span className="text-sm text-muted-foreground animate-pulse">Preparing assessment...</span>
                   </div>
                 )}
                 
                 {!showDots && (
-                  <p className="text-foreground">
+                  <p className="text-sm text-foreground">
                     {displayedText}
                     {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
                   </p>
                 )}
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Compact Stepper */}
+        <div className="grid grid-cols-12 gap-4">
+          {/* Stepper Progress */}
+          <div className="col-span-12">
+            <Card className="border border-primary/10">
+              <CardHeader className="pb-3">
+                <Stepper current={current} gstComplete={gstAutoSelected} />
+              </CardHeader>
+            </Card>
           </div>
-        </div>
 
-        {/* Document Stepper - Appears with smooth transition */}
-        {showDocumentStep && (
-          <div className="animate-fade-in space-y-6 mt-8">
-            {/* Stepper Progress */}
-            <div className="py-4">
-              <Stepper current={docStep} gstComplete={gstAutoSelected} />
+          {/* GST Status */}
+          <div className="col-span-12 lg:col-span-4">
+            <div className="bg-green-50 border border-green-200 p-3 rounded-lg h-full">
+              <div className="flex items-start gap-2">
+                <Check className="w-4 h-4 text-green-600 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-green-800 text-sm">GST Verified</p>
+                  <p className="text-xs text-green-600">Auto-detected and ready</p>
+                </div>
+              </div>
             </div>
+          </div>
 
-            {/* Current Step Card */}
-            <Card className="border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+          {/* Current Step */}
+          <div className="col-span-12 lg:col-span-8">
+            <Card className="border border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 h-full">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -562,25 +559,25 @@ const FinancialHealthDetails: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
-
-            {/* Action Button */}
-            <Button
-              className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
-              disabled={!checked[currentDoc.id]}
-              onClick={handleNextDocStep}
-            >
-              {docStep < docSteps.length - 1 ? (
-                <span className="flex items-center gap-2">
-                  Continue <ArrowRight className="w-4 h-4" />
-                </span>
-              ) : (
-                <span className="flex items-center gap-2">
-                  Generate AI Assessment <Activity className="w-5 h-5 animate-pulse" />
-                </span>
-              )}
-            </Button>
           </div>
-        )}
+        </div>
+
+        {/* Action Button */}
+        <Button
+          className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
+          disabled={!checked[currentDoc.id]}
+          onClick={handleNextDocStep}
+        >
+          {docStep < docSteps.length - 1 ? (
+            <span className="flex items-center gap-2">
+              Continue <ArrowRight className="w-4 h-4" />
+            </span>
+          ) : (
+            <span className="flex items-center gap-2">
+              Generate AI Assessment <Activity className="w-5 h-5 animate-pulse" />
+            </span>
+          )}
+        </Button>
       </div>
     );
   }
@@ -1046,7 +1043,7 @@ const FinancialHealthDetails: React.FC = () => {
         </div>
       </div>
     </div>
-    </div>
+  </div>
   );
 };
 
