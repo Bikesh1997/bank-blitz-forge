@@ -212,111 +212,202 @@ const GrowthAdvisorDetails: React.FC = () => {
               <CardHeader className="pb-3">
                 <CardTitle className="text-xl flex items-center gap-2">
                   <MapPin className="h-6 w-6 text-primary" />
-                  Local Competition Analysis - Ludhiana Textile Hub
+                  Local Competition Analysis - Punjab Sportswear Pvt. Ltd.
                 </CardTitle>
                 <CardDescription>
-                  Your competitive landscape in Punjab's textile manufacturing sector
+                  Your competitive landscape in Ludhiana's sports garment manufacturing sector
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* Business Overview */}
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-4">
-                    <h4 className="font-semibold text-lg">Major Local Competitors</h4>
+                    <h4 className="font-semibold text-lg">Your Business Profile</h4>
                     
-                    <div className="space-y-3">
-                      <Card className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <h5 className="font-semibold text-blue-800">Vardhman Textiles</h5>
-                          <Badge className="bg-blue-100 text-blue-800">Market Leader</Badge>
+                    <Card className="p-4 bg-gradient-to-r from-primary/10 to-primary/20 border-primary/20">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h5 className="font-semibold text-primary">Punjab Sportswear Pvt. Ltd.</h5>
+                          <Badge className="bg-primary text-primary-foreground">Your Business</Badge>
                         </div>
-                        <ul className="text-sm text-blue-700 space-y-1">
-                          <li>• Integrated spinning & weaving</li>
-                          <li>• Export-focused operations</li>
-                          <li>• 40+ years experience</li>
-                        </ul>
-                      </Card>
-
-                      <Card className="p-3 bg-gradient-to-r from-green-50 to-green-100 border-green-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <h5 className="font-semibold text-green-800">Trident Group</h5>
-                          <Badge className="bg-green-100 text-green-800">Diversified</Badge>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <p className="text-muted-foreground">Annual Turnover</p>
+                            <p className="font-semibold">₹5 Crore</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Profit Margin</p>
+                            <p className="font-semibold">~12%</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Monthly Orders</p>
+                            <p className="font-semibold">2,200 units</p>
+                          </div>
+                          <div>
+                            <p className="text-muted-foreground">Market Share</p>
+                            <p className="font-semibold">~1.9%</p>
+                          </div>
                         </div>
-                        <ul className="text-sm text-green-700 space-y-1">
-                          <li>• Home textiles specialist</li>
-                          <li>• Global retail presence</li>
-                          <li>• Sustainability focus</li>
-                        </ul>
-                      </Card>
-
-                      <Card className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200">
-                        <div className="flex items-center justify-between mb-2">
-                          <h5 className="font-semibold text-purple-800">Nahar Industrial</h5>
-                          <Badge className="bg-purple-100 text-purple-800">Tech-Forward</Badge>
+                        <div className="pt-2 border-t">
+                          <p className="text-sm text-muted-foreground mb-1">Products:</p>
+                          <p className="text-sm">Cricket jerseys, football kits, running vests, training shorts</p>
                         </div>
-                        <ul className="text-sm text-purple-700 space-y-1">
-                          <li>• Advanced machinery</li>
-                          <li>• Quality certifications</li>
-                          <li>• Premium positioning</li>
-                        </ul>
-                      </Card>
-                    </div>
+                      </div>
+                    </Card>
                   </div>
 
                   <div className="space-y-4">
-                    <h4 className="font-semibold text-lg">Market Dynamics</h4>
+                    <h4 className="font-semibold text-lg">Market Overview</h4>
                     
                     <div className="space-y-3">
-                      <div className="p-3 bg-gradient-to-r from-yellow-50 to-orange-100 border-orange-200 rounded-lg">
-                        <h5 className="font-semibold text-orange-800 mb-2">Market Size</h5>
-                        <div className="text-sm text-orange-700 space-y-1">
-                          <p>• Local market: ₹8,500 Cr annually</p>
-                          <p>• 2,500+ textile units in Punjab</p>
-                          <p>• 15% annual growth rate</p>
+                      <div className="p-3 bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 rounded-lg">
+                        <h5 className="font-semibold text-blue-800 mb-2">Market Size</h5>
+                        <div className="text-sm text-blue-700 space-y-1">
+                          <p>• Ludhiana Sports Garment: ₹260 Crore</p>
+                          <p>• Your market share: 1.9%</p>
+                          <p>• Growth potential: High</p>
                         </div>
                       </div>
 
-                      <div className="p-3 bg-gradient-to-r from-teal-50 to-teal-100 border-teal-200 rounded-lg">
-                        <h5 className="font-semibold text-teal-800 mb-2">Key Trends</h5>
-                        <div className="text-sm text-teal-700 space-y-1">
-                          <p>• Shift to sustainable practices</p>
-                          <p>• Digital integration adoption</p>
-                          <p>• Export market expansion</p>
+                      <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 border-green-200 rounded-lg">
+                        <h5 className="font-semibold text-green-800 mb-2">Peak Season</h5>
+                        <div className="text-sm text-green-700 space-y-1">
+                          <p>• Feb-Apr: Pre-summer demand</p>
+                          <p>• School/college sports events</p>
+                          <p>• Custom jersey orders peak</p>
                         </div>
                       </div>
 
-                      <div className="p-3 bg-gradient-to-r from-rose-50 to-rose-100 border-rose-200 rounded-lg">
-                        <h5 className="font-semibold text-rose-800 mb-2">Opportunities</h5>
-                        <div className="text-sm text-rose-700 space-y-1">
-                          <p>• Niche product segments</p>
-                          <p>• Direct-to-consumer channels</p>
-                          <p>• Contract manufacturing</p>
+                      <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 border-purple-200 rounded-lg">
+                        <h5 className="font-semibold text-purple-800 mb-2">Trends</h5>
+                        <div className="text-sm text-purple-700 space-y-1">
+                          <p>• Branded, digitally-printed sportswear</p>
+                          <p>• Moisture-wicking materials</p>
+                          <p>• Athleisure wear demand rising</p>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Competitive Positioning Chart */}
+                {/* Direct Competitors */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg">Direct Competitors in Ludhiana</h4>
+                  
+                  <div className="grid gap-3 md:grid-cols-3">
+                    <Card className="p-3 bg-gradient-to-r from-red-50 to-red-100 border-red-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-red-800">SuperFit Sports Garments</h5>
+                        <Badge className="bg-red-100 text-red-800">Market Leader</Badge>
+                      </div>
+                      <div className="text-sm text-red-700 space-y-1">
+                        <p>• Annual TO: ₹7 Crore</p>
+                        <p>• 40% larger than you</p>
+                        <p>• Award: "Best Small Exporter" 2024</p>
+                      </div>
+                    </Card>
+
+                    <Card className="p-3 bg-gradient-to-r from-orange-50 to-orange-100 border-orange-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-orange-800">ActiveWear Ludhiana</h5>
+                        <Badge className="bg-orange-100 text-orange-800">Strong Player</Badge>
+                      </div>
+                      <div className="text-sm text-orange-700 space-y-1">
+                        <p>• Annual TO: ₹6 Crore</p>
+                        <p>• 20% larger than you</p>
+                        <p>• Focus: Retail partnerships</p>
+                      </div>
+                    </Card>
+
+                    <Card className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 border-yellow-200">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-semibold text-yellow-800">EastX Sports</h5>
+                        <Badge className="bg-yellow-100 text-yellow-800">Similar Size</Badge>
+                      </div>
+                      <div className="text-sm text-yellow-700 space-y-1">
+                        <p>• Annual TO: ₹4 Crore</p>
+                        <p>• 20% smaller than you</p>
+                        <p>• Focus: Institutional sales</p>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
+
+                {/* Competitive Position Chart */}
                 <div className="mt-6">
-                  <h4 className="font-semibold text-lg mb-4">Your Competitive Position</h4>
+                  <h4 className="font-semibold text-lg mb-4">Revenue Comparison</h4>
                   <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart data={[
-                        { metric: 'Price Competitiveness', value: 75, competitor: 65 },
-                        { metric: 'Product Quality', value: 80, competitor: 70 },
-                        { metric: 'Delivery Speed', value: 70, competitor: 75 },
-                        { metric: 'Customer Service', value: 85, competitor: 60 },
-                        { metric: 'Market Reach', value: 60, competitor: 80 },
-                        { metric: 'Innovation', value: 65, competitor: 55 }
+                      <BarChart data={[
+                        { company: 'SuperFit Sports', revenue: 7, color: '#ef4444' },
+                        { company: 'ActiveWear Ludhiana', revenue: 6, color: '#f97316' },
+                        { company: 'Punjab Sportswear (You)', revenue: 5, color: 'hsl(var(--primary))' },
+                        { company: 'EastX Sports', revenue: 4, color: '#eab308' }
                       ]}>
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="metric" className="text-xs" />
-                        <PolarRadiusAxis domain={[0, 100]} className="text-xs" />
-                        <Radar name="Your Business" dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.3} />
-                        <Radar name="Local Average" dataKey="competitor" stroke="#8884d8" fill="#8884d8" fillOpacity={0.1} />
-                        <Legend />
-                      </RadarChart>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="company" className="text-xs" />
+                        <YAxis label={{ value: 'Revenue (₹ Crore)', angle: -90, position: 'insideLeft' }} />
+                        <Tooltip />
+                        <Bar dataKey="revenue" fill="hsl(var(--primary))" />
+                      </BarChart>
                     </ResponsiveContainer>
+                  </div>
+                </div>
+
+                {/* Opportunities & Risks */}
+                <div className="grid gap-4 md:grid-cols-2 mt-6">
+                  <div>
+                    <h4 className="font-semibold text-lg mb-3 text-green-700">Growth Opportunities</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <TrendingUp className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Online B2B Sales</p>
+                          <p className="text-muted-foreground">Expand reach beyond Ludhiana</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <Users className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Digital Custom Design Services</p>
+                          <p className="text-muted-foreground">Premium pricing opportunity</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-green-50 rounded">
+                        <MapPin className="h-4 w-4 mt-0.5 text-green-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Nearby Districts Expansion</p>
+                          <p className="text-muted-foreground">Chandigarh, Jalandhar markets</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-lg mb-3 text-red-700">Key Risks</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <Target className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Intense Local Competition</p>
+                          <p className="text-muted-foreground">SuperFit's market leadership</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <TrendingUp className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Rapid Trend Changes</p>
+                          <p className="text-muted-foreground">Fashion cycles getting shorter</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 p-2 bg-red-50 rounded">
+                        <BarChart3 className="h-4 w-4 mt-0.5 text-red-600" />
+                        <div className="text-sm">
+                          <p className="font-medium">Working Capital Management</p>
+                          <p className="text-muted-foreground">40-day receivables cycle</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
