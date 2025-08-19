@@ -244,57 +244,93 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
             </div>
 
             {/* Messages */}
-            {/* <div className="relative"> */}
-        <Card >
-          <CardContent className="p-8">
-            <div className="flex items-center gap-8">
-              <div className="relative flex-shrink-0">
-                <img
-                  src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
-                  alt="Muneem Ji"
-                  className={`h-24 w-16   transition-all duration-500 ${
-                    isTyping ? 'scale-105 shadow-primary/20' : 'scale-100'
-                  }`}
-                  style={{
-                    animation: isTyping
-                      ? 'bounce 0.8s 1.5 forwards, 1.5s infinite'
-                      : ''
-                  }}
-                />
-                <div className={`absolute -top-2 -right-2 h-6 w-6 rounded-full border-3 border-white transition-all duration-300 ${
-                  isTyping ? 'bg-orange-500 animate-ping scale-110' : 'bg-green-500 animate-pulse'
-                }`}></div>
+            {/* Large Animated Muneem Ji Presentation */}
+            <div className="min-h-[500px] flex p-4">
+              <div className="relative flex items-center gap-8 max-w-5xl w-full">
                 
-                {/* Sound waves animation */}
-                {isTyping && (
-                  <div className="absolute -right-4 top-1/2 transform -translate-y-1/2">
-                    <div className="flex gap-1">
-                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '0ms' }}></div>
-                      <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '16px', animationDelay: '100ms' }}></div>
-                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '12px', animationDelay: '200ms' }}></div>
-                      <div className="w-1 bg-primary/60 rounded-full animate-bounce" style={{ height: '20px', animationDelay: '300ms' }}></div>
-                      <div className="w-1 bg-primary/40 rounded-full animate-bounce" style={{ height: '8px', animationDelay: '400ms' }}></div>
+                {/* Large Muneem Ji with wave animation */}
+                <div className="relative flex-shrink-0">
+                  <img
+                    src={`${
+                      process.env.NODE_ENV === "production"
+                        ? "/aditya-birla-finance-limited/"
+                        : "/"
+                    }generated-image.png`}
+                    alt="Muneem Ji"
+                    className="h-60 w-60 md:h-60 md:w-60 animate-muneemji-wave"
+                  />
+
+                  {/* Thought bubble trail */}
+                  <div className="absolute top-6 right-0 space-y-2 flex">
+                    <div
+                      className="w-2 h-2 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    ></div>
+                    <div
+                      className="w-3 h-3 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                      style={{ animationDelay: "200ms" }}
+                    ></div>
+                    <div
+                      className="w-4 h-4 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                      style={{ animationDelay: "400ms" }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="relative flex-1 flex items-center justify-center">
+                  <svg
+                    viewBox="0 0 600 500"
+                    className="drop-shadow-2xl"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M280 240
+                         C200 240, 120 200, 130 150
+                         C80 135, 95 70, 160 60
+                         C175 25, 240 15, 270 60
+                         C320 25, 420 40, 435 95
+                         C500 95, 530 135, 515 185
+                         C545 200, 530 255, 465 265
+                         C420 305, 320 295, 270 270
+                         C240 305, 160 290, 145 240
+                         C175 270, 240 285, 280 240
+                         Z"
+                      fill="white"
+                      stroke="hsl(var(--primary))"
+                      strokeWidth="3"
+                      strokeOpacity="0.4"
+                      transform="translate(-80, -5) rotate(-10 300 200) scale(1.1)"
+                    />
+                  </svg>
+
+                  {/* Bubble content */}
+                  <div className="absolute inset-0 flex items-start mt-16 justify-center p-6 pointer-events-none">
+                    <div className="w-full max-w-sm text-center">
+                      <div className="animate-fade-in">
+                        <h3 className="text-lg md:text-xl font-bold text-primary mb-2">
+                          Namaste! 🙏
+                        </h3>
+                        <p className="text-foreground text-sm md:text-base leading-relaxed">
+                          {displayedText}
+                          {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                        </p>
+                        {showDots && (
+                          <div className="mt-3 flex justify-center gap-1">
+                            {[0, 150, 300].map((delay, i) => (
+                              <div
+                                key={i}
+                                className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce"
+                                style={{ animationDelay: `${delay}ms` }}
+                              ></div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                )}
-              </div>
-              
-              <div className="flex-1 space-y-4">
-               
-                
-              {/* {isTyping && <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>} */}
-
-                
-                  <div className="min-h-[80px]">
-                    <p className="text-lg text-foreground leading-relaxed">
-                      {displayedText}
-                      {isTyping && <span className="inline-block w-1 h-6 bg-primary ml-1 animate-ping"></span>}
-                    </p>
-                  </div>
+                </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
 
 
                     <div className="p-4 grid grid-cols-2 gap-3">

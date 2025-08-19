@@ -443,7 +443,95 @@ const FinancialHealthDetails: React.FC = () => {
 
     return (
       <div className="max-w-5xl mx-auto space-y-4 p-2">
-        {/* Compact Header with Muneem Ji */}
+        {/* Large Animated Muneem Ji Presentation */}
+        <div className="min-h-[600px] flex p-4">
+          <div className="relative flex items-center gap-8 max-w-5xl w-full">
+            
+            {/* Large Muneem Ji with wave animation */}
+            <div className="relative flex-shrink-0 ml-50">
+              <img
+                src={`${
+                  process.env.NODE_ENV === "production"
+                    ? "/aditya-birla-finance-limited/"
+                    : "/"
+                }generated-image.png`}
+                alt="Muneem Ji"
+                className="h-80 w-80 md:h-80 md:w-80 animate-muneemji-wave"
+              />
+
+              {/* Thought bubble trail */}
+              <div className="absolute top-10 right-0 space-y-3 flex">
+                <div
+                  className="w-3 h-3 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                  style={{ animationDelay: "0ms" }}
+                ></div>
+                <div
+                  className="w-5 h-5 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                  style={{ animationDelay: "200ms" }}
+                ></div>
+                <div
+                  className="w-7 h-7 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                  style={{ animationDelay: "400ms" }}
+                ></div>
+              </div>
+            </div>
+
+            <div className="relative flex-1 flex items-center justify-center">
+              <svg
+                viewBox="0 0 800 700"
+                className="drop-shadow-3xl"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M350 300
+                     C250 300, 150 250, 160 180
+                     C100 160, 120 80, 200 70
+                     C220 30, 300 20, 340 70
+                     C400 30, 520 50, 540 120
+                     C620 120, 660 170, 640 230
+                     C680 250, 660 320, 580 330
+                     C520 380, 400 370, 340 340
+                     C300 380, 200 360, 180 300
+                     C220 340, 300 360, 350 300
+                     Z"
+                  fill="white"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth="4"
+                  strokeOpacity="0.4"
+                  transform="translate(-130, -10) rotate(-15 400 250) scale(1.3)"
+                />
+              </svg>
+
+              {/* Bubble content */}
+              <div className="absolute inset-0 flex items-start mt-20 justify-center p-8 pointer-events-none">
+                <div className="w-full max-w-lg text-center">
+                  <div className="animate-fade-in">
+                    <h2 className="text-xl md:text-2xl font-bold text-primary mb-3">
+                      Financial Health Analysis! 💰
+                    </h2>
+                    <p className="text-foreground text-base md:text-lg leading-relaxed">
+                      {displayedText}
+                      {isTyping && <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>}
+                    </p>
+                    {showDots && (
+                      <div className="mt-4 flex justify-center gap-2">
+                        {[0, 150, 300].map((delay, i) => (
+                          <div
+                            key={i}
+                            className="w-2 h-2 bg-primary/60 rounded-full animate-bounce"
+                            style={{ animationDelay: `${delay}ms` }}
+                          ></div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Compact Header with Small Muneem Ji */}
         <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
           <CardContent className="p-4">
             <div className="flex items-center gap-8">
@@ -458,8 +546,6 @@ const FinancialHealthDetails: React.FC = () => {
                 <div className={`absolute -top-1 -right-1 h-4 w-4 rounded-full border-2 border-white transition-all duration-300 ${
                   isTyping ? 'bg-orange-500 animate-ping' : 'bg-green-500 animate-pulse'
                 }`}></div>
-                
-              
               </div>
               {isTyping && (
                   <div className="">
