@@ -266,63 +266,54 @@ const GrowthAdvisorDetails: React.FC = () => {
                 </div>
               </div>
 
-              {/* Clean thought cloud matching reference */}
+              {/* Clean thought cloud bubble */}
               <div className="relative flex-1 max-w-2xl">
-                <div className="relative w-full max-w-lg mx-auto">
-                  {/* Thought bubble trail */}
-                  <div className="absolute bottom-4 left-8">
-                    <div className="w-4 h-4 bg-white rounded-full border-3 border-gray-800 mb-2"></div>
-                    <div className="w-6 h-6 bg-white rounded-full border-3 border-gray-800"></div>
-                  </div>
-                  
-                  {/* Main cloud shape */}
+                <div className="relative">
+                  {/* Main cloud using SVG for clean shape */}
                   <div className="relative">
                     <svg
-                      viewBox="0 0 300 180"
-                      className="w-full h-48 max-w-md mx-auto"
+                      viewBox="0 0 400 200"
+                      className="w-96 h-48 drop-shadow-2xl"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      {/* Cloud outline matching reference */}
+                      {/* Cloud shape path */}
                       <path
-                        d="M80 120
-                           C60 120, 40 100, 40 80
-                           C40 50, 65 25, 95 25
-                           C105 15, 125 15, 135 25
-                           C150 20, 170 25, 180 35
-                           C195 30, 215 35, 220 50
-                           C235 45, 250 55, 250 70
-                           C260 70, 270 80, 270 90
-                           C270 100, 260 110, 250 110
-                           L90 110
-                           C70 110, 55 95, 55 80
-                           C55 65, 70 50, 85 50
-                           C85 60, 80 70, 80 80
+                        d="M100 150 
+                           C60 150, 30 120, 30 80
+                           C30 40, 70 10, 120 10
+                           C140 -5, 180 -5, 200 10
+                           C240 5, 280 20, 290 50
+                           C320 40, 350 60, 350 90
+                           C370 90, 385 105, 385 125
+                           C385 145, 370 160, 350 160
+                           L100 160
+                           C80 160, 65 145, 65 125
+                           C65 105, 80 90, 100 90
                            Z"
                         fill="white"
-                        stroke="#1f2937"
-                        strokeWidth="4"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                        stroke="hsl(var(--primary))"
+                        strokeWidth="3"
+                        strokeOpacity="0.3"
                       />
                     </svg>
                     
-                    {/* Content inside the cloud */}
-                    <div className="absolute inset-0 flex items-center justify-center px-8 py-6">
-                      <div className="text-center max-w-xs">
+                    {/* Content inside the thought bubble */}
+                    <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
+                      <div className="w-full max-w-sm text-center">
                         {/* Welcome Message */}
                         {animationStage === 0 && (
                           <div className="animate-fade-in">
-                            <h2 className="text-xl font-bold text-gray-800 mb-2">
+                            <h2 className="text-2xl font-bold text-primary mb-3">
                               Welcome to Growth Advisor! 🚀
                             </h2>
-                            <p className="text-gray-600 text-sm leading-relaxed">
+                            <p className="text-muted-foreground text-lg leading-relaxed">
                               Let me analyze your business and find growth opportunities...
                             </p>
-                            <div className="mt-3 flex justify-center">
-                              <div className="flex gap-1">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                            <div className="mt-4 flex justify-center">
+                              <div className="flex gap-2">
+                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
                               </div>
                             </div>
                           </div>
@@ -331,13 +322,13 @@ const GrowthAdvisorDetails: React.FC = () => {
                         {/* Thinking Text */}
                         {animationStage === 1 && (
                           <div className="animate-fade-in">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center justify-center gap-2">
-                              <span className="animate-spin text-lg">🧠</span>
+                            <h3 className="text-xl font-semibold text-primary mb-3 flex items-center justify-center gap-2">
+                              <span className="animate-spin text-xl">🧠</span>
                               Analyzing Market Data...
                             </h3>
-                            <p className="text-gray-700 text-sm leading-relaxed">
+                            <p className="text-foreground text-lg leading-relaxed">
                               {displayedText}
-                              <span className="inline-block w-0.5 h-4 bg-blue-500 ml-1 animate-ping"></span>
+                              <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>
                             </p>
                           </div>
                         )}
