@@ -78,80 +78,75 @@ const GrowthAdvisorDetails: React.FC = () => {
       return () => clearInterval(typingInterval);
     }, 2000);
   }, []);
-  const businessMetrics = [
-    { label: "Annual Turnover", value: "₹5 Crore", delay: 1000 },
-    { label: "Profit Margin", value: "~12%", delay: 1500 },
-    { label: "Monthly Orders", value: "2,200 units", delay: 2000 },
-    { label: "Market Share", value: "~1.9%", delay: 2500 },
-    { label: "Market Size", value: "₹260 Crore", delay: 3000 },
-  ];
-
   useEffect(() => {
     let typingInterval: NodeJS.Timeout;
     let pointingInterval: NodeJS.Timeout;
-
+  
     const runAnimationSequence = () => {
       // Stage 0: Show large Muneem Ji with wave animation
       setAnimationStage(0);
-
-      // Stage 1: Start typing after 2 seconds
-      const stage1Timer = setTimeout(() => {
+  
+      // Stage 1: Start typing after 2s
+      setTimeout(() => {
         setAnimationStage(1);
         let currentIndex = 0;
-
+  
         typingInterval = setInterval(() => {
           if (currentIndex <= fullText.length) {
             setDisplayedText(fullText.slice(0, currentIndex));
             currentIndex++;
           } else {
             clearInterval(typingInterval);
-            setAnimationStage(2);
-
-            // Stage 2: Show business metrics after typing is complete
-            const stage2Timer = setTimeout(() => {
-              setShowData(true);
-
-              // Stage 3: After data is shown, shrink and move Muneem Ji
-              const stage3Timer = setTimeout(() => {
-                setMuneemJiSize("small");
-                setMuneemJiPosition("side");
-                setAnimationStage(3);
-
-                // Stage 4: Add pointing interactions
-                const stage4Timer = setTimeout(() => {
-                  setAnimationStage(4);
-
-                  // Cycle through pointing at different metrics
-                  const pointingCycle = [
-                    "turnover",
-                    "profit",
-                    "orders",
-                    "share",
-                    "market",
-                  ];
-                  let pointIndex = 0;
-
-                  pointingInterval = setInterval(() => {
-                    setPointingAt(pointingCycle[pointIndex]);
-                    pointIndex = (pointIndex + 1) % pointingCycle.length;
-                  }, 2000);
-                }, 1000);
-              }, 3000);
-            }, 1000);
+  
+            // ✅ ⏸ Pause 20s AFTER typing completes
+            setTimeout(() => {
+              setAnimationStage(2);
+  
+              // Stage 2: Show business metrics
+              setTimeout(() => {
+                setShowData(true);
+  
+                // Stage 3: After data is shown, shrink and move Muneem Ji
+                setTimeout(() => {
+                  setMuneemJiSize("small");
+                  setMuneemJiPosition("side");
+                  setAnimationStage(3);
+  
+                  // Stage 4: Add pointing interactions
+                  setTimeout(() => {
+                    setAnimationStage(4);
+  
+                    // Cycle through pointing at different metrics
+                    const pointingCycle = [
+                      "turnover",
+                      "profit",
+                      "orders",
+                      "share",
+                      "market",
+                    ];
+                    let pointIndex = 0;
+  
+                    pointingInterval = setInterval(() => {
+                      setPointingAt(pointingCycle[pointIndex]);
+                      pointIndex = (pointIndex + 1) % pointingCycle.length;
+                    }, 2000);
+                  }, 1000);
+                }, 3000);
+              }, 1000);
+            }, 5000); // ⏳ 20s pause happens here, after typing
           }
         }, 50);
       }, 2000);
     };
-
+  
     runAnimationSequence();
-
-    // Cleanup function
+  
     return () => {
-      if (typingInterval) clearInterval(typingInterval);
-      if (pointingInterval) clearInterval(pointingInterval);
+      clearInterval(typingInterval);
+      clearInterval(pointingInterval);
     };
   }, [fullText]);
-
+  
   // Chart data
   const globalMarketData = [
     { country: "China", share: 32, value: 158 },
@@ -233,112 +228,113 @@ const GrowthAdvisorDetails: React.FC = () => {
       <div className="relative overflow-hidden">
         {/* Stage 0-2: Muneem Ji thinking with realistic cloud */}
         {animationStage < 2 && (
-          <div className="min-h-[600px] flex items-center justify-center p-4">
-            <div className="relative flex items-start gap-12 max-w-5xl w-full">
-              {/* Muneem Ji with thinking pose */}
-              <div className="relative flex-shrink-0">
-                <img
-                  src={`${
-                    process.env.NODE_ENV === "production"
-                      ? "/aditya-birla-finance-limited/"
-                      : "/"
-                  }generated-image.png`}
-                  alt="Muneem Ji"
-                  className="h-48 w-48 animate-pulse"
-                />
-                {/* Thinking indicator */}
-                <div className="absolute -top-6 -right-4 text-3xl animate-bounce">
-                  🤔
-                </div>
-                
-                {/* Thought bubble trail - small to large bubbles leading to main cloud */}
-                <div className="absolute top-8 right-0 transform translate-x-8">
-                  <div className="w-3 h-3 bg-white rounded-full border-2 border-primary/30 shadow-lg animate-bounce" 
-                       style={{ animationDelay: "0ms" }}></div>
-                </div>
-                <div className="absolute top-4 right-4 transform translate-x-12">
-                  <div className="w-5 h-5 bg-white rounded-full border-2 border-primary/30 shadow-lg animate-bounce" 
-                       style={{ animationDelay: "200ms" }}></div>
-                </div>
-                <div className="absolute top-2 right-8 transform translate-x-16">
-                  <div className="w-7 h-7 bg-white rounded-full border-2 border-primary/30 shadow-lg animate-bounce" 
-                       style={{ animationDelay: "400ms" }}></div>
-                </div>
-              </div>
+          <div className="min-h-[600px] flex p-4">
+  <div className="relative flex items-center gap-8 max-w-5xl w-full ">
+    
+    {/* Muneem Ji with thinking pose */}
+    <div className="relative flex-shrink-0 ml-50">
+      <img
+        src={`${
+          process.env.NODE_ENV === "production"
+            ? "/aditya-birla-finance-limited/"
+            : "/"
+        }generated-image.png`}
+        alt="Muneem Ji"
+        className="h-80 w-80 md:h-80 md:w-80 animate-pulse"
+      />
 
-              {/* Clean thought cloud bubble */}
-              <div className="relative flex-1 max-w-2xl">
-                <div className="relative">
-                  {/* Main cloud using SVG for clean shape */}
-                  <div className="relative">
-                    <svg
-                      viewBox="0 0 400 200"
-                      className="w-96 h-48 drop-shadow-2xl"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      {/* Cloud shape path */}
-                      <path
-                        d="M100 150 
-                           C60 150, 30 120, 30 80
-                           C30 40, 70 10, 120 10
-                           C140 -5, 180 -5, 200 10
-                           C240 5, 280 20, 290 50
-                           C320 40, 350 60, 350 90
-                           C370 90, 385 105, 385 125
-                           C385 145, 370 160, 350 160
-                           L100 160
-                           C80 160, 65 145, 65 125
-                           C65 105, 80 90, 100 90
-                           Z"
-                        fill="white"
-                        stroke="hsl(var(--primary))"
-                        strokeWidth="3"
-                        strokeOpacity="0.3"
-                      />
-                    </svg>
-                    
-                    {/* Content inside the thought bubble */}
-                    <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
-                      <div className="w-full max-w-sm text-center">
-                        {/* Welcome Message */}
-                        {animationStage === 0 && (
-                          <div className="animate-fade-in">
-                            <h2 className="text-2xl font-bold text-primary mb-3">
-                              Welcome to Growth Advisor! 🚀
-                            </h2>
-                            <p className="text-muted-foreground text-lg leading-relaxed">
-                              Let me analyze your business and find growth opportunities...
-                            </p>
-                            <div className="mt-4 flex justify-center">
-                              <div className="flex gap-2">
-                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
+      {/* <div className="absolute -top-6 -right-4 text-3xl animate-bounce">🤔</div> */}
 
-                        {/* Thinking Text */}
-                        {animationStage === 1 && (
-                          <div className="animate-fade-in">
-                            <h3 className="text-xl font-semibold text-primary mb-3 flex items-center justify-center gap-2">
-                              <span className="animate-spin text-xl">🧠</span>
-                              Analyzing Market Data...
-                            </h3>
-                            <p className="text-foreground text-lg leading-relaxed">
-                              {displayedText}
-                              <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      {/* Thought bubble trail */}
+      <div className="absolute top-10 right-0 space-y-3 flex ">
+        <div
+          className="w-3 h-3 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+          style={{ animationDelay: "0ms" }}
+        ></div>
+        <div
+          className="w-5 h-5 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+          style={{ animationDelay: "200ms" }}
+        ></div>
+        <div
+          className="w-7 h-7 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+          style={{ animationDelay: "400ms" }}
+        ></div>
+      </div>
+    </div>
+
+    <div className="relative flex-1 flex items-center  justify-center " >
+    <svg
+    viewBox="0 0 800 700"
+    className="drop-shadow-3xl"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M350 300
+         C250 300, 150 250, 160 180
+         C100 160, 120 80, 200 70
+         C220 30, 300 20, 340 70
+         C400 30, 520 50, 540 120
+         C620 120, 660 170, 640 230
+         C680 250, 660 320, 580 330
+         C520 380, 400 370, 340 340
+         C300 380, 200 360, 180 300
+         C220 340, 300 360, 350 300
+         Z"
+      fill="white"
+      stroke="hsl(var(--primary))"
+      strokeWidth="4"
+      strokeOpacity="0.4"
+      transform="translate(-130, -10) rotate(-15 400 250) scale(1.3)"
+    />
+  </svg>
+
+
+
+      {/* Bubble content */}
+      <div className="absolute inset-0 flex items-start mt-20 justify-center p-8 pointer-events-none">
+        <div className="w-full max-w-lg text-center">
+          
+          {/* Stage 0 */}
+          {animationStage === 0 && (
+            <div className="animate-fade-in">
+              <h2 className="text-xl md:text-2xl font-bold text-primary mb-3">
+                Welcome to Growth Advisor! 🚀
+              </h2>
+              <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
+                Let me analyze your business and find growth opportunities...
+              </p>
+              <div className="mt-4 flex justify-center gap-2">
+                {[0, 150, 300].map((delay, i) => (
+                  <div
+                    key={i}
+                    className="w-2 h-2 bg-primary/60 rounded-full animate-bounce"
+                    style={{ animationDelay: `${delay}ms` }}
+                  ></div>
+                ))}
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Stage 1 */}
+          {animationStage === 1 && (
+            <div className="animate-fade-in">
+              <h3 className="text-lg md:text-xl font-semibold text-primary mb-3 flex items-center justify-center gap-2">
+                <span className="animate-spin">🧠</span>
+                Analyzing Market Data...
+              </h3>
+              <p className="text-foreground text-base md:text-lg leading-relaxed">
+                {displayedText}
+                <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>
+              </p>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
         )}
 
         {/* Stage 3+: Small Muneem Ji at side with main content */}
