@@ -231,13 +231,12 @@ const GrowthAdvisorDetails: React.FC = () => {
     <div className="space-y-6 relative min-h-[600px]">
       {/* Animated Muneem Ji Presentation */}
       <div className="relative overflow-hidden">
-        {/* Stage 0-2: Large Muneem Ji in center */}
+        {/* Stage 0-2: Muneem Ji thinking with cloud */}
         {animationStage < 2 && (
           <div className="min-h-[600px] flex items-center justify-center">
-            {/* <Card className="bg-gradient-to-br from-primary/10 to-primary/20 border-primary/30 p-8 max-w-2xl w-full mx-4"> */}
-            <CardContent className="text-center space-y-6">
-              {/* Large Muneem Ji */}
-              <div className="relative inline-block">
+            <div className="relative flex items-center gap-8 max-w-4xl w-full mx-4">
+              {/* Muneem Ji with thinking animation */}
+              <div className="relative flex-shrink-0">
                 <img
                   src={`${
                     process.env.NODE_ENV === "production"
@@ -245,77 +244,64 @@ const GrowthAdvisorDetails: React.FC = () => {
                       : "/"
                   }generated-image.png`}
                   alt="Muneem Ji"
-                  className={`transition-all duration-1000 ${
-                    animationStage === 0
-                      ? "h-48 w-48 animate-pulse"
-                      : "h-32 w-32"
-                  }`}
+                  className="h-40 w-40 animate-pulse"
                 />
-                {/* Wave animation */}
-                {animationStage === 0 && (
-                  <div className="absolute -right-4 top-8 text-4xl animate-bounce">
-                    👋
-                  </div>
-                )}
-                {/* Speaking indicator */}
-                {animationStage === 1 && (
-                  <div className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-orange-500 animate-ping border-2 border-white"></div>
-                )}
+                {/* Thinking indicator */}
+                <div className="absolute -top-4 -right-2 text-2xl animate-bounce">
+                  🤔
+                </div>
+                {/* Thinking bubbles */}
+                <div className="absolute -top-8 -right-8 flex gap-1">
+                  <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                  <div className="w-3 h-3 bg-primary/80 rounded-full animate-bounce" style={{ animationDelay: "200ms" }}></div>
+                  <div className="w-4 h-4 bg-primary rounded-full animate-bounce" style={{ animationDelay: "400ms" }}></div>
+                </div>
               </div>
 
-              {/* Welcome Message */}
-              {animationStage === 0 && (
-                <div className="animate-fade-in">
-                  <h2 className="text-2xl font-bold text-primary mb-2">
-                    Welcome to Growth Advisor! 🚀
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Let me analyze your business...
-                  </p>
-                </div>
-              )}
-
-              {/* Typing Text */}
-              {animationStage === 1 && (
-                <div className="animate-fade-in space-y-4">
-                  <h2 className="text-xl font-bold">Growth Advisor Analysis</h2>
-                  <p className="text-lg">
-                    {displayedText}
-                    <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>
-                  </p>
-                </div>
-              )}
-
-              {/* Business Metrics Animation */}
-              {animationStage === 2 && showData && (
-                <div className="animate-fade-in space-y-4">
-                  <h2 className="text-xl font-bold mb-4">
-                    Your Business Overview
-                  </h2>
-                  <div className="grid grid-cols-2 gap-4">
-                    {businessMetrics.map((metric, index) => (
-                      <div
-                        key={metric.label}
-                        className={`p-4 bg-white/80 rounded-lg shadow-md transition-all duration-500 transform ${
-                          showData
-                            ? "translate-y-0 opacity-100"
-                            : "translate-y-4 opacity-0"
-                        }`}
-                        style={{ animationDelay: `${index * 200}ms` }}
-                      >
-                        <p className="text-sm text-muted-foreground">
-                          {metric.label}
-                        </p>
-                        <p className="text-lg font-bold text-primary">
-                          {metric.value}
-                        </p>
-                      </div>
-                    ))}
+              {/* Thinking cloud with text */}
+              <div className="relative flex-1">
+                <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border-2 border-primary/20 relative">
+                  {/* Cloud tail pointing to Muneem Ji */}
+                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-3">
+                    <div className="w-0 h-0 border-t-[15px] border-t-transparent border-b-[15px] border-b-transparent border-r-[20px] border-r-white/95"></div>
+                    <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-[16px] border-t-transparent border-b-[16px] border-b-transparent border-r-[21px] border-r-primary/20"></div>
                   </div>
+
+                  {/* Welcome Message */}
+                  {animationStage === 0 && (
+                    <div className="animate-fade-in text-center">
+                      <h2 className="text-2xl font-bold text-primary mb-3">
+                        Welcome to Growth Advisor! 🚀
+                      </h2>
+                      <p className="text-muted-foreground text-lg">
+                        Let me analyze your business and find growth opportunities...
+                      </p>
+                      <div className="mt-4 flex justify-center">
+                        <div className="flex gap-1">
+                          <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                          <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                          <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Thinking Text */}
+                  {animationStage === 1 && (
+                    <div className="animate-fade-in">
+                      <h3 className="text-lg font-semibold text-primary mb-3 flex items-center gap-2">
+                        <span className="animate-spin">🧠</span>
+                        Analyzing Market Data...
+                      </h3>
+                      <p className="text-foreground text-lg leading-relaxed">
+                        {displayedText}
+                        <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>
+                      </p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </CardContent>
-            {/* </Card> */}
+              </div>
+            </div>
           </div>
         )}
 
