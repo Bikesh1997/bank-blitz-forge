@@ -266,60 +266,82 @@ const GrowthAdvisorDetails: React.FC = () => {
                 </div>
               </div>
 
-              {/* Thought cloud bubble matching reference design */}
+              {/* Clean thought cloud matching reference */}
               <div className="relative flex-1 max-w-2xl">
-                {/* Main cloud container */}
                 <div className="relative w-full max-w-lg mx-auto">
-                  {/* Cloud background with proper shape */}
-                  <div className="relative bg-white rounded-full border-4 border-gray-800 shadow-2xl p-8 min-h-[200px] flex items-center justify-center">
-                    {/* Top bumps */}
-                    <div className="absolute -top-6 left-12 w-16 h-16 bg-white rounded-full border-4 border-gray-800"></div>
-                    <div className="absolute -top-8 left-24 w-20 h-20 bg-white rounded-full border-4 border-gray-800"></div>
-                    <div className="absolute -top-6 right-20 w-18 h-18 bg-white rounded-full border-4 border-gray-800"></div>
-                    <div className="absolute -top-4 right-12 w-14 h-14 bg-white rounded-full border-4 border-gray-800"></div>
-                    
-                    {/* Side bumps */}
-                    <div className="absolute top-4 -left-4 w-12 h-12 bg-white rounded-full border-4 border-gray-800"></div>
-                    <div className="absolute top-8 -right-3 w-10 h-10 bg-white rounded-full border-4 border-gray-800"></div>
-                    
-                    {/* Bottom bumps */}
-                    <div className="absolute -bottom-4 left-8 w-14 h-14 bg-white rounded-full border-4 border-gray-800"></div>
-                    <div className="absolute -bottom-6 right-16 w-16 h-16 bg-white rounded-full border-4 border-gray-800"></div>
+                  {/* Thought bubble trail */}
+                  <div className="absolute bottom-4 left-8">
+                    <div className="w-4 h-4 bg-white rounded-full border-3 border-gray-800 mb-2"></div>
+                    <div className="w-6 h-6 bg-white rounded-full border-3 border-gray-800"></div>
+                  </div>
+                  
+                  {/* Main cloud shape */}
+                  <div className="relative">
+                    <svg
+                      viewBox="0 0 300 180"
+                      className="w-full h-48 max-w-md mx-auto"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      {/* Cloud outline matching reference */}
+                      <path
+                        d="M80 120
+                           C60 120, 40 100, 40 80
+                           C40 50, 65 25, 95 25
+                           C105 15, 125 15, 135 25
+                           C150 20, 170 25, 180 35
+                           C195 30, 215 35, 220 50
+                           C235 45, 250 55, 250 70
+                           C260 70, 270 80, 270 90
+                           C270 100, 260 110, 250 110
+                           L90 110
+                           C70 110, 55 95, 55 80
+                           C55 65, 70 50, 85 50
+                           C85 60, 80 70, 80 80
+                           Z"
+                        fill="white"
+                        stroke="#1f2937"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                     
                     {/* Content inside the cloud */}
-                    <div className="relative z-10 text-center px-6 py-4 max-w-md">
-                      {/* Welcome Message */}
-                      {animationStage === 0 && (
-                        <div className="animate-fade-in">
-                          <h2 className="text-2xl font-bold text-gray-800 mb-3">
-                            Welcome to Growth Advisor! 🚀
-                          </h2>
-                          <p className="text-gray-600 text-base leading-relaxed">
-                            Let me analyze your business and find growth opportunities...
-                          </p>
-                          <div className="mt-4 flex justify-center">
-                            <div className="flex gap-2">
-                              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-                              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-                              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                    <div className="absolute inset-0 flex items-center justify-center px-8 py-6">
+                      <div className="text-center max-w-xs">
+                        {/* Welcome Message */}
+                        {animationStage === 0 && (
+                          <div className="animate-fade-in">
+                            <h2 className="text-xl font-bold text-gray-800 mb-2">
+                              Welcome to Growth Advisor! 🚀
+                            </h2>
+                            <p className="text-gray-600 text-sm leading-relaxed">
+                              Let me analyze your business and find growth opportunities...
+                            </p>
+                            <div className="mt-3 flex justify-center">
+                              <div className="flex gap-1">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Thinking Text */}
-                      {animationStage === 1 && (
-                        <div className="animate-fade-in">
-                          <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center justify-center gap-2">
-                            <span className="animate-spin text-xl">🧠</span>
-                            Analyzing Market Data...
-                          </h3>
-                          <p className="text-gray-700 text-base leading-relaxed">
-                            {displayedText}
-                            <span className="inline-block w-0.5 h-4 bg-blue-500 ml-1 animate-ping"></span>
-                          </p>
-                        </div>
-                      )}
+                        {/* Thinking Text */}
+                        {animationStage === 1 && (
+                          <div className="animate-fade-in">
+                            <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center justify-center gap-2">
+                              <span className="animate-spin text-lg">🧠</span>
+                              Analyzing Market Data...
+                            </h3>
+                            <p className="text-gray-700 text-sm leading-relaxed">
+                              {displayedText}
+                              <span className="inline-block w-0.5 h-4 bg-blue-500 ml-1 animate-ping"></span>
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
