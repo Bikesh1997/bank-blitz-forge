@@ -266,59 +266,72 @@ const GrowthAdvisorDetails: React.FC = () => {
                 </div>
               </div>
 
-              {/* Realistic thought cloud bubble */}
+              {/* Clean thought cloud bubble */}
               <div className="relative flex-1 max-w-2xl">
                 <div className="relative">
-                  {/* Main cloud structure - overlapping circles to form natural cloud shape */}
+                  {/* Main cloud using SVG for clean shape */}
                   <div className="relative">
-                    {/* Large center bubble */}
-                    <div className="relative w-96 h-48 bg-white rounded-full border-3 border-primary/20 shadow-2xl">
-                      {/* Overlapping cloud bubbles for natural shape */}
-                      <div className="absolute -top-8 left-16 w-32 h-32 bg-white rounded-full border-3 border-primary/20 shadow-xl"></div>
-                      <div className="absolute -top-4 right-20 w-28 h-28 bg-white rounded-full border-3 border-primary/20 shadow-xl"></div>
-                      <div className="absolute -bottom-6 left-8 w-36 h-36 bg-white rounded-full border-3 border-primary/20 shadow-xl"></div>
-                      <div className="absolute -bottom-8 right-12 w-40 h-40 bg-white rounded-full border-3 border-primary/20 shadow-xl"></div>
-                      <div className="absolute top-4 -left-8 w-24 h-24 bg-white rounded-full border-3 border-primary/20 shadow-xl"></div>
-                      <div className="absolute top-8 -right-6 w-20 h-20 bg-white rounded-full border-3 border-primary/20 shadow-xl"></div>
-                      <div className="absolute -top-2 left-32 w-16 h-16 bg-white rounded-full border-2 border-primary/20 shadow-lg"></div>
-                      <div className="absolute bottom-2 right-32 w-18 h-18 bg-white rounded-full border-2 border-primary/20 shadow-lg"></div>
-                      
-                      {/* Content inside the thought bubble */}
-                      <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
-                        <div className="w-full max-w-lg text-center">
-                          {/* Welcome Message */}
-                          {animationStage === 0 && (
-                            <div className="animate-fade-in">
-                              <h2 className="text-3xl font-bold text-primary mb-4">
-                                Welcome to Growth Advisor! 🚀
-                              </h2>
-                              <p className="text-muted-foreground text-xl leading-relaxed">
-                                Let me analyze your business and find growth opportunities...
-                              </p>
-                              <div className="mt-6 flex justify-center">
-                                <div className="flex gap-2">
-                                  <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-                                  <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-                                  <div className="w-3 h-3 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
-                                </div>
+                    <svg
+                      viewBox="0 0 400 200"
+                      className="w-96 h-48 drop-shadow-2xl"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      {/* Cloud shape path */}
+                      <path
+                        d="M100 150 
+                           C60 150, 30 120, 30 80
+                           C30 40, 70 10, 120 10
+                           C140 -5, 180 -5, 200 10
+                           C240 5, 280 20, 290 50
+                           C320 40, 350 60, 350 90
+                           C370 90, 385 105, 385 125
+                           C385 145, 370 160, 350 160
+                           L100 160
+                           C80 160, 65 145, 65 125
+                           C65 105, 80 90, 100 90
+                           Z"
+                        fill="white"
+                        stroke="hsl(var(--primary))"
+                        strokeWidth="3"
+                        strokeOpacity="0.3"
+                      />
+                    </svg>
+                    
+                    {/* Content inside the thought bubble */}
+                    <div className="absolute inset-0 flex items-center justify-center p-8 z-10">
+                      <div className="w-full max-w-sm text-center">
+                        {/* Welcome Message */}
+                        {animationStage === 0 && (
+                          <div className="animate-fade-in">
+                            <h2 className="text-2xl font-bold text-primary mb-3">
+                              Welcome to Growth Advisor! 🚀
+                            </h2>
+                            <p className="text-muted-foreground text-lg leading-relaxed">
+                              Let me analyze your business and find growth opportunities...
+                            </p>
+                            <div className="mt-4 flex justify-center">
+                              <div className="flex gap-2">
+                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
+                                <div className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
                               </div>
                             </div>
-                          )}
+                          </div>
+                        )}
 
-                          {/* Thinking Text */}
-                          {animationStage === 1 && (
-                            <div className="animate-fade-in">
-                              <h3 className="text-2xl font-semibold text-primary mb-4 flex items-center justify-center gap-3">
-                                <span className="animate-spin text-2xl">🧠</span>
-                                Analyzing Market Data...
-                              </h3>
-                              <p className="text-foreground text-xl leading-relaxed">
-                                {displayedText}
-                                <span className="inline-block w-1 h-6 bg-primary ml-1 animate-ping"></span>
-                              </p>
-                            </div>
-                          )}
-                        </div>
+                        {/* Thinking Text */}
+                        {animationStage === 1 && (
+                          <div className="animate-fade-in">
+                            <h3 className="text-xl font-semibold text-primary mb-3 flex items-center justify-center gap-2">
+                              <span className="animate-spin text-xl">🧠</span>
+                              Analyzing Market Data...
+                            </h3>
+                            <p className="text-foreground text-lg leading-relaxed">
+                              {displayedText}
+                              <span className="inline-block w-0.5 h-5 bg-primary ml-1 animate-ping"></span>
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
