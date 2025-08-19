@@ -26,10 +26,11 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [showOptions, setShowOptions] = useState(true);
+  const [showOptions, setShowOptions] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [showLargeMuneem, setShowLargeMuneem] = useState(true);
   
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -59,6 +60,8 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
         setDisplayedText('');
         setShowDots(true);
         setIsTyping(true);
+        setShowOptions(false);
+        setShowLargeMuneem(true);
     
         const dotsTimeout = setTimeout(() => {
           setShowDots(false);
@@ -70,11 +73,17 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
             } else {
               setIsTyping(false);
               clearInterval(typingInterval);
+              
+              // After typing is complete, wait 20 seconds then show options and reduce Muneem Ji
+              setTimeout(() => {
+                setShowOptions(true);
+                setShowLargeMuneem(false);
+              }, 20000);
             }
           }, 50);
     
           return () => clearInterval(typingInterval);
-        }, 100);
+        }, 2000);
     
         return () => clearTimeout(dotsTimeout);
       }
@@ -244,117 +253,145 @@ const MuneemjiChatbot: React.FC<MuneemjiChatbotProps> = ({ onNavigate }) => {
             </div>
 
             {/* Messages */}
-            {/* Large Animated Muneem Ji Presentation */}
-            <div className="min-h-[500px] flex p-4">
-              <div className="relative flex items-center gap-8 max-w-5xl w-full">
-                
-                {/* Large Muneem Ji with wave animation */}
-                <div className="relative flex-shrink-0">
-                  <img
-                    src={`${
-                      process.env.NODE_ENV === "production"
-                        ? "/aditya-birla-finance-limited/"
-                        : "/"
-                    }generated-image.png`}
-                    alt="Muneem Ji"
-                    className="h-60 w-60 md:h-60 md:w-60 animate-muneemji-wave"
-                  />
-
-                  {/* Thought bubble trail */}
-                  <div className="absolute top-6 right-0 space-y-2 flex">
-                    <div
-                      className="w-2 h-2 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
-                      style={{ animationDelay: "0ms" }}
-                    ></div>
-                    <div
-                      className="w-3 h-3 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
-                      style={{ animationDelay: "200ms" }}
-                    ></div>
-                    <div
-                      className="w-4 h-4 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
-                      style={{ animationDelay: "400ms" }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div className="relative flex-1 flex items-center justify-center">
-                  <svg
-                    viewBox="0 0 600 500"
-                    className="drop-shadow-2xl"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M280 240
-                         C200 240, 120 200, 130 150
-                         C80 135, 95 70, 160 60
-                         C175 25, 240 15, 270 60
-                         C320 25, 420 40, 435 95
-                         C500 95, 530 135, 515 185
-                         C545 200, 530 255, 465 265
-                         C420 305, 320 295, 270 270
-                         C240 305, 160 290, 145 240
-                         C175 270, 240 285, 280 240
-                         Z"
-                      fill="white"
-                      stroke="hsl(var(--primary))"
-                      strokeWidth="3"
-                      strokeOpacity="0.4"
-                      transform="translate(-80, -5) rotate(-10 300 200) scale(1.1)"
+            {showLargeMuneem && (
+              /* Large Animated Muneem Ji Presentation */
+              <div className="min-h-[500px] flex p-4">
+                <div className="relative flex items-center gap-8 max-w-5xl w-full">
+                  
+                  {/* Large Muneem Ji with wave animation */}
+                  <div className="relative flex-shrink-0">
+                    <img
+                      src={`${
+                        process.env.NODE_ENV === "production"
+                          ? "/aditya-birla-finance-limited/"
+                          : "/"
+                      }generated-image.png`}
+                      alt="Muneem Ji"
+                      className="h-60 w-60 md:h-60 md:w-60 animate-muneemji-wave"
                     />
-                  </svg>
 
-                  {/* Bubble content */}
-                  <div className="absolute inset-0 flex items-start mt-16 justify-center p-6 pointer-events-none">
-                    <div className="w-full max-w-sm text-center">
-                      <div className="animate-fade-in">
-                        <h3 className="text-lg md:text-xl font-bold text-primary mb-2">
-                          Namaste! 🙏
-                        </h3>
-                        <p className="text-foreground text-sm md:text-base leading-relaxed">
-                          {displayedText}
-                          {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
-                        </p>
-                        {showDots && (
-                          <div className="mt-3 flex justify-center gap-1">
-                            {[0, 150, 300].map((delay, i) => (
-                              <div
-                                key={i}
-                                className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce"
-                                style={{ animationDelay: `${delay}ms` }}
-                              ></div>
-                            ))}
-                          </div>
-                        )}
+                    {/* Thought bubble trail */}
+                    <div className="absolute top-6 right-0 space-y-2 flex">
+                      <div
+                        className="w-2 h-2 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                        style={{ animationDelay: "0ms" }}
+                      ></div>
+                      <div
+                        className="w-3 h-3 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                        style={{ animationDelay: "200ms" }}
+                      ></div>
+                      <div
+                        className="w-4 h-4 bg-white rounded-full border-2 border-primary/30 shadow-md animate-bounce"
+                        style={{ animationDelay: "400ms" }}
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div className="relative flex-1 flex items-center justify-center">
+                    <svg
+                      viewBox="0 0 600 500"
+                      className="drop-shadow-2xl"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M280 240
+                           C200 240, 120 200, 130 150
+                           C80 135, 95 70, 160 60
+                           C175 25, 240 15, 270 60
+                           C320 25, 420 40, 435 95
+                           C500 95, 530 135, 515 185
+                           C545 200, 530 255, 465 265
+                           C420 305, 320 295, 270 270
+                           C240 305, 160 290, 145 240
+                           C175 270, 240 285, 280 240
+                           Z"
+                        fill="white"
+                        stroke="hsl(var(--primary))"
+                        strokeWidth="3"
+                        strokeOpacity="0.4"
+                        transform="translate(-80, -5) rotate(-10 300 200) scale(1.1)"
+                      />
+                    </svg>
+
+                    {/* Bubble content */}
+                    <div className="absolute inset-0 flex items-start mt-16 justify-center p-6 pointer-events-none">
+                      <div className="w-full max-w-sm text-center">
+                        <div className="animate-fade-in">
+                          <h3 className="text-lg md:text-xl font-bold text-primary mb-2">
+                            Namaste! 🙏
+                          </h3>
+                          <p className="text-foreground text-sm md:text-base leading-relaxed">
+                            {displayedText}
+                            {isTyping && <span className="inline-block w-0.5 h-4 bg-primary ml-1 animate-ping"></span>}
+                          </p>
+                          {showDots && (
+                            <div className="mt-3 flex justify-center gap-1">
+                              {[0, 150, 300].map((delay, i) => (
+                                <div
+                                  key={i}
+                                  className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce"
+                                  style={{ animationDelay: `${delay}ms` }}
+                                ></div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {!showLargeMuneem && (
+              /* Compact Muneem Ji with options */
+              <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 overflow-hidden">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-6">
+                    <div className="relative flex-shrink-0">
+                      <img
+                        src={`${process.env.NODE_ENV === 'production' ? '/aditya-birla-finance-limited/' : '/'}generated-image.png`}
+                        alt="Muneem Ji"
+                        className="h-16 w-12 animate-muneemji-wave transition-all duration-500"
+                      />
+                      <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full border-2 border-white bg-green-500 animate-pulse"></div>
+                    </div>
+                    
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-primary mb-1">
+                        Main aapki kya madad kar sakta hoon?
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Choose from the options below to get started
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
 
-                    <div className="p-4 grid grid-cols-2 gap-3">
-  {chatOptions.map((option, index) => (
-    <Button
-      key={option.id}
-      variant="outline"
-      size="sm"
-      onClick={() => handleOptionClick(option)}
-      className="justify-start gap-3 p-3 h-auto text-left border-2 hover:border-primary hover:bg-primary/5 transition-all duration-200 w-full"
-      style={{
-        animation: 'mj-pop 0.3s ease-out',
-        animationDelay: `${index * 80}ms`,
-        animationFillMode: 'both',
-      }}
-    >
-      <span className="text-lg">{option.icon}</span>
-      <span className="text-sm font-medium">{option.label}</span>
-    </Button>
-  ))}
-{/* </div> */}
-
-        
-      </div>
+            {showOptions && (
+              <div className="p-4 grid grid-cols-2 gap-3">
+                {chatOptions.map((option, index) => (
+                  <Button
+                    key={option.id}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleOptionClick(option)}
+                    className="justify-start gap-3 p-3 h-auto text-left border-2 hover:border-primary hover:bg-primary/5 transition-all duration-200 w-full"
+                    style={{
+                      animation: 'mj-pop 0.3s ease-out',
+                      animationDelay: `${index * 80}ms`,
+                      animationFillMode: 'both',
+                    }}
+                  >
+                    <span className="text-lg">{option.icon}</span>
+                    <span className="text-sm font-medium">{option.label}</span>
+                  </Button>
+                ))}
+              </div>
+            )}
 
 
 
