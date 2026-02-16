@@ -2,20 +2,10 @@ pipeline {
   agent any
 
   tools {
-    nodejs "Node18"   // Name configured in Jenkins Global Tool Config
-  }
-
-  environment {
-    CI = "true"
+    nodejs "Node18"
   }
 
   stages {
-
-    stage('Checkout') {
-      steps {
-        git branch: 'main', url: 'https://github.com/your-org/your-react-app.git'
-      }
-    }
 
     stage('Install Dependencies') {
       steps {
@@ -30,9 +20,6 @@ pipeline {
     }
 
     stage('Test') {
-      when {
-        expression { fileExists('package.json') }
-      }
       steps {
         sh 'npm test -- --watchAll=false'
       }
