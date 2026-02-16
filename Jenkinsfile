@@ -27,7 +27,7 @@ pipeline {
         )]) {
             sh """
             chmod 600 $SSH_KEY
-            scp -i $SSH_KEY -o StrictHostKeyChecking=no -r build/* ubuntu@65.1.111.82:/var/www/react-app
+            scp -i $SSH_KEY -o StrictHostKeyChecking=no -r dist/* ubuntu@65.1.111.82:/var/www/react-app
             ssh -i $SSH_KEY -o StrictHostKeyChecking=no ubuntu@65.1.111.82 'sudo systemctl restart nginx'
             """
         }
