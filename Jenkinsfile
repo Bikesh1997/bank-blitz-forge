@@ -5,11 +5,16 @@ pipeline {
     nodejs "Node18"
   }
 
+  environment {
+    SERVER_IP = "65.1.111.82"
+    DEPLOY_PATH = "/var/www/react-app"
+  }
+
   stages {
 
     stage('Install Dependencies') {
       steps {
-        sh 'npm install'
+        sh 'npm ci'
       }
     }
 
@@ -20,25 +25,33 @@ pipeline {
     }
 
     stage('Deploy to EC2') {
-    steps {
+      steps {
         withCredentials([sshUserPrivateKey(
-            credentialsId: 'aws-server-key',
-            keyFileVariable: 'SSH_KEY'
+          credentialsId: 'aws-server-key',
+          keyFileVariable: 'SSH_KEY'
         )]) {
-            sh """
-            chmod 600 $SSH_KEY
-            scp -i $SSH_KEY -o StrictHostKeyChecking=no -r dist/* ubuntu@65.1.111.82:/var/www/react-app
-            ssh -i $SSH_KEY -o StrictHostKeyChecking=no ubuntu@65.1.111.82 'sudo systemctl restart nginx'
-            """
-        }
-    }
-}
+          sh """
+          chmod 600 $SSH_KEY
 
+          # create folder if not exists
+          ssh -i $SSH_KEY -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} \
+          'sudo mkdir -p ${DEPLOY_PATH} && sudo chown ubuntu:ubuntu ${DEPLOY_PATH}'
+
+          # fast incremental deploy
+          rsync -avz --delete \
+          -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" \
+          dist/ ubuntu@${SERVER_IP}:${DEPLOY_PATH}/
+
+          # reload nginx safely
+          ssh -i $SSH_KEY -o StrictHostKeyChecking=no ubuntu@${SERVER_IP} \
+          'sudo systemctl reload nginx'
+          """
+        }
+      }
+    }
 
     stage('Test') {
-      when {
-        expression { false }   // still disabled
-      }
+      when { expression { false } }
       steps {
         sh 'npm test -- --watchAll=false'
       }
@@ -46,11 +59,7 @@ pipeline {
   }
 
   post {
-    success {
-      echo '✅ Build Successful & Deployed 🚀'
-    }
-    failure {
-      echo '❌ Build Failed'
-    }
+    success { echo '✅ Build Successful & Deployed 🚀' }
+    failure { echo '❌ Build Failed' }
   }
 }
