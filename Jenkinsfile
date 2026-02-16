@@ -19,19 +19,29 @@ pipeline {
       }
     }
 
-stage('Test') {
-  when {
-    expression { false }   // disables test stage
-  }
-  steps {
-    sh 'npm test -- --watchAll=false'
-  }
-}
+    stage('Deploy to EC2') {
+      steps {
+        sshagent(credentials: ['ec2-ssh']) {
+          sh '''
+            scp -o StrictHostKeyChecking=no -r dist/* ubuntu@EC2_PUBLIC_IP:/var/www/react-app/
+          '''
+        }
+      }
+    }
+
+    stage('Test') {
+      when {
+        expression { false }   // still disabled
+      }
+      steps {
+        sh 'npm test -- --watchAll=false'
+      }
+    }
   }
 
   post {
     success {
-      echo '✅ Build Successful'
+      echo '✅ Build Successful & Deployed 🚀'
     }
     failure {
       echo '❌ Build Failed'
