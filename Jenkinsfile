@@ -23,7 +23,7 @@ pipeline {
       steps {
         sshagent(credentials: ['ec2-ssh']) {
           sh '''
-            scp -o StrictHostKeyChecking=no -r dist/* ubuntu@EC2_PUBLIC_IP:/var/www/react-app/
+            scp -o StrictHostKeyChecking=no -r dist/* ubuntu@ec2-65-1-111-82.ap-south-1.compute.amazonaws.com:/var/www/react-app/
           '''
         }
       }
